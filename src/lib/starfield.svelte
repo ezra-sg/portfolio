@@ -102,6 +102,7 @@
         ctx.fillRect(0, 0, width, height);
 
         stars.forEach((star) => {
+            // if the star is large, draw a diamond shape rather than just a dot
             if (star.size > 1) {
                 const vertices = [];
                 const innerSize = star.size * 0.5;
