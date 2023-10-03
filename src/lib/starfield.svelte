@@ -149,18 +149,22 @@
 </script>
 
 <div class="fps-counter">FPS: {fps}</div>
-<canvas bind:this={canvas}></canvas>
+<canvas bind:this={canvas} class="starfield-canvas"></canvas>
 
 <style>
+.fps-counter,
+.starfield-canvas {
+    position: fixed;
+}
+
 .fps-counter {
     color: rgb(103, 246, 103);
-    position: fixed;
     top: 16px;
     left: 16px;
     z-index: 9999;
 }
-canvas {
-    position: fixed;
+
+.starfield-canvas {
     top: 0;
     right: 0;
     bottom: 0;
