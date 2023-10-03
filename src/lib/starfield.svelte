@@ -165,5 +165,17 @@ canvas {
     right: 0;
     bottom: 0;
     left: 0;
+
+    animation-name: fade-in;
+    animation-duration: 5s;
+    animation-iteration-count: 1;
+}
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 </style>
