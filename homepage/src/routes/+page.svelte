@@ -5,6 +5,10 @@
     const vueUrl = import.meta.env.VITE_VUE_APP_URL;
 </script>
 
+<svelte:head>
+    <title>Portfolio Home Page</title>
+</svelte:head>
+
 <Starfield />
 
 <div class="links">
