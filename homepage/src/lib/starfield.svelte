@@ -148,13 +148,28 @@
     }
 </script>
 
+<div class="background"></div>
 <div class="fps-counter">FPS: {fps}</div>
 <canvas bind:this={canvas} class="starfield-canvas"></canvas>
 
 <style>
+.background,
 .fps-counter,
 .starfield-canvas {
     position: fixed;
+}
+
+.background,
+.starfield-canvas {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.background {
+    background: #000;
 }
 
 .fps-counter {
@@ -165,11 +180,6 @@
 }
 
 .starfield-canvas {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
     animation-name: fade-in;
     animation-duration: 5s;
     animation-iteration-count: 1;
