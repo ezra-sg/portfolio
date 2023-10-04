@@ -1,0 +1,22 @@
+{
+  "name": "ezra-sg-portfolio--styles",
+  "version": "0.0.3",
+  "description": "Shared styles for my portfolio site",
+  "main": "dist/index.css",
+  "scripts": {
+    "build": "node-sass index.scss dist/index.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ezra-sg/portfolio.git"
+  },
+  "author": "Ezra Sowden-Guzman (esowdenguzman@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ezra-sg/portfolio/issues"
+  },
+  "homepage": "https://github.com/ezra-sg/portfolio#readme",
+  "devDependencies": {
+    "node-sass": "^9.0.0"
+  }
+}
