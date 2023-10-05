@@ -12,7 +12,7 @@ export default function Starfield() {
 
     const mounted = useRef(false);
     const stars = useRef<StarData[]>([]);
-    const vertexCache = useRef<VertexCache>({});
+    const vertexMemo = useRef<VertexCache>({});
     const frameCount = useRef(0);
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
@@ -21,10 +21,11 @@ export default function Starfield() {
     // useRef is used to create a reference to the function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
 
+    // create memoization table for storing calculated vertices
     function getVertices (size: number) {
         // If vertices for this size have already been calculated, return them
-        if (vertexCache.current[size]) {
-            return vertexCache.current[size];
+        if (vertexMemo.current[size]) {
+            return vertexMemo.current[size];
         }
 
         const vertices: Array<[number, number]> = [];
@@ -40,7 +41,7 @@ export default function Starfield() {
         }
 
         // Store the calculated vertices in the memoization table
-        vertexCache.current[size] = vertices;
+        vertexMemo.current[size] = vertices;
 
         return vertices;
     }
