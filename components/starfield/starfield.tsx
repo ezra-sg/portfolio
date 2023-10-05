@@ -141,34 +141,34 @@ export default function Starfield() {
 
     driftFunctionRef.current = drift;
 
-    function resetCanvas () {
+    function resetCanvas() {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas) {
+            return;
+        }
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
 
-        stars.current = initStars(window.innerHeight, window.innerWidth);
-    }
+        canvas.height = windowHeight;
+        canvas.width = windowWidth;
+
+        stars.current = initStars(windowHeight, windowWidth);
+    };
 
     useEffect(() => {
-        if (mounted.current) {
-            return;
+        if (!mounted.current) {
+            resetCanvas();
+            driftFunctionRef.current?.();
         }
         mounted.current = true;
 
-        resetCanvas();
+        const resetCanvasDebounced = debounce(resetCanvas, 100);
 
-        driftFunctionRef.current?.();
-
-        const resizeHandler = debounce(resetCanvas, 100);
-
-        window.addEventListener('resize', resizeHandler);
-        window.addEventListener('focus', resizeHandler);
+        window.addEventListener('resize', resetCanvasDebounced);
 
         return () => {
-            window.removeEventListener('resize', resizeHandler);
-            window.removeEventListener('focus', resizeHandler);
+            window.removeEventListener('resize', resetCanvasDebounced);
         };
     }, []);
 
