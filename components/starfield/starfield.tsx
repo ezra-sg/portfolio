@@ -4,8 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash-es";
 import { StarData, VertexCache } from "./starfield-types";
 import { initStars } from "./starfield-utils";
-import styles from "./starfield.module.scss";
-import { log } from "console";
+import "./starfield.scss";
 
 export default function Starfield() {
     const [fps, setFps] = useState(0);
@@ -173,8 +172,8 @@ export default function Starfield() {
     }, []);
 
     return (<>
-        <div className={styles.background}></div>
-        <div className={styles.fpsCounter}>FPS: {fps}</div>
-        <canvas ref={canvasRef} className={styles.starfieldCanvas}></canvas>
+        <div className="c-starfield__background"></div>
+        <div className="c-starfield__fps-counter">FPS: {fps}</div>
+        <canvas ref={canvasRef} className="c-starfield__canvas"></canvas>
     </>);
 }
