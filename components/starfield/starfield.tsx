@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash-es";
 import { StarData, VertexCache } from "./starfield-types";
 import { initStars } from "./starfield-utils";
-import "./starfield.scss";
 
 export default function Starfield() {
     const [fps, setFps] = useState(0);
@@ -171,9 +170,13 @@ export default function Starfield() {
         };
     }, []);
 
+    // todo consider not animating for prefers-reduced-motion
+
     return (<>
-        <div className="c-starfield__background"></div>
-        <div className="c-starfield__fps-counter">FPS: {fps}</div>
-        <canvas ref={canvasRef} className="c-starfield__canvas"></canvas>
+        <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
+        <div className="fixed top-4 left-4 text-green-500">
+            FPS: {fps}
+        </div>
+        <canvas ref={canvasRef} className="fixed top-0 right-0 bottom-0 left-0 z-0 animate-fade-in"></canvas>
     </>);
 }
