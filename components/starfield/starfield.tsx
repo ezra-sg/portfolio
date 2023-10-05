@@ -7,8 +7,10 @@ import { initStars } from "./starfield-utils";
 import styles from "./starfield.module.scss";
 
 export default function Starfield() {
-    const [fps, setFps] = useState(0); // todo this should only be 165 but is other larger values
+    const [fps, setFps] = useState(0);
 
+
+    const drifting = useRef(false);
     const stars = useRef<StarData[]>([]);
     const frameCount = useRef(0);
     const lastTimeFpsCounter = useRef(Date.now());
@@ -89,6 +91,7 @@ export default function Starfield() {
     drawStarsFunctionRef.current = drawStars;
 
     const drift = useCallback(() => {
+        drifting.current = true;
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTimeDriftRate.current;
         lastTimeDriftRate.current = currentTime;
@@ -135,7 +138,11 @@ export default function Starfield() {
 
     useEffect(() => {
         resetCanvas();
-        driftFunctionRef.current?.();
+
+        // todo why is this necessary to prevent double fps? why is useeffect running twice?
+        if (!drifting.current) {
+            driftFunctionRef.current?.();
+        }
 
         const resizeHandler = debounce(resetCanvas, 100);
 
