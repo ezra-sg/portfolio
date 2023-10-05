@@ -15,6 +15,7 @@ export default function Starfield() {
     const lastTimeDriftRate = useRef(Date.now());
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const driftFunctionRef = useRef<() => void>();
+    const drawStarsFunctionRef = useRef<() => void>();
 
     const drawStars = useCallback(() => {
         const canvas = canvasRef.current;
@@ -85,6 +86,8 @@ export default function Starfield() {
         });
     }, [])
 
+    drawStarsFunctionRef.current = drawStars;
+
     const drift = useCallback(() => {
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTimeDriftRate.current;
@@ -110,13 +113,13 @@ export default function Starfield() {
             }
         });
 
-        drawStars();
+        drawStarsFunctionRef.current?.();
 
         if (driftFunctionRef.current) {
             window.requestAnimationFrame(driftFunctionRef.current)
         }
 
-    }, [drawStars]);
+    }, []);
 
     driftFunctionRef.current = drift;
 
@@ -132,7 +135,7 @@ export default function Starfield() {
 
     useEffect(() => {
         resetCanvas();
-        drift();
+        driftFunctionRef.current?.();
 
         const resizeHandler = debounce(resetCanvas, 100);
 
@@ -143,7 +146,9 @@ export default function Starfield() {
             window.removeEventListener('resize', resizeHandler);
             window.removeEventListener('focus', resizeHandler);
         };
-    }, [drift, resetCanvas]);
+    }, [resetCanvas]);
+
+
 
     return (<>
         <div className={styles.background}></div>
