@@ -1,23 +1,49 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { debounce, set } from "lodash-es";
-import { StarData } from "./starfield-types";
+import { debounce } from "lodash-es";
+import { StarData, VertexCache } from "./starfield-types";
 import { initStars } from "./starfield-utils";
 import styles from "./starfield.module.scss";
+import { log } from "console";
 
 export default function Starfield() {
     const [fps, setFps] = useState(0);
 
-
-    const drifting = useRef(false);
+    const mounted = useRef(false);
     const stars = useRef<StarData[]>([]);
+    const vertexCache = useRef<VertexCache>({});
     const frameCount = useRef(0);
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    // useRef is used to create a reference to the function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
-    const drawStarsFunctionRef = useRef<() => void>();
+
+    function getVertices (size: number) {
+        // If vertices for this size have already been calculated, return them
+        if (vertexCache.current[size]) {
+            return vertexCache.current[size];
+        }
+
+        const vertices: Array<[number, number]> = [];
+        const innerSize = size * 0.5;
+        const outerSize = size;
+
+        for (let i = 0; i < 8; i++) {
+            const angle = Math.PI / 4 * i;
+            const length = i % 2 === 0 ? outerSize : innerSize;
+            const dx = Math.cos(angle) * length;
+            const dy = Math.sin(angle) * length;
+            vertices.push([dx, dy]);
+        }
+
+        // Store the calculated vertices in the memoization table
+        vertexCache.current[size] = vertices;
+
+        return vertices;
+    }
 
     const drawStars = useCallback(() => {
         const canvas = canvasRef.current;
@@ -45,18 +71,9 @@ export default function Starfield() {
         stars.current.forEach((star) => {
             // if the star is large, draw a diamond shape rather than just a dot
             if (star.size > 1) {
-                const vertices = [];
-                const innerSize = star.size * 0.5;
-                const outerSize = star.size;
-
-                // Calculate vertices for the outer and inner diamonds
-                for (let i = 0; i < 8; i++) {
-                    const angle = Math.PI / 4 * i;
-                    const length = i % 2 === 0 ? outerSize : innerSize;
-                    const dx = Math.cos(angle) * length;
-                    const dy = Math.sin(angle) * length;
-                    vertices.push([star.x + dx, star.y + dy]);
-                }
+                const cachedVertices = getVertices(star.size);
+                // vertices have been calculated relative to the origin, so we need to add the star's position to each vertex
+                const vertices = cachedVertices.map(vertex => [vertex[0] + star.x, vertex[1] + star.y]);
 
                 ctx.beginPath();
 
@@ -88,10 +105,7 @@ export default function Starfield() {
         });
     }, [])
 
-    drawStarsFunctionRef.current = drawStars;
-
     const drift = useCallback(() => {
-        drifting.current = true;
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTimeDriftRate.current;
         lastTimeDriftRate.current = currentTime;
@@ -116,33 +130,35 @@ export default function Starfield() {
             }
         });
 
-        drawStarsFunctionRef.current?.();
+        drawStars();
 
         if (driftFunctionRef.current) {
             window.requestAnimationFrame(driftFunctionRef.current)
         }
 
-    }, []);
+    }, [drawStars]);
 
     driftFunctionRef.current = drift;
 
-    const resetCanvas = useCallback(() => {
+    function resetCanvas () {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        stars.current = initStars(document, window);
-    }, [])
+        stars.current = initStars(window.innerHeight, window.innerWidth);
+    }
 
     useEffect(() => {
+        if (mounted.current) {
+            return;
+        }
+        mounted.current = true;
+
         resetCanvas();
 
-        // todo why is this necessary to prevent double fps? why is useeffect running twice?
-        if (!drifting.current) {
-            driftFunctionRef.current?.();
-        }
+        driftFunctionRef.current?.();
 
         const resizeHandler = debounce(resetCanvas, 100);
 
@@ -153,9 +169,7 @@ export default function Starfield() {
             window.removeEventListener('resize', resizeHandler);
             window.removeEventListener('focus', resizeHandler);
         };
-    }, [resetCanvas]);
-
-
+    }, []);
 
     return (<>
         <div className={styles.background}></div>
