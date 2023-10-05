@@ -15,6 +15,8 @@ export default function Starfield() {
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const prefersReducedMotion = useRef(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    const showFps = useRef((new URLSearchParams(window.location.search)).get('fps') === 'true');
 
     // useRef is used to create a reference to the function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
@@ -131,7 +133,7 @@ export default function Starfield() {
 
         drawStars();
 
-        if (driftFunctionRef.current) {
+        if (driftFunctionRef.current && !prefersReducedMotion.current) {
             window.requestAnimationFrame(driftFunctionRef.current)
         }
 
@@ -170,13 +172,16 @@ export default function Starfield() {
         };
     }, []);
 
-    // todo consider not animating for prefers-reduced-motion
-
     return (<>
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
-        <div className="fixed top-4 left-4 text-green-500">
-            FPS: {fps}
-        </div>
+        {
+            (prefersReducedMotion.current || !showFps.current) ? null : (
+                <div className="fixed top-4 left-4 text-green-500 z-50">
+                    FPS: {fps}
+                </div>
+            )
+        }
+
         <canvas ref={canvasRef} className="fixed top-0 right-0 bottom-0 left-0 z-0 animate-fade-in"></canvas>
     </>);
 }
