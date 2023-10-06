@@ -19,9 +19,7 @@ describe('<Starfield />', () => {
     function setMockShowFps(shouldShowFps: boolean) {
         mockedNextNavigation.useSearchParams.mockReturnValue(
             {
-                get: shouldShowFps ?
-                    ((key: string) => key === 'fps' ? 'true' : null) :
-                    null,
+                get: (key: string) => key === 'fps' ? (shouldShowFps ? 'true' : '') : null
             } as nextNavigation.ReadonlyURLSearchParams
         );
     }
@@ -47,7 +45,6 @@ describe('<Starfield />', () => {
         render(<Starfield />);
 
         const fpsMeter = screen.queryByTestId('starfield-fps-meter');
-
         expect(fpsMeter).toBeInTheDocument();
     });
 
@@ -55,16 +52,9 @@ describe('<Starfield />', () => {
         setMockPrefersReducedMotion(false);
         setMockShowFps(false);
 
-        mockedNextNavigation.useSearchParams.mockReturnValue(
-            {
-                get: (key: string) => null,
-            } as nextNavigation.ReadonlyURLSearchParams
-        );
-
         render(<Starfield />);
 
         const fpsMeter = screen.queryByTestId('starfield-fps-meter');
-
         expect(fpsMeter).not.toBeInTheDocument();
     });
 
@@ -75,7 +65,6 @@ describe('<Starfield />', () => {
         render(<Starfield />);
 
         const fpsMeter = screen.queryByTestId('starfield-fps-meter');
-
         expect(fpsMeter).not.toBeInTheDocument();
     });
 })
