@@ -13,15 +13,15 @@ export default function Starfield() {
 
     const [fps, setFps] = useState(0);
 
-    const mounted = useRef(false);
     const stars = useRef<StarData[]>([]);
     const vertexMemo = useRef<VertexCache>({});
     const frameCount = useRef(0);
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const animationFrameId = useRef<number | null>(null); // To hold the ID returned by requestAnimationFrame in drift()
 
-    // useRef is used to create a reference to the function so that it can be called recursively
+    // useRef is used to create a stable reference to the drift() function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
 
     // create memoization table for storing calculated vertices
@@ -137,7 +137,7 @@ export default function Starfield() {
         drawStars();
 
         if (driftFunctionRef.current && !prefersReducedMotion) {
-            window.requestAnimationFrame(driftFunctionRef.current)
+            animationFrameId.current = window.requestAnimationFrame(driftFunctionRef.current)
         }
 
     }, [drawStars, prefersReducedMotion]);
@@ -160,17 +160,18 @@ export default function Starfield() {
     };
 
     useEffect(() => {
-        if (!mounted.current) {
-            resetCanvas();
-            driftFunctionRef.current?.();
-        }
-        mounted.current = true;
+        resetCanvas();
+        driftFunctionRef.current?.();
 
         const resetCanvasDebounced = debounce(resetCanvas, 100);
 
         window.addEventListener('resize', resetCanvasDebounced);
 
         return () => {
+            if (animationFrameId.current) {
+                window.cancelAnimationFrame(animationFrameId.current);
+            }
+
             window.removeEventListener('resize', resetCanvasDebounced);
         };
     }, []);
