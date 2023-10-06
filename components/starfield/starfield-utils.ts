@@ -31,12 +31,13 @@ export function initStars(windowHeight: number, windowWidth: number): StarData[]
         const rawSize = Math.abs(getRandomNumberGaussian(0.2, 1));
         const size = +(Math.max(rawSize, 0.8).toFixed(2)); // limit to 2 decimal places, and ensure it's at least 0.8
         const color = sample(Math.random() > 0.98 ? rareStarColors : starColors) as string;
+        const parallax = +(Math.random().toFixed(2));
         stars.push({
             color,
             size,
+            parallax,
             x: Math.random() * windowWidth,
             y: Math.random() * windowHeight,
-            parallax: Math.random(),
         });
     }
 
