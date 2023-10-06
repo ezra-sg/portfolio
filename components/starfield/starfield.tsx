@@ -9,7 +9,7 @@ import { initStars } from "./starfield-utils";
 export default function Starfield() {
     const [fps, setFps] = useState(0);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-    const [urlHasShowFps, setUrlHasShowFps] = useState(useSearchParams().get('fps') === 'true');
+    const [urlHasShowFps] = useState(useSearchParams().get('fps') === 'true');
 
     const mounted = useRef(false);
     const stars = useRef<StarData[]>([]);
