@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { setupJestCanvasMock } from 'jest-canvas-mock';
 
 import * as nextNavigation from 'next/navigation';
 
@@ -27,6 +28,10 @@ describe('<Starfield />', () => {
     beforeAll(() => {
         savedMatchMedia = global.window.matchMedia;
         global.window.matchMedia = matchMediaMock;
+    });
+
+    beforeEach(() => {
+        setupJestCanvasMock();
     });
 
     afterEach(() => {
@@ -58,13 +63,18 @@ describe('<Starfield />', () => {
         expect(fpsMeter).not.toBeInTheDocument();
     });
 
-    it('should not show the FPS meter if user prefers reduced motion', () => {
+    it('should not animate if user prefers reduced motion', () => {
         setMockPrefersReducedMotion(true);
         setMockShowFps(true);
+        const rafSpy = jest.spyOn(window, 'requestAnimationFrame');
 
         render(<Starfield />);
 
+        // there should be no FPS meter if the user prefers reduced motion
         const fpsMeter = screen.queryByTestId('starfield-fps-meter');
         expect(fpsMeter).not.toBeInTheDocument();
+
+        // there should only be one initial draw of the stars
+        expect(rafSpy).toHaveBeenCalledTimes(1);
     });
 })
