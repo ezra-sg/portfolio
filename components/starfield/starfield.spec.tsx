@@ -36,6 +36,7 @@ describe('<Starfield />', () => {
     });
 
     afterAll(() => {
+        // restore the original matchMedia
         global.window.matchMedia = savedMatchMedia;
     });
 

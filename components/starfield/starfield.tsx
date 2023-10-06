@@ -9,6 +9,7 @@ import { initStars } from "./starfield-utils";
 export default function Starfield() {
     const [fps, setFps] = useState(0);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+    const [urlHasShowFps, setUrlHasShowFps] = useState(useSearchParams().get('fps') === 'true');
 
     const mounted = useRef(false);
     const stars = useRef<StarData[]>([]);
@@ -17,7 +18,6 @@ export default function Starfield() {
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const showFps = useRef(useSearchParams().get('fps') === 'true');
 
     // useRef is used to create a reference to the function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
@@ -157,6 +157,8 @@ export default function Starfield() {
         stars.current = initStars(windowHeight, windowWidth);
     };
 
+    const showFps = urlHasShowFps && !prefersReducedMotion;
+
     useEffect(() => {
         if (!mounted.current) {
             resetCanvas();
@@ -179,7 +181,7 @@ export default function Starfield() {
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
 
         {
-            (prefersReducedMotion || !showFps.current) ? null : (
+            showFps && (
                 <div
                     className="fixed top-4 left-4 text-green-500 z-50"
                     data-testid="starfield-fps-meter"
