@@ -74,7 +74,7 @@ describe('<Starfield />', () => {
         const fpsMeter = screen.queryByTestId('starfield-fps-meter');
         expect(fpsMeter).not.toBeInTheDocument();
 
-        // there should only be one initial draw of the stars
-        expect(rafSpy).toHaveBeenCalledTimes(1);
+        // there should be no redraw calls after stars have been drawn intially
+        expect(rafSpy).not.toBeCalled();
     });
 })
