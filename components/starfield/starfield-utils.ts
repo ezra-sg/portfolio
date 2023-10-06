@@ -1,5 +1,5 @@
 import { StarData } from "./starfield-types";
-import { sample } from "lodash-es";
+import { sample } from "@/utils/sample";
 
 /**
  * Generate the initial data for a set of stars to fill the screen.

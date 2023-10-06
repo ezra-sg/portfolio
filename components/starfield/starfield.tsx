@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { debounce } from "lodash-es";
+import { useSearchParams } from 'next/navigation';
+import { debounce } from "@/utils/debounce";
 import { StarData, VertexCache } from "./starfield-types";
 import { initStars } from "./starfield-utils";
 
 export default function Starfield() {
     const [fps, setFps] = useState(0);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
     const mounted = useRef(false);
     const stars = useRef<StarData[]>([]);
@@ -15,8 +17,7 @@ export default function Starfield() {
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const prefersReducedMotion = useRef(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-    const showFps = useRef((new URLSearchParams(window.location.search)).get('fps') === 'true');
+    const showFps = useRef(useSearchParams().get('fps') === 'true');
 
     // useRef is used to create a reference to the function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
@@ -133,11 +134,11 @@ export default function Starfield() {
 
         drawStars();
 
-        if (driftFunctionRef.current && !prefersReducedMotion.current) {
+        if (driftFunctionRef.current && !prefersReducedMotion) {
             window.requestAnimationFrame(driftFunctionRef.current)
         }
 
-    }, [drawStars]);
+    }, [drawStars, prefersReducedMotion]);
 
     driftFunctionRef.current = drift;
 
@@ -167,6 +168,8 @@ export default function Starfield() {
 
         window.addEventListener('resize', resetCanvasDebounced);
 
+        setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
         return () => {
             window.removeEventListener('resize', resetCanvasDebounced);
         };
@@ -176,8 +179,11 @@ export default function Starfield() {
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
 
         {
-            (prefersReducedMotion.current || !showFps.current) ? null : (
-                <div className="fixed top-4 left-4 text-green-500 z-50">
+            (prefersReducedMotion || !showFps.current) ? null : (
+                <div
+                    className="fixed top-4 left-4 text-green-500 z-50"
+                    data-testid="starfield-fps-meter"
+                >
                     FPS: {fps}
                 </div>
             )
