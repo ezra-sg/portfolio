@@ -9,6 +9,7 @@ import { initStars } from "./starfield-utils";
 export default function Starfield() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const urlHasShowFps = useSearchParams().get('fps') === 'true';
+    const showFps = urlHasShowFps && !prefersReducedMotion;
 
     const [fps, setFps] = useState(0);
 
@@ -157,9 +158,6 @@ export default function Starfield() {
 
         stars.current = initStars(windowHeight, windowWidth);
     };
-
-
-    const showFps = urlHasShowFps && !prefersReducedMotion;
 
     useEffect(() => {
         if (!mounted.current) {
