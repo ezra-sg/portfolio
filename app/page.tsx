@@ -1,9 +1,14 @@
-import Starfield from "@/components/starfield/starfield"
+import Link from "next/link"
 
 export default function Home() {
   return (
     <>
-      <Starfield />
+      <h1>Experiments</h1>
+      <ul>
+        <li>
+          <Link href="/starfield?fps=true">Starfield</Link>
+        </li>
+      </ul>
     </>
   )
 }
