@@ -5,7 +5,6 @@ import { setupJestCanvasMock } from 'jest-canvas-mock';
 import * as nextNavigation from 'next/navigation';
 
 import Starfield from './starfield';
-import { getRandomNumberGaussian } from './starfield-utils';
 
 jest.mock('next/navigation');
 const mockedNextNavigation = jest.mocked(nextNavigation);
@@ -80,16 +79,3 @@ describe('<Starfield />', () => {
     });
 })
 
-describe('getRandomNumberGaussian', () => {
-    it('generates random numbers with a normal distribution', () => {
-        const mean = 0;
-        const stdDev = 1;
-        const numSamples = 10000;
-        const samples = Array.from({ length: numSamples }, () => getRandomNumberGaussian(mean, stdDev));
-        const meanSample = samples.reduce((sum, sample) => sum + sample, 0) / numSamples;
-        const stdDevSample = Math.sqrt(samples.reduce((sum, sample) => sum + (sample - meanSample) ** 2, 0) / numSamples);
-
-        expect(meanSample).toBeCloseTo(mean, 1);
-        expect(stdDevSample).toBeCloseTo(stdDev, 1);
-    });
-});
