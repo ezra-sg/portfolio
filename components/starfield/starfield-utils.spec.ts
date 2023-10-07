@@ -25,6 +25,6 @@ describe('initStars', () => {
         expect(stars.every(({ y }) => y >= 0 && y <= windowHeight)).toBe(true);
         expect(stars.every(({ size }) => size >= 0.8)).toBe(true);
         expect(stars.every(({ parallax }) => parallax >= 0 && parallax <= 1)).toBe(true);
-        expect(stars.every(({ color }) => /[a-f0-9]{6}/.test(color))).toBe(true);
+        expect(stars.every(({ color }) => /^[a-f0-9]{6}$/.test(color))).toBe(true);
     });
 });
