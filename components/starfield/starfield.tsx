@@ -7,7 +7,7 @@ import { StarData, VertexCache } from "./starfield-types";
 import { initStars } from "./starfield-utils";
 
 export default function Starfield() {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion =  typeof window === undefined ? false : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const urlHasShowFps = useSearchParams().get('fps') === 'true';
     const showFps = urlHasShowFps && !prefersReducedMotion;
 
@@ -166,6 +166,7 @@ export default function Starfield() {
         const resetCanvasDebounced = debounce(resetCanvas, 100);
 
         window.addEventListener('resize', resetCanvasDebounced);
+        window.addEventListener('focus', resetCanvasDebounced);
 
         return () => {
             if (animationFrameId.current) {
@@ -173,6 +174,7 @@ export default function Starfield() {
             }
 
             window.removeEventListener('resize', resetCanvasDebounced);
+            window.removeEventListener('focus', resetCanvasDebounced);
         };
     }, []);
 
