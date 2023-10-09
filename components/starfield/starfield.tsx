@@ -2,12 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from 'next/navigation';
-import { debounce } from "@/utils/debounce";
-import { StarData, VertexCache } from "./starfield-types";
-import { initStars } from "./starfield-utils";
+import debounce from "@/utils/debounce";
+
+import { StarData, VertexCache } from "@/components/starfield/starfield-types";
+import { initStars } from "@/components/starfield/starfield-utils";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 export default function Starfield() {
-    const prefersReducedMotion =  typeof window === 'undefined' ? false : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = usePrefersReducedMotion();
     const urlHasShowFps = useSearchParams().get('fps') === 'true';
     const showFps = urlHasShowFps && !prefersReducedMotion;
 

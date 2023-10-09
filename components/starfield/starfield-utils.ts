@@ -1,5 +1,5 @@
-import { StarData } from "./starfield-types";
-import { sample } from "@/utils/sample";
+import { StarData } from "@/components/starfield/starfield-types";
+import sample from "@/utils/sample";
 
 /**
  * Generate the initial data for a set of stars to fill the screen.

@@ -4,7 +4,7 @@
  * @param {Array} array
  * @returns an element from the given array
  */
-export function sample<T>(array: T[]): T | undefined {
+export default function sample<T>(array: T[]): T | undefined {
     if (array.length === 0) {
         return undefined;
     }

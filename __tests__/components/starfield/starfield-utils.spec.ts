@@ -1,4 +1,4 @@
-import { initStars, getRandomNumberGaussian } from './starfield-utils';
+import { initStars, getRandomNumberGaussian } from '@/components/starfield/starfield-utils';
 
 describe('getRandomNumberGaussian', () => {
     it('generates random numbers with a normal distribution', () => {

@@ -3,18 +3,19 @@ import '@testing-library/jest-dom';
 import { setupJestCanvasMock } from 'jest-canvas-mock';
 
 import * as nextNavigation from 'next/navigation';
+import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
 
-import Starfield from './starfield';
+import Starfield from '@/components/starfield/starfield';
 
 jest.mock('next/navigation');
 const mockedNextNavigation = jest.mocked(nextNavigation);
 
-describe('<Starfield />', () => {
-    let savedMatchMedia: ((query: string) => MediaQueryList);
-    const matchMediaMock = jest.fn();
+jest.mock('@/hooks/usePrefersReducedMotion');
+const mockedUsePrefersReducedMotion = jest.mocked(usePrefersReducedMotion);
 
+describe('<Starfield />', () => {
     function setMockPrefersReducedMotion(prefersReducedMotion: boolean) {
-        matchMediaMock.mockImplementation(() => ({ matches: prefersReducedMotion }));
+        mockedUsePrefersReducedMotion.mockImplementation(() => prefersReducedMotion);
     }
 
     function setMockShowFps(shouldShowFps: boolean) {
@@ -25,22 +26,12 @@ describe('<Starfield />', () => {
         );
     }
 
-    beforeAll(() => {
-        savedMatchMedia = global.window.matchMedia;
-        global.window.matchMedia = matchMediaMock;
-    });
-
     beforeEach(() => {
         setupJestCanvasMock();
     });
 
     afterEach(() => {
         jest.resetAllMocks();
-    });
-
-    afterAll(() => {
-        // restore the original matchMedia
-        global.window.matchMedia = savedMatchMedia;
     });
 
     it('should show the FPS meter if it is in the query param', () => {

@@ -10,7 +10,7 @@
  * debouncedFn();
  * // only one 'Hello World!' will be logged to the console, 1000ms after the last call to debouncedFn
  */
-export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...funcArgs: Parameters<T>) => void {
+export default function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...funcArgs: Parameters<T>) => void {
     let timerId: ReturnType<typeof setTimeout> | null = null;
 
     return function (...args: Parameters<T>) {
