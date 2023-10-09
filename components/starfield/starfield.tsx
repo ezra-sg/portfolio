@@ -167,11 +167,6 @@ export default function Starfield() {
 
     driftFunctionRef.current = drift;
 
-    if (!prefersReducedMotion) {
-        cancelAnimation();
-        driftFunctionRef.current?.();
-    }
-
     useEffect(() => {
         const resizeHandler = () => {
             cancelAnimation();
@@ -191,6 +186,13 @@ export default function Starfield() {
             window.removeEventListener('focus', resizeHandlerDebounced);
         };
     }, []);
+
+    useEffect(() => {
+        if (!prefersReducedMotion) {
+            cancelAnimation();
+            driftFunctionRef.current?.();
+        }
+    }, [prefersReducedMotion]);
 
     return (<>
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
