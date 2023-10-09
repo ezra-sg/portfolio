@@ -66,6 +66,12 @@ export default function Starfield() {
         stars.current = initStars(windowHeight, windowWidth);
     };
 
+    function cancelAnimation() {
+        if (animationFrameId.current) {
+            window.cancelAnimationFrame(animationFrameId.current);
+        }
+    }
+
     const drawStars = useCallback(() => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
@@ -162,15 +168,13 @@ export default function Starfield() {
     driftFunctionRef.current = drift;
 
     if (!prefersReducedMotion) {
-        if (animationFrameId.current) {
-            window.cancelAnimationFrame(animationFrameId.current);
-        }
-
+        cancelAnimation();
         driftFunctionRef.current?.();
     }
 
     useEffect(() => {
         const resizeHandler = () => {
+            cancelAnimation();
             resetCanvas();
             driftFunctionRef.current?.();
         };
@@ -182,10 +186,7 @@ export default function Starfield() {
         window.addEventListener('focus', resizeHandlerDebounced);
 
         return () => {
-            if (animationFrameId.current) {
-                window.cancelAnimationFrame(animationFrameId.current);
-            }
-
+            cancelAnimation();
             window.removeEventListener('resize', resizeHandlerDebounced);
             window.removeEventListener('focus', resizeHandlerDebounced);
         };
