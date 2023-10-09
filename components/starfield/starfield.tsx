@@ -161,34 +161,36 @@ export default function Starfield() {
 
     driftFunctionRef.current = drift;
 
+    if (!prefersReducedMotion) {
+        if (animationFrameId.current) {
+            window.cancelAnimationFrame(animationFrameId.current);
+        }
+
+        driftFunctionRef.current?.();
+    }
+
     useEffect(() => {
         resetCanvas();
         driftFunctionRef.current?.();
 
-        const resetCanvasDebounced = debounce(resetCanvas, 100);
+        const resizeHandler = () => {
+            resetCanvas();
+            driftFunctionRef.current?.();
+        };
+        const resizeHandlerDebounced = debounce(resizeHandler, 100);
 
-        window.addEventListener('resize', resetCanvasDebounced);
-        window.addEventListener('focus', resetCanvasDebounced);
+        window.addEventListener('resize', resizeHandlerDebounced);
+        window.addEventListener('focus', resizeHandlerDebounced);
 
         return () => {
             if (animationFrameId.current) {
                 window.cancelAnimationFrame(animationFrameId.current);
             }
 
-            window.removeEventListener('resize', resetCanvasDebounced);
-            window.removeEventListener('focus', resetCanvasDebounced);
+            window.removeEventListener('resize', resizeHandlerDebounced);
+            window.removeEventListener('focus', resizeHandlerDebounced);
         };
     }, []);
-
-    useEffect(() => {
-        if (!prefersReducedMotion) {
-            if (animationFrameId.current) {
-                window.cancelAnimationFrame(animationFrameId.current);
-            }
-
-            driftFunctionRef.current?.();
-        }
-    }, [prefersReducedMotion]);
 
     return (<>
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
