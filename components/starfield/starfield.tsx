@@ -49,6 +49,21 @@ export default function Starfield() {
         return vertices;
     }
 
+    function resetCanvas() {
+        const canvas = canvasRef.current;
+        if (!canvas) {
+            return;
+        }
+
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
+
+        canvas.height = windowHeight;
+        canvas.width = windowWidth;
+
+        stars.current = initStars(windowHeight, windowWidth);
+    };
+
     const drawStars = useCallback(() => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
@@ -143,21 +158,6 @@ export default function Starfield() {
     }, [drawStars, prefersReducedMotion]);
 
     driftFunctionRef.current = drift;
-
-    function resetCanvas() {
-        const canvas = canvasRef.current;
-        if (!canvas) {
-            return;
-        }
-
-        const windowHeight = window.innerHeight;
-        const windowWidth = window.innerWidth;
-
-        canvas.height = windowHeight;
-        canvas.width = windowWidth;
-
-        stars.current = initStars(windowHeight, windowWidth);
-    };
 
     useEffect(() => {
         resetCanvas();
