@@ -170,14 +170,13 @@ export default function Starfield() {
     }
 
     useEffect(() => {
-        resetCanvas();
-        driftFunctionRef.current?.();
-
         const resizeHandler = () => {
             resetCanvas();
             driftFunctionRef.current?.();
         };
         const resizeHandlerDebounced = debounce(resizeHandler, 100);
+
+        resizeHandler();
 
         window.addEventListener('resize', resizeHandlerDebounced);
         window.addEventListener('focus', resizeHandlerDebounced);
