@@ -7,7 +7,7 @@ import { StarData, VertexCache } from "./starfield-types";
 import { initStars } from "./starfield-utils";
 
 export default function Starfield() {
-    const prefersReducedMotion =  typeof window === undefined ? false : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion =  typeof window === 'undefined' ? false : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const urlHasShowFps = useSearchParams().get('fps') === 'true';
     const showFps = urlHasShowFps && !prefersReducedMotion;
 
