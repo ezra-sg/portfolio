@@ -180,6 +180,16 @@ export default function Starfield() {
         };
     }, []);
 
+    useEffect(() => {
+        if (!prefersReducedMotion) {
+            if (animationFrameId.current) {
+                window.cancelAnimationFrame(animationFrameId.current);
+            }
+
+            driftFunctionRef.current?.();
+        }
+    }, [prefersReducedMotion]);
+
     return (<>
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-black"></div>
 
