@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from 'next/navigation';
 import debounce from "@/utils/debounce";
 
@@ -27,7 +27,7 @@ export default function Starfield() {
     const driftFunctionRef = useRef<() => void>();
 
     // create memoization table for storing calculated vertices
-    function getVertices (size: number) {
+    function getDiamondVertices (size: number) {
         // If vertices for this size have already been calculated, return them
         if (vertexMemo.current[size]) {
             return vertexMemo.current[size];
@@ -72,13 +72,42 @@ export default function Starfield() {
         }
     }
 
-    const drawStars = useCallback(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas?.getContext('2d');
-        if (!canvas || !ctx) {
-            return;
+    function drawDotOnCanvas(ctx: CanvasRenderingContext2D, star: StarData) {
+        ctx.fillStyle = `#${star.color}`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    function drawDiamondOnCanvas(ctx: CanvasRenderingContext2D, star: StarData) {
+        const cachedVertices = getDiamondVertices(star.size);
+        // vertices have been calculated relative to the origin, so we need to add the star's position to each vertex
+        const vertices = cachedVertices.map(vertex => [vertex[0] + star.x, vertex[1] + star.y]);
+
+        ctx.beginPath();
+
+        // Draw the star with curves
+        ctx.moveTo(vertices[0][0], vertices[0][1]);
+        for (let i = 0; i < vertices.length; i++) {
+            const x1 = vertices[i][0];
+            const y1 = vertices[i][1];
+            const x2 = vertices[(i + 1) % vertices.length][0];
+            const y2 = vertices[(i + 1) % vertices.length][1];
+            const cx = (x1 + x2) / 2;
+            const cy = (y1 + y2) / 2;
+            const cp1x = (cx + x1) / 2;
+            const cp1y = (cy + y1) / 2;
+            const cp2x = (cx + x2) / 2;
+            const cp2y = (cy + y2) / 2;
+
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x2, y2);
         }
 
+        ctx.fillStyle = `#${star.color}`;
+        ctx.fill();
+    }
+
+    function trackTime() {
         frameCount.current++;
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTimeFpsCounter.current;
@@ -88,6 +117,22 @@ export default function Starfield() {
             frameCount.current = 0;
             lastTimeFpsCounter.current = currentTime;
         }
+    }
+
+    function drawStars() {
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext('2d');
+
+        if (!canvas || !ctx) {
+            if (!canvas) {
+                console.error('canvas not found');
+            } else {
+                console.error('canvas context not found');
+            }
+            return;
+        }
+
+        trackTime();
 
         const width = canvas.width;
         const height = canvas.height;
@@ -98,41 +143,14 @@ export default function Starfield() {
         stars.current.forEach((star) => {
             // if the star is large, draw a diamond shape rather than just a dot
             if (star.size > 1) {
-                const cachedVertices = getVertices(star.size);
-                // vertices have been calculated relative to the origin, so we need to add the star's position to each vertex
-                const vertices = cachedVertices.map(vertex => [vertex[0] + star.x, vertex[1] + star.y]);
-
-                ctx.beginPath();
-
-                // Draw the star with curves
-                ctx.moveTo(vertices[0][0], vertices[0][1]);
-                for (let i = 0; i < vertices.length; i++) {
-                    const x1 = vertices[i][0];
-                    const y1 = vertices[i][1];
-                    const x2 = vertices[(i + 1) % vertices.length][0];
-                    const y2 = vertices[(i + 1) % vertices.length][1];
-                    const cx = (x1 + x2) / 2;
-                    const cy = (y1 + y2) / 2;
-                    const cp1x = (cx + x1) / 2;
-                    const cp1y = (cy + y1) / 2;
-                    const cp2x = (cx + x2) / 2;
-                    const cp2y = (cy + y2) / 2;
-
-                    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x2, y2);
-                }
-
-                ctx.fillStyle = `#${star.color}`;
-                ctx.fill();
+                drawDiamondOnCanvas(ctx, star);
             } else {
-                ctx.fillStyle = `#${star.color}`;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, 2 * Math.PI);
-                ctx.fill();
+                drawDotOnCanvas(ctx, star);
             }
         });
-    }, [])
+    }
 
-    const drift = useCallback(() => {
+    function drift () {
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTimeDriftRate.current;
         lastTimeDriftRate.current = currentTime;
@@ -159,11 +177,10 @@ export default function Starfield() {
 
         drawStars();
 
-        if (driftFunctionRef.current && !prefersReducedMotion) {
+        if (driftFunctionRef.current) {
             animationFrameId.current = window.requestAnimationFrame(driftFunctionRef.current)
         }
-
-    }, [drawStars, prefersReducedMotion]);
+    }
 
     driftFunctionRef.current = drift;
 
@@ -188,8 +205,8 @@ export default function Starfield() {
     }, []);
 
     useEffect(() => {
+        cancelAnimation();
         if (!prefersReducedMotion) {
-            cancelAnimation();
             driftFunctionRef.current?.();
         }
     }, [prefersReducedMotion]);
