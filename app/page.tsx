@@ -8,6 +8,9 @@ export default function Home() {
         <li>
           <Link href="/starfield?fps=true">Starfield</Link>
         </li>
+        <li>
+          <Link href="/val">Val</Link>
+        </li>
       </ul>
     </>
   )

@@ -7,9 +7,16 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    fontFamily: {
+      header: ['var(--font-young-serif)', 'serif'],
+    },
     extend: {
       animation: {
         'fade-in': 'fade-in 5s 1',
+      },
+      fontFamily: {
+        serif: ['Georgia', 'serif'],
+        sans: ['var(--font-poppins)', 'sans-serif'],
       },
       keyframes: {
         'fade-in': {
