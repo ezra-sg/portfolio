@@ -27,7 +27,9 @@ export default function ValHome() {
                 <h1 className="font-header text-5xl text-amber-900 dark:text-amber-50">
                     Goose
                 </h1>
-                <h2 className="font-sans dark:text-amber-50">{t('hello')}</h2>
+                <h2 className="font-sans dark:text-amber-50">
+                    {t('hello')}
+                </h2>
             </article>
         </div>
     </>)

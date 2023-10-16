@@ -1,3 +1,9 @@
 {
-    "hello": "hello"
+    "hello": "hello",
+    "nav.english-link-description": "Switch the language to English",
+    "nav.english": "English",
+    "nav.language-button-label": "Switch language",
+    "nav.popup-label": "Language switcher popup",
+    "nav.spanish-link-description": "Cambiar el idioma a español",
+    "nav.spanish": "Español"
 }
