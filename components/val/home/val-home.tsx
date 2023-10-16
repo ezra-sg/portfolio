@@ -19,7 +19,7 @@ export default function ValHome() {
     const { t } = useI18n();
 
     return (<>
-        <div className={`bg-amber-50 dark:bg-amber-950 h-screen w-screen ${youngSerif.variable} ${poppins.variable}`}>
+        <div className={`bg-amber-50 dark:bg-slate-950 h-screen w-screen ${youngSerif.variable} ${poppins.variable}`}>
             <header className="flex justify-end p-4">
                 <LanguageSwitcher />
             </header>
@@ -27,7 +27,7 @@ export default function ValHome() {
                 <h1 className="font-header text-5xl text-amber-900 dark:text-amber-50">
                     Goose
                 </h1>
-                <h2 className="font-sans">{t('hello')}</h2>
+                <h2 className="font-sans dark:text-amber-50">{t('hello')}</h2>
             </article>
         </div>
     </>)
