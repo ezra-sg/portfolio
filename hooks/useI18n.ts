@@ -15,9 +15,7 @@ export const useI18n = () => {
         throw new Error('useI18n must be used within a LanguageProvider');
     }
 
-    const t = (key: string) => {
-        return translations[language]?.[key] ?? key;
-    };
+    const t = (slug: string) => translations[language]?.[slug] ?? slug;
 
     return { t };
 };

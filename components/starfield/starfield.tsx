@@ -178,7 +178,7 @@ export default function Starfield() {
 
         drawStars();
 
-        if (driftFunctionRef.current) {
+        if (driftFunctionRef.current && !prefersReducedMotion) {
             animationFrameId.current = window.requestAnimationFrame(driftFunctionRef.current)
         }
     }

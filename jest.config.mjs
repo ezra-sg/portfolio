@@ -17,6 +17,7 @@ const config = {
     ],
     moduleNameMapper: {
         "@/hooks/(.*)": "<rootDir>/hooks/$1",
+        "@/i18n/(.*)": "<rootDir>/i18n/$1",
     },
 }
 
