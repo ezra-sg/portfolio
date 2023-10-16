@@ -1,15 +1,15 @@
 "use client"
 
-import { SupportedLanguage, SupportedLanguages } from '@/types/i18n-types';
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { SupportedLanguage } from '@/types/i18n-types';
+import { createContext, useContext } from 'react';
 
 interface LanguageContextProps {
-    locale: SupportedLanguage;
+    language: SupportedLanguage;
 }
 
 export const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
 
-export const useLanguage = () => {
+export const useLanguageContext = () => {
     const context = useContext(LanguageContext);
     if (!context) {
         throw new Error('useLanguage must be used within a LanguageProvider');

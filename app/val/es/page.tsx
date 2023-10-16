@@ -7,7 +7,7 @@ import { SupportedLanguages } from "@/types/i18n-types";
 
 export default function ValPageEn() {
     return (
-        <LanguageContext.Provider value={{ language: SupportedLanguages.english }}>
+        <LanguageContext.Provider value={{ language: SupportedLanguages.spanish }}>
             <ValHome />
         </LanguageContext.Provider>
     );

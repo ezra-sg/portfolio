@@ -9,7 +9,7 @@ export default function Home() {
           <Link href="/starfield?fps=true">Starfield</Link>
         </li>
         <li>
-          <Link href="/val">Val</Link>
+          <Link href="/val/en">Val</Link>
         </li>
       </ul>
     </>
