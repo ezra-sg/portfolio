@@ -24,10 +24,10 @@ export default function ValHome() {
                 <LanguageSwitcher />
             </header>
             <article>
-                <h1 className="font-header text-5xl text-amber-900 dark:text-amber-50">
+                <h1 className="font-header text-5xl text-amber-900 dark:text-amber-50 text-center">
                     Goose
                 </h1>
-                <h2 className="font-sans dark:text-amber-50">
+                <h2 className="font-sans dark:text-amber-50 text-center">
                     {t('hello')}
                 </h2>
             </article>

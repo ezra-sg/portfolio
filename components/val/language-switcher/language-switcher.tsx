@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdLanguage, MdStar } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -8,11 +8,13 @@ import Link from "next/link";
 import { useI18n } from "@/hooks/useI18n";
 
 export default function LanguageSwitcher() {
-    const [isOpen, setIsOpen] = useState(false);
-
     const { t } = useI18n();
     const path = usePathname();
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const buttonRef = useRef<null | HTMLButtonElement>(null);
+    const menuRef = useRef<null | HTMLMenuElement>(null);
     const links = useRef([{
         href: '/val/en',
         label: t('nav.english'),
@@ -23,14 +25,31 @@ export default function LanguageSwitcher() {
         title: t('nav.spanish-link-description'),
     }]);
 
-    // eztodo add clickaway
-
     function toggleLanguageMenu() {
         setIsOpen(!isOpen);
     }
 
+    // setup clickaway listener
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const clickedElement = event.target as HTMLElement;
+            const userClickedAway = ![menuRef, buttonRef].some(({ current }) => current?.contains(clickedElement));
+
+            if (userClickedAway) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (<>
         <button
+            ref={buttonRef}
             id="language-switcher-button"
             aria-haspopup="listbox"
             aria-expanded={isOpen}
@@ -42,6 +61,7 @@ export default function LanguageSwitcher() {
         </button>
 
         <menu
+            ref={menuRef}
             id="language-switcher-popup"
             role="region"
             aria-label={t('nav.popup-label')}
