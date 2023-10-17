@@ -1,9 +1,13 @@
 {
-    "hello": "hello",
     "nav.english-link-description": "Switch the language to English",
     "nav.english": "English",
     "nav.language-button-label": "Switch language",
     "nav.popup-label": "Language switcher popup",
     "nav.spanish-link-description": "Cambiar el idioma a español",
-    "nav.spanish": "Español"
+    "nav.spanish": "Español",
+    "intro.hero-text": "Goose",
+    "intro.subtitle": "An afternoon with Valentine Guzmán",
+    "intro.interview-date": "October 2023",
+    "intro.author-text": "By Ezra Sowden-Guzmán",
+    "intro.hero-image-alt": "A black and white headshot of Val with long hair, clean shaven, and wearing a patterned vest. A wide smile sits on his face."
 }

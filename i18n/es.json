@@ -1,9 +1,13 @@
 {
-    "hello": "hola",
     "nav.english-link-description": "Switch the language to English",
     "nav.english": "English",
     "nav.language-button-label": "cambiar de idioma",
     "nav.popup-label": "Ventana emergente de cambio de idioma",
     "nav.spanish-link-description": "Cambiar el idioma a español",
-    "nav.spanish": "Español"
+    "nav.spanish": "Español",
+    "intro.hero-text": "Goose",
+    "intro.subtitle": "Una tarde con Valentín Guzmán",
+    "intro.interview-date": "Octubre 2023",
+    "intro.author-text": "Por Ezra Sowden-Guzmán",
+    "intro.hero-image-alt": "Una foto en blanco y negro de Val con el pelo largo, bien afeitado y con un chaleco estampado. Una amplia sonrisa se dibuja en su rostro."
 }
