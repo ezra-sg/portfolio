@@ -51,6 +51,7 @@ export default function LanguageSwitcher() {
         <button
             ref={buttonRef}
             id="language-switcher-button"
+            data-testid="language-switcher-button"
             aria-haspopup="listbox"
             aria-expanded={isOpen}
             aria-controls="language-switcher-popup"
@@ -63,6 +64,7 @@ export default function LanguageSwitcher() {
         <menu
             ref={menuRef}
             id="language-switcher-popup"
+            data-testid="language-switcher-popup"
             role="region"
             aria-label={t('nav.popup-label')}
             hidden={!isOpen}
