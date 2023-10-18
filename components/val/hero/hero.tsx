@@ -9,7 +9,7 @@ export default function Intro() {
     const { t } = useI18n();
 
     return (
-        <div className="relative w-full h-[100svh] md:flex md:flex-row-reverse md:gap-8 md:justify-between md:items-center xl:max-w-[1440px] xl:m-auto xl:px-12">
+        <div className="relative w-full h-[100svh] md:flex md:flex-row-reverse md:gap-8 md:justify-between md:items-center xl:max-w-[1440px] xl:m-auto xl:px-12 mb-8">
             <Image
                 src={img}
                 alt={t('hero.hero-image-alt')}

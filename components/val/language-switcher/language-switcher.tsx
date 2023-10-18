@@ -62,6 +62,7 @@ export default function LanguageSwitcher() {
             <MdLanguage className="text-amber-900 dark:text-amber-50 h-5 w-5" />
         </button>
 
+        {/* eztodo switch to native dialog? */}
         <menu
             ref={menuRef}
             id="language-switcher-popup"
