@@ -1,4 +1,4 @@
-import { Young_Serif, Poppins } from 'next/font/google';
+import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
 import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
 import Hero from '@/components/val/hero/hero';
@@ -10,10 +10,10 @@ const youngSerif = Young_Serif({
     variable: '--font-young-serif',
 });
 
-const poppins = Poppins({
+const poppins = Nunito_Sans({
     weight: '400',
     subsets: ['latin-ext'],
-    variable: '--font-poppins',
+    variable: '--font-nunito',
 });
 
 export default function ValHome() {
