@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import debounce from "@/utils/debounce";
+import debounce from '@/utils/debounce';
 
-import { StarData, VertexCache } from "@/components/starfield/starfield-types";
-import { initStars } from "@/components/starfield/starfield-utils";
-import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import { StarData, VertexCache } from '@/components/starfield/starfield-types';
+import { initStars } from '@/components/starfield/starfield-utils';
+import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
 
 const vertexMemo: VertexCache = {};
 
@@ -179,7 +179,7 @@ export default function Starfield() {
         drawStars();
 
         if (driftFunctionRef.current && !prefersReducedMotion) {
-            animationFrameId.current = window.requestAnimationFrame(driftFunctionRef.current)
+            animationFrameId.current = window.requestAnimationFrame(driftFunctionRef.current);
         }
     }
 

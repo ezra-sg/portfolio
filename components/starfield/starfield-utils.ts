@@ -1,5 +1,5 @@
-import { StarData } from "@/components/starfield/starfield-types";
-import sample from "@/utils/sample";
+import { StarData } from '@/components/starfield/starfield-types';
+import sample from '@/utils/sample';
 
 /**
  * Generate the initial data for a set of stars to fill the screen.
@@ -14,7 +14,7 @@ export function initStars(windowHeight: number, windowWidth: number): StarData[]
     const paleBlue = 'edfeff';
     const palePurple = 'f7edff';
     const red = 'c93636';
-    const orange = 'ff940a'
+    const orange = 'ff940a';
     const yellow = 'fce00c';
     const blue = '5761f2';
     const violet = '8a66c4';
@@ -52,8 +52,12 @@ export function initStars(windowHeight: number, windowWidth: number): StarData[]
  */
 export function getRandomNumberGaussian(mean: number, standardDeviation: number) {
     let u = 0, v = 0;
-    while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
-    while (v === 0) v = Math.random();
+    while (u === 0) {
+        u = Math.random();
+    } // Converting [0,1) to (0,1)
+    while (v === 0) {
+        v = Math.random();
+    }
     let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 
     num = num * standardDeviation + mean; // Translate to desired mean and standard deviation

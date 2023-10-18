@@ -8,7 +8,7 @@ const youngSerif = Young_Serif({
     weight: '400',
     subsets: ['latin-ext'],
     variable: '--font-young-serif',
-})
+});
 
 const poppins = Poppins({
     weight: '400',
@@ -19,7 +19,7 @@ const poppins = Poppins({
 export default function ValHome() {
     return (
         <div className={`bg-amber-50 dark:bg-slate-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
-            <header className="absolute top-4 right-4 z-50">
+            <header className="fixed top-4 right-4 z-50">
                 <LanguageSwitcher />
             </header>
 
@@ -28,5 +28,5 @@ export default function ValHome() {
                 <Intro />
             </article>
         </div>
-    )
+    );
 }

@@ -1,3 +1,80 @@
 {
-  "extends": "next/core-web-vitals"
+    "extends": "next/core-web-vitals",
+    "rules": {
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "array-bracket-spacing": [
+            "error",
+            "never"
+        ],
+        "space-in-parens": [
+            "error",
+            "never"
+        ],
+        "computed-property-spacing": [
+            "error",
+            "never"
+        ],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "no-trailing-spaces": "error",
+        "eqeqeq": "error",
+        "semi": [
+            "error",
+            "always"
+        ],
+        "arrow-parens": [
+            2,
+            "as-needed",
+            {
+                "requireForBlockBody": true
+            }
+        ],
+        "arrow-body-style": [
+            "error",
+            "as-needed"
+        ],
+        "object-property-newline": [
+            "error",
+            {
+                "allowAllPropertiesOnSameLine": true
+            }
+        ],
+        "curly": "error",
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": false
+            }
+        ],
+        "no-return-assign": [
+            "error",
+            "always"
+        ],
+        "no-param-reassign": "error"
+    }
 }

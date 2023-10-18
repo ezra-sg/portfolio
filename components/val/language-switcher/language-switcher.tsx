@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { MdLanguage, MdStar } from "react-icons/md";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { useEffect, useRef, useState } from 'react';
+import { MdLanguage, MdStar } from 'react-icons/md';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
-import { useI18n } from "@/hooks/useI18n";
+import { useI18n } from '@/hooks/useI18n';
 
 export default function LanguageSwitcher() {
     const { t } = useI18n();
@@ -40,10 +40,10 @@ export default function LanguageSwitcher() {
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
