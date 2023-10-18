@@ -26,7 +26,12 @@ export default function LanguageSwitcher() {
     }]);
 
     function toggleLanguageMenu() {
-        setIsOpen(!isOpen);
+        const newIsOpen = !isOpen;
+        setIsOpen(newIsOpen);
+
+        if (newIsOpen) {
+            menuRef.current?.focus();
+        }
     }
 
     // setup clickaway listener
@@ -59,10 +64,9 @@ export default function LanguageSwitcher() {
             className="h-8 w-8 flex justify-center items-center rounded-full border-[1px] border-amber-900 bg-amber-50 dark:bg-slate-950 dark:border-amber-50 shadow-lg"
             onClick={toggleLanguageMenu}
         >
-            <MdLanguage className="text-amber-900 dark:text-amber-50 h-5 w-5" />
+            <MdLanguage className="text-amber-900 dark:text-amber-50 h-5 w-5" aria-hidden="true" />
         </button>
 
-        {/* eztodo switch to native dialog? */}
         <menu
             ref={menuRef}
             id="language-switcher-popup"
@@ -71,13 +75,21 @@ export default function LanguageSwitcher() {
             aria-label={t('nav.popup-label')}
             hidden={!isOpen}
             aria-hidden={!isOpen}
-            className="absolute top-8 right-8 shadow-lg p-3 bg-amber-100"
+            className="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 dark:border-amber-50 dark:bg-slate-950 rounded-md"
         >
             {links.current.map(({ href, label, title }) => (
                 <li key={title} className="flex items-center gap-2">
-                    <MdStar className={href === path ? 'text-black' : 'text-transparent'} />
+                    <MdStar
+                        className={href === path ? 'text-black dark:text-amber-50' : 'text-transparent'}
+                        aria-hidden="true"
+                    />
 
-                    <Link href={href} title={title}>
+                    <Link
+                        href={href}
+                        title={title}
+                        aria-current={href === path ? 'page' : undefined}
+                        className="text-amber-900 hover:underline dark:text-amber-50"
+                    >
                         {label}
                     </Link>
                 </li>
