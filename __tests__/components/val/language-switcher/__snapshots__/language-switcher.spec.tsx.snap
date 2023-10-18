@@ -7,11 +7,13 @@ exports[`LanguageSwitcher should render correctly 1`] = `
     aria-expanded="false"
     aria-haspopup="listbox"
     aria-label="Switch language"
+    class="h-8 w-8 flex justify-center items-center rounded-full shadow-lg hover:scale-105 border-[1px] border-amber-900 bg-amber-50 dark:bg-stone-950 dark:border-amber-200"
     data-testid="language-switcher-button"
     id="language-switcher-button"
   >
     <svg
-      class="dark:text-amber-50"
+      aria-hidden="true"
+      class="text-amber-900 dark:text-amber-200 h-5 w-5"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -32,7 +34,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
   <menu
     aria-hidden="true"
     aria-label="Language switcher popup"
-    class="absolute top-8 right-8 shadow-lg p-3 bg-amber-100"
+    class="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-md dark:bg-stone-950 dark:border-amber-200"
     data-testid="language-switcher-popup"
     hidden=""
     id="language-switcher-popup"
@@ -42,6 +44,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
       class="flex items-center gap-2"
     >
       <svg
+        aria-hidden="true"
         class="text-transparent"
         fill="currentColor"
         height="1em"
@@ -64,6 +67,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
         />
       </svg>
       <a
+        class="hover:underline text-amber-900 dark:text-amber-200"
         href="/val/en"
         title="Switch the language to English"
       >
@@ -74,6 +78,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
       class="flex items-center gap-2"
     >
       <svg
+        aria-hidden="true"
         class="text-transparent"
         fill="currentColor"
         height="1em"
@@ -96,6 +101,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
         />
       </svg>
       <a
+        class="hover:underline text-amber-900 dark:text-amber-200"
         href="/val/es"
         title="Cambiar el idioma a español"
       >
