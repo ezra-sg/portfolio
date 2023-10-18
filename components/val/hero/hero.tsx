@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 import img from '@/public/val--indian.jpg';
 
@@ -9,7 +10,7 @@ export default function Intro() {
     const { t } = useI18n();
 
     return (
-        <div className="relative w-full h-[100svh] md:flex md:flex-row-reverse md:gap-8 md:justify-between md:items-center xl:max-w-[1440px] xl:m-auto xl:px-12 mb-8">
+        <div className="relative w-full h-[100svh] md:flex md:flex-row-reverse md:gap-8 md:justify-between md:items-center xl:max-w-[1440px] xl:m-auto xl:px-12">
             <Image
                 src={img}
                 alt={t('hero.hero-image-alt')}
@@ -19,17 +20,21 @@ export default function Intro() {
 
             <div className="absolute md:static bottom-12 left-0 right-0 bg-amber-50 dark:bg-slate-950 py-4 md:w-full md:flex md:justify-center">
                 <div className="md:w-fit md:pl-4">
-                    <h1 className="font-header text-5xl text-amber-900 dark:text-amber-200 text-center md:text-left">
+                    <ReactMarkdown className="font-header text-5xl text-amber-900 dark:text-amber-200 text-center md:text-left">
                         {t('hero.hero-text')}
-                    </h1>
-                    <h2 className="mb-4 font-sans dark:text-amber-50 text-center font-semibold md:text-left">
+                    </ReactMarkdown>
+
+                    <ReactMarkdown className="mb-4 font-sans dark:text-amber-50 text-center font-semibold md:text-left">
                         {t('hero.subtitle')}
-                    </h2>
-                    <p className="font-sans dark:text-amber-50 text-center md:text-left">
+                    </ReactMarkdown>
+
+                    <ReactMarkdown className="font-sans dark:text-amber-50 text-center md:text-left">
                         {t('hero.author-text')}
-                        <br />
-                        <span className="text-sm">{t('hero.interview-date')}</span>
-                    </p>
+                    </ReactMarkdown>
+
+                    <ReactMarkdown className="font-sans dark:text-amber-50 text-center md:text-left text-sm">
+                        {t('hero.interview-date')}
+                    </ReactMarkdown>
                 </div>
             </div>
         </div>
