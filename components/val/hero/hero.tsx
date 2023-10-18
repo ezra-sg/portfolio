@@ -19,7 +19,7 @@ export default function Intro() {
 
             <div className="absolute md:static bottom-12 left-0 right-0 bg-amber-50 dark:bg-slate-950 py-4 md:w-full md:flex md:justify-center">
                 <div className="md:w-fit md:pl-4">
-                    <h1 className="font-header text-5xl text-amber-900 dark:text-amber-50 text-center md:text-left">
+                    <h1 className="font-header text-5xl text-amber-900 dark:text-amber-200 text-center md:text-left">
                         {t('hero.hero-text')}
                     </h1>
                     <h2 className="mb-4 font-sans dark:text-amber-50 text-center font-bold md:text-left">

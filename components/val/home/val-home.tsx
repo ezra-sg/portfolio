@@ -18,7 +18,7 @@ const poppins = Poppins({
 
 export default function ValHome() {
     return (
-        <div className={`bg-amber-50 dark:bg-slate-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
+        <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
             <header className="fixed top-4 right-4 z-50">
                 <LanguageSwitcher />
             </header>
