@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdLanguage, MdStar } from 'react-icons/md';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -15,6 +15,7 @@ export default function LanguageSwitcher() {
 
     const buttonRef = useRef<null | HTMLButtonElement>(null);
     const menuRef = useRef<null | HTMLMenuElement>(null);
+    const clickawayHandlerRef = useRef<null | ((event: MouseEvent) => void)>(null);
     const links = useRef([{
         href: '/val/en',
         label: t('nav.english'),
@@ -34,24 +35,29 @@ export default function LanguageSwitcher() {
         }
     }
 
-    // setup clickaway listener
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        console.log('clickaway');
+
+        const clickedElement = event.target as HTMLElement;
+        const userClickedAway = ![menuRef, buttonRef].some(({ current }) => current?.contains(clickedElement));
+
+        if (userClickedAway) {
+            setIsOpen(false);
+        }
+    }, []);
+    clickawayHandlerRef.current = handleClickOutside;
+
     useEffect(() => {
-        // eztodo switch lsitener to only exist when open
-        const handleClickOutside = (event: MouseEvent) => {
-            const clickedElement = event.target as HTMLElement;
-            const userClickedAway = ![menuRef, buttonRef].some(({ current }) => current?.contains(clickedElement));
-
-            if (userClickedAway) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
+        if (isOpen) {
+            document.addEventListener('mousedown', clickawayHandlerRef.current!);
+        } else {
+            document.removeEventListener('mousedown', clickawayHandlerRef.current!);
+        }
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', clickawayHandlerRef.current!);
         };
-    }, []);
+    }, [isOpen]);
 
     return (<>
         <button
