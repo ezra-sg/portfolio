@@ -78,7 +78,7 @@ export default function LanguageSwitcher() {
             className="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-sm dark:bg-stone-950 dark:border-amber-200"
         >
             {links.current.map(({ href, label, title }) => (
-                <li key={title} className="flex items-center gap-2">
+                <li key={title} className="flex items-center gap-2" role="menuitem">
                     <Link
                         href={href}
                         title={title}

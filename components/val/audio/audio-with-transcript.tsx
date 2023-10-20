@@ -40,7 +40,7 @@ export default function AudioWithTranscript({ description, title, transcript, sr
                 {title}
             </h3>
 
-            <AudioPlayer src={src} labelledBy={titleId} />
+            <AudioPlayer src={src} labelledBy={titleId} title={title} />
             {/* <audio controls src={src} aria-labelledby={titleId} /> */}
 
             <Modal trigger={modalTrigger} description={shapedDescription} title={title}>

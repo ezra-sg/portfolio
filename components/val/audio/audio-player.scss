@@ -2,6 +2,7 @@
     @apply bg-stone-500 dark:bg-white;
 
     height: 2px;
+    cursor: pointer;
 }
 
 @mixin thumb-styles {
