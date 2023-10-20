@@ -159,7 +159,7 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                 There is some weird styling behavior going on with the dialog element.
                 Duplicating dimensional styling on the dialog and inner container seems to be the only way to get it to work as expected
             */}
-            <div className={`relative ${dialogDimensionalClasses}`}>
+            <div className={`relative ${dialogDimensionalClasses} rounded-sm`}>
                 <div ref={dialogInnerRef}>
                     <header className="sticky top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900">
                         <div className="ml-4 my-2 dark:text-amber-50">
