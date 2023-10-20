@@ -9,6 +9,7 @@ import {
 import './audio-player.scss';
 
 import { useI18n } from '@/hooks/useI18n';
+import { prettyPrintTimestamp } from '@/utils/text-utils';
 
 export type AudioPlayerProps = {
     src: string;
@@ -23,6 +24,8 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     const [showSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showRestartIcon, setShowRestartIcon] = useState(false);
+    const [audioTime, setAudioTime] = useState(0);
+    const [totalAudioTime, setTotalAudioTime] = useState(0);
 
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
     const scrubberElementRef = useRef<HTMLInputElement | null>(null);
@@ -33,16 +36,21 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
         showRestartIcon ? t('inputs.restart_audio_aria') : t(`inputs.${isPlaying ? 'pause' : 'play'}_audio_aria`)
     } ${title}`;
 
+    const audioTimePretty = prettyPrintTimestamp(audioTime);
+    const prettyTotalAudioTime = prettyPrintTimestamp(totalAudioTime);
+
     useEffect(() => {
         const audioElement = audioElementRef.current!;
         const scrubberElement = scrubberElementRef.current!;
 
-        const setScrubberMax = () => {
+        const handleAudioMetaLoaded = () => {
             scrubberElement.max = audioElement.duration.toString();
+            setTotalAudioTime(audioElement.duration);
         };
 
-        const updateScrubberPosition = () => {
+        const handleAudioTimeUpdate = () => {
             scrubberElement.value = audioElement.currentTime.toString();
+            setAudioTime(audioElement.currentTime);
         };
 
         const updateAudioPosition = () => {
@@ -50,33 +58,36 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
         };
 
         if (audioElement.readyState >= 1) {
-            setScrubberMax();
+            handleAudioMetaLoaded();
         } else {
-            audioElement.addEventListener('loadedmetadata', setScrubberMax);
+            audioElement.addEventListener('loadedmetadata', handleAudioMetaLoaded);
         }
-        audioElement.addEventListener('timeupdate', updateScrubberPosition);
+        audioElement.addEventListener('timeupdate', handleAudioTimeUpdate);
         scrubberElement.addEventListener('input', updateAudioPosition);
 
         return () => {
-            audioElement.removeEventListener('loadedmetadata', setScrubberMax);
-            audioElement.removeEventListener('timeupdate', updateScrubberPosition);
+            audioElement.removeEventListener('loadedmetadata', handleAudioMetaLoaded);
+            audioElement.removeEventListener('timeupdate', handleAudioTimeUpdate);
             scrubberElement.removeEventListener('input', updateAudioPosition);
         };
     }, []);
 
     useEffect(() => {
+        const audioElement = audioElementRef.current!;
         if (isPlaying) {
-            if (audioElementRef.current!.currentTime === audioElementRef.current!.duration) {
-                audioElementRef.current!.currentTime = 0;
+            if (audioElement.currentTime === audioElement.duration) {
+                // restart audio
+                audioElement.currentTime = 0;
             }
-            audioElementRef.current!.play();
+            audioElement.play();
         } else {
-            audioElementRef.current!.pause();
+            audioElement.pause();
         }
     }, [isPlaying]);
 
     return (<>
         <div className="flex items-center gap-2 text-2xl text-amber-900 dark:text-amber-200">
+            {/* play/pause button */}
             <button
                 onClick={() => {
                     setIsPlaying(!isPlaying);
@@ -99,15 +110,26 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                 }
             </button>
 
-            {/* eztodo add aria label / a11y everywhere */}
+            {/* time elapsed */}
+            <code className="text-xs" title={`${t('inputs.audio_time_elapsed_title')} ${title}`}>
+                {audioTimePretty}
+            </code>
+
+            {/* audio scrubber */}
             <input
                 ref={scrubberElementRef}
                 type="range"
                 min="0"
                 step="0.1"
                 defaultValue={0}
+                aria-label={`${t('inputs.audio_scrubber_aria')} ${title}`}
                 className="c-audio-player__scrubber"
             />
+
+            {/* total audio time */}
+            <code className="text-xs" title={`${t('inputs.audio_time_total_title')} ${title}`}>
+                {prettyTotalAudioTime}
+            </code>
 
             {/* audio speed controls */}
             <div className="relative">
