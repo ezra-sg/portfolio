@@ -111,7 +111,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     }, [showPlaybackSpeedOptions]);
 
     return (<>
-        <div className="flex items-center gap-2 text-2xl text-amber-900 dark:text-amber-200">
+        <div className="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200">
             {/* play/pause button */}
             <button
                 onClick={() => {
