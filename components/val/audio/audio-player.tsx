@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
     MdPlayCircleOutline,
     MdOutlinePauseCircleOutline,
@@ -42,14 +42,14 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     const audioTimePretty = prettyPrintTimestamp(audioTime);
     const prettyTotalAudioTime = prettyPrintTimestamp(totalAudioTime);
 
-    const handlePlaybackSpeedClickaway = (event: MouseEvent) => {
+    const handlePlaybackSpeedClickaway = useCallback((event: MouseEvent) => {
         const clickedElement = event.target as HTMLElement;
         const userClickedAway = ![playbackSpeedMenuRef, playbackSpeedButtonRef].some(({ current }) => current!.contains(clickedElement));
 
         if (userClickedAway) {
             setShowSpeedOptions(false);
         }
-    };
+    }, []);
     playbackSpeedClickawayHandlerRef.current = handlePlaybackSpeedClickaway;
 
     useEffect(() => {
@@ -82,7 +82,6 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             audioElement.removeEventListener('loadedmetadata', handleAudioMetaLoaded);
             audioElement.removeEventListener('timeupdate', handleAudioTimeUpdate);
             scrubberElement.removeEventListener('input', updateAudioPosition);
-            document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
         };
     }, []);
 
@@ -105,6 +104,10 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
         } else {
             document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
         }
+
+        return () => {
+            document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+        };
     }, [showSpeedOptions]);
 
     return (<>

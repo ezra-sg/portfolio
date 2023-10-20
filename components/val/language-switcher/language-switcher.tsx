@@ -36,8 +36,6 @@ export default function LanguageSwitcher() {
     }
 
     const handleClickOutside = useCallback((event: MouseEvent) => {
-        console.log('clickaway');
-
         const clickedElement = event.target as HTMLElement;
         const userClickedAway = ![menuRef, buttonRef].some(({ current }) => current?.contains(clickedElement));
 
