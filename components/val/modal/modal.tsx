@@ -103,9 +103,13 @@ export default function Modal({ children, description, title, trigger }: ModalPr
         <dialog
             ref={dialogRef}
             aria-modal="true"
-            className={`${modalIsVisible ? 'flex' : ''} w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] fixed top-0 right-0 bottom-0 left-0 items-center justify-center backdrop:bg-stone-900 backdrop:opacity-90`}
+            className={`${modalIsVisible ? 'flex' : ''} w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px] fixed top-0 right-0 bottom-0 left-0 items-center justify-center backdrop:bg-stone-900 backdrop:opacity-90`}
         >
-            <div className="relative w-[90vw] min-h-[40vh] max-h-[80vh]">
+            {/*
+                There is some weird styling behavior going on with the dialog element.
+                Duplicating dimensional styling on the dialog and inner container seems to be the only way to get it to work as expected
+            */}
+            <div className="relative w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px]">
                 <div ref={dialogInnerRef}>
                     <header className="sticky top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900">
                         <div className="ml-4 my-2 dark:text-amber-50">
