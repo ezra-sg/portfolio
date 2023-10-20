@@ -6,11 +6,11 @@
 }
 
 @mixin thumb-styles {
-    @apply bg-amber-900 dark:bg-amber-200;
+    @apply bg-amber-900 dark:bg-amber-200 shadow-md;
 
-    width: 15px;
+    width: 6px;
     height: 15px;
-    border-radius: 50%;
+    border-radius: 2px;
     margin-top: -7px;
     cursor: pointer;
 }
