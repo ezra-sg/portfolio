@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build && touch out/CNAME && echo \"ezra-sg.com\" >> out/CNAME && touch out/.nojekyll",
-    "deploy": "gh-pages -d out -t true"
+    "deploy": "gh-pages -d out -t true",
+    "export-and-deploy": "bun run export && bun run deploy"
   },
   "dependencies": {
     "next": "13.5.4",
