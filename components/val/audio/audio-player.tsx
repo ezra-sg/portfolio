@@ -21,7 +21,7 @@ const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
 export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [showSpeedOptions, setShowSpeedOptions] = useState(false);
+    const [showPlaybackSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showRestartIcon, setShowRestartIcon] = useState(false);
     const [audioTime, setAudioTime] = useState(0);
@@ -99,7 +99,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     }, [isPlaying]);
 
     useEffect(() => {
-        if (showSpeedOptions) {
+        if (showPlaybackSpeedOptions) {
             document.addEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
         } else {
             document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
@@ -108,7 +108,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
         return () => {
             document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
         };
-    }, [showSpeedOptions]);
+    }, [showPlaybackSpeedOptions]);
 
     return (<>
         <div className="flex items-center gap-2 text-2xl text-amber-900 dark:text-amber-200">
@@ -160,11 +160,11 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             <div className="relative">
                 <button
                     ref={playbackSpeedButtonRef}
-                    onClick={() => setShowSpeedOptions(!showSpeedOptions)}
+                    onClick={() => setShowSpeedOptions(!showPlaybackSpeedOptions)}
                     onKeyDown={(event) => {
                         if ([' ', 'Enter'].includes(event.key)) {
                             event.preventDefault();
-                            setShowSpeedOptions(!showSpeedOptions);
+                            setShowSpeedOptions(!showPlaybackSpeedOptions);
                         }
                     }}
                     className="h-8 w-8 flex items-center justify-center"
@@ -177,8 +177,8 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                     ref={playbackSpeedMenuRef}
                     role="menu"
                     className="absolute p-3 bg-amber-50 shadow-lg rounded-sm"
-                    hidden={!showSpeedOptions}
-                    aria-hidden={!showSpeedOptions}
+                    hidden={!showPlaybackSpeedOptions}
+                    aria-hidden={!showPlaybackSpeedOptions}
                     aria-label={`${t('inputs.audio_speed_menu_label')} ${title}`}
                     onKeyDown={(event) => {
                         if (event.key === 'Escape') {
