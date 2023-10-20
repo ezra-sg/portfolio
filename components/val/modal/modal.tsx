@@ -175,7 +175,7 @@ export default function Modal({ children, description, title, trigger }: ModalPr
 
                         {/* eztodo a11y here */}
                         <button
-                            className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:scale-105 dark:border-amber-200"
+                            className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-amber-200"
                             onClick={() => setModalIsVisible(false)}
                         >
                             <MdClose className="text-xl text-amber-900 dark:text-amber-200" />

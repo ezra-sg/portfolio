@@ -61,7 +61,7 @@ export default function LanguageSwitcher() {
             aria-expanded={isOpen}
             aria-controls="language-switcher-popup"
             aria-label={t('nav.language-button-label')}
-            className="h-8 w-8 flex justify-center items-center rounded-full shadow-lg hover:scale-105 border-[1px] border-amber-900 bg-amber-50 dark:bg-stone-950 dark:border-amber-200"
+            className="h-8 w-8 flex justify-center items-center rounded-full shadow-lg hover:border-[2px] border-[1px] border-amber-900 bg-amber-50 dark:bg-stone-950 dark:border-amber-200"
             onClick={toggleLanguageMenu}
         >
             <MdLanguage className="text-amber-900 dark:text-amber-200 h-5 w-5" aria-hidden="true" />
