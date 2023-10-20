@@ -29,6 +29,9 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
 
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
     const scrubberElementRef = useRef<HTMLInputElement | null>(null);
+    const playbackSpeedMenuRef = useRef<HTMLUListElement | null>(null);
+    const playbackSpeedButtonRef = useRef<HTMLButtonElement | null>(null);
+    const playbackSpeedClickawayHandlerRef = useRef<null | ((event: MouseEvent) => void)>(null);
 
     const { t } = useI18n();
 
@@ -38,6 +41,16 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
 
     const audioTimePretty = prettyPrintTimestamp(audioTime);
     const prettyTotalAudioTime = prettyPrintTimestamp(totalAudioTime);
+
+    const handlePlaybackSpeedClickaway = (event: MouseEvent) => {
+        const clickedElement = event.target as HTMLElement;
+        const userClickedAway = ![playbackSpeedMenuRef, playbackSpeedButtonRef].some(({ current }) => current!.contains(clickedElement));
+
+        if (userClickedAway) {
+            setShowSpeedOptions(false);
+        }
+    };
+    playbackSpeedClickawayHandlerRef.current = handlePlaybackSpeedClickaway;
 
     useEffect(() => {
         const audioElement = audioElementRef.current!;
@@ -69,6 +82,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             audioElement.removeEventListener('loadedmetadata', handleAudioMetaLoaded);
             audioElement.removeEventListener('timeupdate', handleAudioTimeUpdate);
             scrubberElement.removeEventListener('input', updateAudioPosition);
+            document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
         };
     }, []);
 
@@ -84,6 +98,14 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             audioElement.pause();
         }
     }, [isPlaying]);
+
+    useEffect(() => {
+        if (showSpeedOptions) {
+            document.addEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+        } else {
+            document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+        }
+    }, [showSpeedOptions]);
 
     return (<>
         <div className="flex items-center gap-2 text-2xl text-amber-900 dark:text-amber-200">
@@ -134,6 +156,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             {/* audio speed controls */}
             <div className="relative">
                 <button
+                    ref={playbackSpeedButtonRef}
                     onClick={() => setShowSpeedOptions(!showSpeedOptions)}
                     onKeyDown={(event) => {
                         if ([' ', 'Enter'].includes(event.key)) {
@@ -148,6 +171,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
 
                 {/* eztodo make hook for clickaway, add here */}
                 <ul
+                    ref={playbackSpeedMenuRef}
                     role="menu"
                     className="absolute p-3 bg-amber-50 shadow-lg rounded-sm"
                     hidden={!showSpeedOptions}

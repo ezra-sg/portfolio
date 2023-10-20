@@ -36,6 +36,7 @@ export default function LanguageSwitcher() {
 
     // setup clickaway listener
     useEffect(() => {
+        // eztodo switch lsitener to only exist when open
         const handleClickOutside = (event: MouseEvent) => {
             const clickedElement = event.target as HTMLElement;
             const userClickedAway = ![menuRef, buttonRef].some(({ current }) => current?.contains(clickedElement));
