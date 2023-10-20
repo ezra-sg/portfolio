@@ -59,11 +59,8 @@ export default function Modal({ children, description, title, trigger }: ModalPr
     }
 
     const handleClickOutside = (event: MouseEvent) => {
-        if (!dialogRef.current || !dialogInnerRef.current) {
-            return;
-        }
         const clickedElement = event.target as HTMLElement;
-        const userClickedAway = !dialogInnerRef.current.contains(clickedElement);
+        const userClickedAway = !dialogInnerRef.current!.contains(clickedElement);
 
         if (userClickedAway) {
             setModalIsVisible(false);

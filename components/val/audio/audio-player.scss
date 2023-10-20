@@ -1,0 +1,42 @@
+@mixin track-styles {
+    @apply bg-stone-500 dark:bg-white;
+
+    height: 2px;
+}
+
+@mixin thumb-styles {
+    @apply bg-amber-900 dark:bg-amber-200;
+
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-top: -7px;
+    cursor: pointer;
+}
+
+.c-audio-player {
+    &__scrubber {
+        -webkit-appearance: none;
+        appearance: none;
+
+        // moz and webkit selectors must be separate; they do not  work if comma-separated
+        &::-moz-range-track {
+            @include track-styles;
+        }
+
+        &::-webkit-slider-runnable-track {
+            @include track-styles;
+        }
+
+        &::-moz-range-thumb {
+            @include thumb-styles;
+            appearance: none;
+        }
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            @include thumb-styles;
+        }
+    }
+}
