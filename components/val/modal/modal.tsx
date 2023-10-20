@@ -139,8 +139,8 @@ export default function Modal({ children, description, title, trigger }: ModalPr
             tabIndex={0}
             onClick={() => setModalIsVisible(true)}
             onKeyDown={(event) => {
-                event.preventDefault();
                 if([' ', 'Enter'].includes(event.key)) {
+                    event.preventDefault();
                     setModalIsVisible(true);
                 }
             }}
