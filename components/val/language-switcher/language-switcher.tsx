@@ -75,20 +75,15 @@ export default function LanguageSwitcher() {
             aria-label={t('nav.popup-label')}
             hidden={!isOpen}
             aria-hidden={!isOpen}
-            className="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-md dark:bg-stone-950 dark:border-amber-200"
+            className="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-sm dark:bg-stone-950 dark:border-amber-200"
         >
             {links.current.map(({ href, label, title }) => (
                 <li key={title} className="flex items-center gap-2">
-                    <MdStar
-                        className={href === path ? 'text-amber-900 dark:text-amber-200' : 'text-transparent'}
-                        aria-hidden="true"
-                    />
-
                     <Link
                         href={href}
                         title={title}
                         aria-current={href === path ? 'page' : undefined}
-                        className="hover:underline text-amber-900 dark:text-amber-200"
+                        className={`${href=== path ? 'font-bold' : ''} text-amber-900 dark:text-amber-200 hover:underline`}
                     >
                         {label}
                     </Link>

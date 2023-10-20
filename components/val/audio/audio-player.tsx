@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import {
     MdPlayCircleOutline,
     MdOutlinePauseCircleOutline,
-    MdOutlineVolumeUp,
     MdSpeed,
 } from 'react-icons/md';
 
@@ -13,8 +12,13 @@ export type AudioPlayerProps = {
     labelledBy: string; // the id of the element which describes the audio
 };
 
+const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
+
 export default function AudioPlayer({ src, labelledBy }: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [showSpeedOptions, setShowSpeedOptions] = useState(false);
+    const [playbackSpeed, setPlaybackSpeed] = useState(1);
+
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
     const scrubberElementRef = useRef<HTMLInputElement | null>(null);
 
@@ -50,25 +54,21 @@ export default function AudioPlayer({ src, labelledBy }: AudioPlayerProps) {
     }, []);
 
     useEffect(() => {
-        if (!audioElementRef.current) {
-            return;
-        }
-
         if (isPlaying) {
-            audioElementRef.current.play();
+            audioElementRef.current!.play();
         } else {
-            audioElementRef.current.pause();
+            audioElementRef.current!.pause();
         }
     }, [isPlaying]);
 
     return (<>
         <div className="flex items-center gap-2 text-2xl text-amber-900">
             {/* eztodo add keydown handler */}
-            <div onClick={() => setIsPlaying(!isPlaying)}>
+            <button onClick={() => setIsPlaying(!isPlaying)}>
                 {isPlaying ? <MdOutlinePauseCircleOutline aria-hidden= "true" /> : <MdPlayCircleOutline aria-hidden="true" />}
-            </div>
+            </button>
 
-            {/* eztodo add aria label */}
+            {/* eztodo add aria label / a11y everywhere */}
             <input
                 ref={scrubberElementRef}
                 type="range"
@@ -79,9 +79,30 @@ export default function AudioPlayer({ src, labelledBy }: AudioPlayerProps) {
                 className="c-audio-player__scrubber"
             />
 
-            <MdOutlineVolumeUp />
+            <div className="relative">
+                <button
+                    onClick={() => setShowSpeedOptions(!showSpeedOptions)}
+                >
+                    <MdSpeed aria-hidden="true" />
+                </button>
 
-            <MdSpeed />
+                {/* eztodo make hook for clickaway, add here */}
+                <ul role="listbox" className="absolute p-3 bg-amber-50 shadow-lg rounded-sm" hidden={!showSpeedOptions}>
+                    {playbackSpeedOptions.map((speed, index) => (
+                        <li
+                            key={`audio-speed-label-${labelledBy}-${index}`}
+                            role="listitem"
+                            className={`${playbackSpeed === speed ? 'font-bold' : ''} text-sm cursor-pointer my-2 hover:underline`}
+                            onClick={() => {
+                                audioElementRef.current!.playbackRate = speed;
+                                setPlaybackSpeed(speed);
+                            }}
+                        >
+                            {speed}x
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
         <audio
             ref={audioElementRef}
