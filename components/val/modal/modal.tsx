@@ -51,8 +51,33 @@ export default function Modal({ children, description, title, trigger }: ModalPr
         document.addEventListener('mousedown', handleClickOutside);
         dialog?.addEventListener('close', handleDialogClose);
 
+        const handleKeydown = (event: KeyboardEvent) => {
+            if (event.key === 'Tab') {
+                if (event.shiftKey) {
+                    if (document.activeElement === firstFocusable) {
+                        lastFocusable.focus();
+                        event.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === lastFocusable) {
+                        firstFocusable.focus();
+                        event.preventDefault();
+                    }
+                }
+            }
+        };
+
+        // Get focusable elements
+        const focusableElements = dialog?.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') ?? [];
+        const firstFocusable = focusableElements[0] as HTMLElement;
+        const lastFocusable = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        // Listen for Tab press
+        document.addEventListener('keydown', handleKeydown);
+
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeydown);
             dialog?.removeEventListener('close', handleDialogClose);
         };
     }, []);
@@ -78,7 +103,7 @@ export default function Modal({ children, description, title, trigger }: ModalPr
         <dialog
             ref={dialogRef}
             aria-modal="true"
-            className={`${modalIsVisible ? 'flex' : ''} w-[90vw] min-h-[40vh] max-h-[80vh] fixed top-0 right-0 bottom-0 left-0 items-center justify-center backdrop:bg-stone-900 backdrop:opacity-90`}
+            className={`${modalIsVisible ? 'flex' : ''} w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] fixed top-0 right-0 bottom-0 left-0 items-center justify-center backdrop:bg-stone-900 backdrop:opacity-90`}
         >
             <div className="relative w-[90vw] min-h-[40vh] max-h-[80vh]">
                 <div ref={dialogInnerRef}>
