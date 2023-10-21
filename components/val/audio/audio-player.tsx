@@ -172,7 +172,6 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                     <MdSpeed aria-hidden="true" />
                 </button>
 
-                {/* eztodo make hook for clickaway, add here */}
                 <ul
                     ref={playbackSpeedMenuRef}
                     role="menu"
