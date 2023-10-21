@@ -26,15 +26,9 @@ export default function ValHome() {
     useEffect(() => {
         const scrollHandler = debounce(() => {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const userScrolledDown = scrollTop > lastScrollTop.current;
 
-            // Compare with the last scroll position
-            if (scrollTop > lastScrollTop.current) {
-                // User scrolled down
-                setShowHeader(false); // Hide header
-            } else {
-                // User scrolled up
-                setShowHeader(true); // Show header
-            }
+            setShowHeader(!userScrolledDown);
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
