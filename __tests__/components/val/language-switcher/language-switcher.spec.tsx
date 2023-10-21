@@ -1,9 +1,9 @@
-import { RenderResult, fireEvent, render } from "@testing-library/react";
+import { RenderResult, fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import LanguageSwitcher from "@/components/val/language-switcher/language-switcher";
-import { LanguageContext } from "@/hooks/useLanguageContext";
-import { SupportedLanguage, SupportedLanguages } from "@/types/i18n-types";
+import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
+import { LanguageContext } from '@/hooks/useLanguageContext';
+import { SupportedLanguage, SupportedLanguages } from '@/types/i18n-types';
 
 describe('LanguageSwitcher', () => {
     const renderWithLanguage = (language: SupportedLanguage) =>
