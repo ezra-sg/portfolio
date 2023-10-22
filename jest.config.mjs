@@ -17,6 +17,7 @@ const config = {
     ],
     testRegex: '(/__tests__/.*\\.spec\\.(jsx?|tsx?)$)|(\\.|/)spec\\.(jsx?|tsx?)$',
     moduleNameMapper: {
+        '@/components/(.*)': '<rootDir>/components/$1',
         '@/hooks/(.*)': '<rootDir>/hooks/$1',
         '@/i18n/(.*)': '<rootDir>/i18n/$1',
     },

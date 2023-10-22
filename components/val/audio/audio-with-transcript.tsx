@@ -4,7 +4,7 @@ import { MdReadMore } from 'react-icons/md';
 import { useI18n } from '@/hooks/useI18n';
 
 import Modal from '@/components/val/modal/modal';
-import AudioPlayer from './audio-player';
+import AudioPlayer from '@/components/val/audio/audio-player';
 
 export type AudioWithTranscriptProps = {
     description: string; // a short description of the audio
@@ -43,11 +43,8 @@ export default function AudioWithTranscript({ description, title, transcript, sr
             <AudioPlayer src={src} labelledBy={titleId} title={title} />
 
             <Modal trigger={modalTrigger} description={shapedDescription} title={title}>
-                {transcript.map((paragraph, index) => (
-                    <ReactMarkdown
-                        key={getKeyFromParagraph(paragraph)}
-                        className={`mb-4 ${index > 0 ? 'first-letter:ml-4' : ''}`}
-                    >
+                {transcript.map(paragraph => (
+                    <ReactMarkdown key={getKeyFromParagraph(paragraph)} className="mb-4">
                         {paragraph}
                     </ReactMarkdown>
                 ))}
