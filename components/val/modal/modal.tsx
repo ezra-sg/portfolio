@@ -186,18 +186,17 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                             <h1 className="font-header">
                                 {title}
                             </h1>
-                            {/* eztodo typo below */}
-                            <p className="text-xs italic">{t('global.audio_transtript')}</p>
+                            <p className="text-xs italic">{t('global.audio_transcript')}</p>
                         </div>
 
-
-                        {/* eztodo a11y and i18n here */}
                         <button
                             className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-amber-200"
                             data-testid="modal-close-button"
+                            title={`${t('modal.close-modal-label')} ${title}`}
+                            aria-label={`${t('modal.close-modal-label')} ${title}`}
                             onClick={() => setModalIsVisible(false)}
                         >
-                            <MdClose className="text-xl text-amber-900 dark:text-amber-200" />
+                            <MdClose className="text-xl text-amber-900 dark:text-amber-200" aria-hidden="true" />
                         </button>
                     </header>
 

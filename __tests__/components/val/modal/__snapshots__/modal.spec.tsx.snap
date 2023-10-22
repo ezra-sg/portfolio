@@ -36,12 +36,14 @@ exports[`Modal should render properly 1`] = `
             <p
               class="text-xs italic"
             >
-              Audio transcript
+              global.audio_transcript
             </p>
           </div>
           <button
+            aria-label="Close modal for: title text"
             class="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-amber-200"
             data-testid="modal-close-button"
+            title="Close modal for: title text"
           >
             <div>
               x icon
