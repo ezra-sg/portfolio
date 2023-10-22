@@ -1,1 +1,3 @@
-jest.useFakeTimers("modern");
+import '@testing-library/jest-dom';
+
+jest.useFakeTimers('modern');

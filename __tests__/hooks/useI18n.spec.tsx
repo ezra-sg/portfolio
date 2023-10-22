@@ -1,8 +1,8 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook } from '@testing-library/react';
 
-import { useI18n } from "@/hooks/useI18n";
-import { LanguageContext } from "@/hooks/useLanguageContext";
-import { SupportedLanguage, SupportedLanguages } from "@/types/i18n-types";
+import { useI18n } from '@/hooks/useI18n';
+import { LanguageContext } from '@/hooks/useLanguageContext';
+import { SupportedLanguage, SupportedLanguages } from '@/types/i18n-types';
 
 jest.mock('@/i18n/en.json', () => ({ test: 'eng' }), { virtual: true });
 jest.mock('@/i18n/es.json', () => ({ test: 'span' }), { virtual: true });
@@ -20,15 +20,13 @@ describe('useI18n', () => {
     });
 
     it('should return a function which returns a translation or the slug if not found', () => {
-        const renderWithLanguage = (language: SupportedLanguage) => {
-            return renderHook(() => useI18n(), {
-                wrapper: ({ children }) => (
-                    <LanguageContext.Provider value={{ language }}>
-                        {children}
-                    </LanguageContext.Provider>
-                ),
-            });
-        }
+        const renderWithLanguage = (language: SupportedLanguage) => renderHook(() => useI18n(), {
+            wrapper: ({ children }) => (
+                <LanguageContext.Provider value={{ language }}>
+                    {children}
+                </LanguageContext.Provider>
+            ),
+        });
 
         const englishResult = renderWithLanguage(SupportedLanguages.english);
         const spanishResult = renderWithLanguage(SupportedLanguages.spanish);

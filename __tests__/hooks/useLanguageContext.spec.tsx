@@ -1,7 +1,7 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook } from '@testing-library/react';
 
-import { LanguageContext, useLanguageContext } from "@/hooks/useLanguageContext";
-import { SupportedLanguages } from "@/types/i18n-types";
+import { LanguageContext, useLanguageContext } from '@/hooks/useLanguageContext';
+import { SupportedLanguages } from '@/types/i18n-types';
 
 describe('useLanguageContext', () => {
     it('should throw an error when used outside of a provider', () => {

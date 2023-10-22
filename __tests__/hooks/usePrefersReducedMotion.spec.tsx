@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook } from '@testing-library/react';
 import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
 import { act } from 'react-dom/test-utils';
 
@@ -8,7 +8,9 @@ describe('usePrefersReducedMotion', () => {
 
     let changeListener: (event: { matches: boolean }) => void;
     const addEventListenerMock = jest.fn().mockImplementation(
-        (eventName: string, listener: () => void) => { changeListener = listener; }
+        (eventName: string, listener: () => void) => {
+            changeListener = listener;
+        }
     );
     const removeEventListenerMock = jest.fn();
 

@@ -1,0 +1,409 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 1`] = `
+<div>
+  <div
+    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
+  >
+    <button
+      aria-label="Begin audio playback for: title text"
+      class="h-8 w-8 flex items-center justify-center"
+      data-testid="audio-player-play-button"
+    >
+      <div>
+        play circle outline
+      </div>
+    </button>
+    <code
+      class="text-xs"
+      title="Time remaining in audio: title text"
+    >
+      00:00
+    </code>
+    <input
+      aria-label="Controls audio playback position for: title text"
+      class="c-audio-player__scrubber"
+      min="0"
+      step="0.1"
+      type="range"
+      value="0"
+    />
+    <code
+      class="text-xs"
+      title="Total length of audio: title text"
+    >
+      00:00
+    </code>
+    <div
+      class="relative"
+    >
+      <button
+        class="h-8 w-8 flex items-center justify-center"
+        data-testid="audio-player-speed-button"
+      >
+        <div>
+          speed
+        </div>
+      </button>
+      <ul
+        aria-hidden="true"
+        aria-label="Audio playback speed menu for: title text"
+        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+        data-testid="audio-player-speed-menu"
+        hidden=""
+        role="menu"
+      >
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.25"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-0"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.25x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.5"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-1"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.5x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.75"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-2"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.75x
+        </li>
+        <li
+          aria-checked="true"
+          aria-label="Set audio playback speed to: 1"
+          class="font-bold text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-3"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          Normal
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.25"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-4"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.25x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.5"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-5"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.5x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.75"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-6"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.75x
+        </li>
+      </ul>
+    </div>
+  </div>
+  <audio
+    aria-labelledby="labelled by text"
+    controls=""
+    data-testid="audio-player-audio-element"
+    hidden=""
+    src="src text"
+  />
+</div>
+`;
+
+exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 2`] = `
+<div>
+  <div
+    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
+  >
+    <button
+      aria-label="Pause audio playback for: title text"
+      class="h-8 w-8 flex items-center justify-center"
+      data-testid="audio-player-play-button"
+    >
+      <div>
+        pause circle outline
+      </div>
+    </button>
+    <code
+      class="text-xs"
+      title="Time remaining in audio: title text"
+    >
+      00:00
+    </code>
+    <input
+      aria-label="Controls audio playback position for: title text"
+      class="c-audio-player__scrubber"
+      min="0"
+      step="0.1"
+      type="range"
+      value="0"
+    />
+    <code
+      class="text-xs"
+      title="Total length of audio: title text"
+    >
+      00:00
+    </code>
+    <div
+      class="relative"
+    >
+      <button
+        class="h-8 w-8 flex items-center justify-center"
+        data-testid="audio-player-speed-button"
+      >
+        <div>
+          speed
+        </div>
+      </button>
+      <ul
+        aria-hidden="true"
+        aria-label="Audio playback speed menu for: title text"
+        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+        data-testid="audio-player-speed-menu"
+        hidden=""
+        role="menu"
+      >
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.25"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-0"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.25x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.5"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-1"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.5x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.75"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-2"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.75x
+        </li>
+        <li
+          aria-checked="true"
+          aria-label="Set audio playback speed to: 1"
+          class="font-bold text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-3"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          Normal
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.25"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-4"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.25x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.5"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-5"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.5x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.75"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-6"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.75x
+        </li>
+      </ul>
+    </div>
+  </div>
+  <audio
+    aria-labelledby="labelled by text"
+    controls=""
+    data-testid="audio-player-audio-element"
+    hidden=""
+    src="src text"
+  />
+</div>
+`;
+
+exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 3`] = `
+<div>
+  <div
+    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
+  >
+    <button
+      aria-label="Restart audio playback for: title text"
+      class="h-8 w-8 flex items-center justify-center"
+      data-testid="audio-player-play-button"
+    >
+      <div>
+        restart alt
+      </div>
+    </button>
+    <code
+      class="text-xs"
+      title="Time remaining in audio: title text"
+    >
+      00:00
+    </code>
+    <input
+      aria-label="Controls audio playback position for: title text"
+      class="c-audio-player__scrubber"
+      min="0"
+      step="0.1"
+      type="range"
+      value="0"
+    />
+    <code
+      class="text-xs"
+      title="Total length of audio: title text"
+    >
+      00:00
+    </code>
+    <div
+      class="relative"
+    >
+      <button
+        class="h-8 w-8 flex items-center justify-center"
+        data-testid="audio-player-speed-button"
+      >
+        <div>
+          speed
+        </div>
+      </button>
+      <ul
+        aria-hidden="true"
+        aria-label="Audio playback speed menu for: title text"
+        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+        data-testid="audio-player-speed-menu"
+        hidden=""
+        role="menu"
+      >
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.25"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-0"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.25x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.5"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-1"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.5x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 0.75"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-2"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          0.75x
+        </li>
+        <li
+          aria-checked="true"
+          aria-label="Set audio playback speed to: 1"
+          class="font-bold text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-3"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          Normal
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.25"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-4"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.25x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.5"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-5"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.5x
+        </li>
+        <li
+          aria-checked="false"
+          aria-label="Set audio playback speed to: 1.75"
+          class=" text-sm cursor-pointer my-2 hover:underline"
+          data-testid="audio-player-speed-option-6"
+          role="menuitemradio"
+          tabindex="0"
+        >
+          1.75x
+        </li>
+      </ul>
+    </div>
+  </div>
+  <audio
+    aria-labelledby="labelled by text"
+    controls=""
+    data-testid="audio-player-audio-element"
+    hidden=""
+    src="src text"
+  />
+</div>
+`;

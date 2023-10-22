@@ -17,7 +17,7 @@ export type AudioPlayerProps = {
     title: string; // a short description of the audio
 };
 
-const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
+export const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
 export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -138,6 +138,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                 }}
                 aria-label={playButtonAriaLabel}
                 className="h-8 w-8 flex items-center justify-center"
+                data-testid="audio-player-play-button"
             >
                 {
                     isPlaying ?
@@ -171,6 +172,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             <div className="relative">
                 <button
                     ref={playbackSpeedButtonRef}
+                    data-testid="audio-player-speed-button"
                     onClick={() => setShowSpeedOptions(!showPlaybackSpeedOptions)}
                     onKeyDown={(event) => {
                         if ([' ', 'Enter'].includes(event.key)) {
@@ -190,6 +192,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                     hidden={!showPlaybackSpeedOptions}
                     aria-hidden={!showPlaybackSpeedOptions}
                     aria-label={`${t('inputs.audio_speed_menu_label')} ${title}`}
+                    data-testid="audio-player-speed-menu"
                     onKeyDown={(event) => {
                         if (event.key === 'Escape') {
                             setShowSpeedOptions(false);
@@ -204,19 +207,22 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                             tabIndex={0}
                             aria-label={`${t('inputs.audio_speed_item_label')} ${speed}`}
                             className={`${playbackSpeed === speed ? 'font-bold' : ''} text-sm cursor-pointer my-2 hover:underline`}
+                            data-testid={`audio-player-speed-option-${index}`}
                             onClick={() => {
                                 audioElementRef.current!.playbackRate = speed;
                                 setPlaybackSpeed(speed);
+                                setShowSpeedOptions(false);
                             }}
                             onKeyDown={(event) => {
                                 if ([' ', 'Enter'].includes(event.key)) {
                                     event.preventDefault();
                                     audioElementRef.current!.playbackRate = speed;
                                     setPlaybackSpeed(speed);
+                                    setShowSpeedOptions(false);
                                 }
                             }}
                         >
-                            {speed}x
+                            {speed === 1 ? t('global.normal') : `${speed}x`}
                         </li>
                     ))}
                 </ul>
@@ -229,6 +235,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             src={src}
             aria-labelledby={labelledBy}
             hidden
+            data-testid="audio-player-audio-element"
             onEnded={() => {
                 setIsPlaying(false);
                 setShowRestartIcon(true);
