@@ -1,7 +1,6 @@
-import { fireEvent } from '@testing-library/react';
+import { act, fireEvent } from '@testing-library/react';
 
 import AudioPlayer, { playbackSpeedOptions } from '@/components/val/audio/audio-player';
-import { act } from 'react-dom/test-utils';
 import { renderWithLanguage } from '@/__tests__/testing-helpers';
 
 jest.mock('react-icons/md', () => ({

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { MdClose } from 'react-icons/md';
 
@@ -35,40 +35,34 @@ export default function Modal({ children, description, title, trigger }: ModalPr
     const dialogInnerRef = useRef<HTMLDivElement | null>(null);
     const handleClickOutsideFnRef = useRef<ClickListener | null>(null);
     const handleKeydownFnRef = useRef <KeydownListener | null>(null);
+    const documentHasClickawayListener = useRef(false);
+    const documentHasKeydownListener = useRef(false);
 
     const { t } = useI18n();
 
-    function handleModalVisibilityChange(visible: boolean) {
-        if (visible) {
-            document.addEventListener('mousedown', handleClickOutsideFnRef.current as ClickListener);
-            document.addEventListener('keydown', handleKeydownFnRef.current as KeydownListener);
+    function cleanupListeners() {
+        if (documentHasClickawayListener.current) {
+            document.removeEventListener('mousedown', handleClickOutsideFnRef.current!);
+            documentHasClickawayListener.current = false;
+        }
 
-            dialogRef.current?.showModal();
-            document.body.setAttribute('inert', 'true');
-            document.body.style.overflow = 'hidden';
-            document.body.style.filter = 'blur(2px)';
-        } else {
-            document.removeEventListener('mousedown', handleClickOutsideFnRef.current as ClickListener);
-            document.removeEventListener('keydown', handleKeydownFnRef.current as KeydownListener);
-
-            dialogRef.current?.close();
-            document.body.removeAttribute('inert');
-            document.body.style.overflow = '';
-            document.body.style.filter = '';
+        if (documentHasKeydownListener.current) {
+            document.removeEventListener('keydown', handleKeydownFnRef.current!);
+            documentHasKeydownListener.current = false;
         }
     }
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = useCallback((event: MouseEvent) => {
         const clickedElement = event.target as HTMLElement;
         const userClickedAway = !dialogInnerRef.current!.contains(clickedElement);
 
         if (userClickedAway) {
             setModalIsVisible(false);
         }
-    };
+    }, []);
     handleClickOutsideFnRef.current = handleClickOutside;
 
-    const handleKeydown = (event: KeyboardEvent) => {
+    const handleKeydown = useCallback((event: KeyboardEvent) => {
         // Get focusable elements
         const focusableElementsInDialog = Array.from(dialogRef.current?.querySelectorAll(focusableElementsString) ?? []);
         const focusableElementsInDocument = Array.from(document.querySelectorAll(focusableElementsString));
@@ -98,12 +92,12 @@ export default function Modal({ children, description, title, trigger }: ModalPr
         if (document.activeElement === firstFocusableInDocument) {
             firstFocusableInDialog.focus();
             event.preventDefault();
-        } else if (document.activeElement === firstFocusableInDialog) {
+        } else if (document.activeElement === lastFocusableInDialog) {
             lastFocusableInDocument.focus();
             // don't prevent default so the focus actually leaves the viewport,
             // so the user can interact with the browser UI via keyboard
         }
-    };
+    }, []);
     handleKeydownFnRef.current = handleKeydown;
 
     useEffect(() => {
@@ -117,12 +111,37 @@ export default function Modal({ children, description, title, trigger }: ModalPr
 
         return () => {
             dialog?.removeEventListener('close', handleDialogClose);
-            document.removeEventListener('mousedown', handleClickOutsideFnRef.current as ClickListener);
-            document.removeEventListener('keydown', handleKeydownFnRef.current as KeydownListener);
+            cleanupListeners();
         };
     }, []);
 
     useEffect(() => {
+        function handleModalVisibilityChange(visible: boolean) {
+            if (visible) {
+                if (!documentHasClickawayListener.current) {
+                    document.addEventListener('mousedown', handleClickOutsideFnRef.current!);
+                    documentHasClickawayListener.current = true;
+                }
+
+                if (!documentHasKeydownListener.current) {
+                    document.addEventListener('keydown', handleKeydownFnRef.current!);
+                    documentHasKeydownListener.current = true;
+                }
+
+                dialogRef.current?.showModal();
+                document.body.setAttribute('inert', 'true');
+                document.body.style.overflow = 'hidden';
+                document.body.style.filter = 'blur(2px)';
+            } else {
+                cleanupListeners();
+
+                dialogRef.current?.close();
+                document.body.removeAttribute('inert');
+                document.body.style.overflow = '';
+                document.body.style.filter = '';
+            }
+        }
+
         handleModalVisibilityChange(modalIsVisible);
     }, [modalIsVisible]);
 
@@ -134,6 +153,8 @@ export default function Modal({ children, description, title, trigger }: ModalPr
             aria-haspopup="dialog"
             aria-expanded={modalIsVisible}
             tabIndex={0}
+            title={description}
+            data-testid="modal-trigger"
             onClick={() => setModalIsVisible(true)}
             onKeyDown={(event) => {
                 if([' ', 'Enter'].includes(event.key)) {
@@ -141,7 +162,6 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                     setModalIsVisible(true);
                 }
             }}
-            title={description}
         >
             {trigger}
         </div>
@@ -166,13 +186,15 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                             <h1 className="font-header">
                                 {title}
                             </h1>
+                            {/* eztodo typo below */}
                             <p className="text-xs italic">{t('global.audio_transtript')}</p>
                         </div>
 
 
-                        {/* eztodo a11y here */}
+                        {/* eztodo a11y and i18n here */}
                         <button
                             className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-amber-200"
+                            data-testid="modal-close-button"
                             onClick={() => setModalIsVisible(false)}
                         >
                             <MdClose className="text-xl text-amber-900 dark:text-amber-200" />

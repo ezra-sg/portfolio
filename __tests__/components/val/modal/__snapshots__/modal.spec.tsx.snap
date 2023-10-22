@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal should render properly 1`] = `
+<div>
+  <div
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-testid="modal-trigger"
+    role="button"
+    tabindex="0"
+    title="description text"
+  >
+    <button>
+      trigger text
+    </button>
+  </div>
+  <dialog
+    aria-modal="true"
+    class=" w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px] fixed top-0 right-0 bottom-0 left-0 items-center justify-center backdrop:bg-stone-900 backdrop:opacity-90"
+  >
+    <div
+      class="relative w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px] rounded-sm"
+    >
+      <div>
+        <header
+          class="sticky top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900"
+        >
+          <div
+            class="ml-4 my-2 dark:text-amber-50"
+          >
+            <h1
+              class="font-header"
+            >
+              title text
+            </h1>
+            <p
+              class="text-xs italic"
+            >
+              Audio transcript
+            </p>
+          </div>
+          <button
+            class="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-amber-200"
+            data-testid="modal-close-button"
+          >
+            <div>
+              x icon
+            </div>
+          </button>
+        </header>
+        <div
+          class="p-4 dark:bg-slate-950 dark:text-amber-50"
+        >
+          <div>
+            children text
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</div>
+`;
