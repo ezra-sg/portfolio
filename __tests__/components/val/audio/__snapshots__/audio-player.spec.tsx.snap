@@ -9,6 +9,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       aria-label="Begin audio playback for: title text"
       class="h-8 w-8 flex items-center justify-center"
       data-testid="audio-player-play-button"
+      title="Begin audio playback for: title text"
     >
       <div>
         play circle outline
@@ -38,8 +39,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
+        aria-label="Open playback speed menu for: title text"
         class="h-8 w-8 flex items-center justify-center"
         data-testid="audio-player-speed-button"
+        title="Open playback speed menu for: title text"
       >
         <div>
           speed
@@ -145,6 +148,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       aria-label="Pause audio playback for: title text"
       class="h-8 w-8 flex items-center justify-center"
       data-testid="audio-player-play-button"
+      title="Pause audio playback for: title text"
     >
       <div>
         pause circle outline
@@ -174,8 +178,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
+        aria-label="Open playback speed menu for: title text"
         class="h-8 w-8 flex items-center justify-center"
         data-testid="audio-player-speed-button"
+        title="Open playback speed menu for: title text"
       >
         <div>
           speed
@@ -281,6 +287,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       aria-label="Restart audio playback for: title text"
       class="h-8 w-8 flex items-center justify-center"
       data-testid="audio-player-play-button"
+      title="Restart audio playback for: title text"
     >
       <div>
         restart alt
@@ -310,8 +317,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
+        aria-label="Open playback speed menu for: title text"
         class="h-8 w-8 flex items-center justify-center"
         data-testid="audio-player-speed-button"
+        title="Open playback speed menu for: title text"
       >
         <div>
           speed

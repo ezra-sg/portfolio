@@ -4,6 +4,8 @@ import { MdClose } from 'react-icons/md';
 
 import { useI18n } from '@/hooks/useI18n';
 
+import './modal.scss';
+
 export type ModalProps = {
     description: string;
     title: string;
@@ -171,15 +173,15 @@ export default function Modal({ children, description, title, trigger }: ModalPr
         <dialog
             ref={dialogRef}
             aria-modal="true"
-            className={`${modalIsVisible ? 'flex' : ''} ${dialogDimensionalClasses} fixed top-0 right-0 bottom-0 left-0 items-center justify-center backdrop:bg-stone-900 backdrop:opacity-90`}
+            className={`${modalIsVisible ? 'flex' : ''} ${dialogDimensionalClasses} h-max fixed top-0 right-0 bottom-0 left-0 items-center justify-center overflow-hidden bg-transparent backdrop:bg-stone-900 backdrop:opacity-90`}
         >
             {/*
                 There is some weird styling behavior going on with the dialog element.
                 Duplicating dimensional styling on the dialog and inner container seems to be the only way to get it to work as expected
             */}
-            <div className={`relative ${dialogDimensionalClasses} rounded-sm`}>
-                <div ref={dialogInnerRef}>
-                    <header className="sticky top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900">
+            <div className={`relative ${dialogDimensionalClasses} rounded-sm overflow-hidden flex h-max`}>
+                <div ref={dialogInnerRef} className="relative dark:bg-slate-950 dark:text-amber-50">
+                    <header className="absolute top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900">
                         <div className="ml-4 my-2 dark:text-amber-50">
                             <h1 className="font-header">
                                 {title}
@@ -198,7 +200,7 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                         </button>
                     </header>
 
-                    <div className="p-4 dark:bg-slate-950 dark:text-amber-50">
+                    <div className="c-modal__content">
                         {children}
                     </div>
                 </div>
