@@ -11,7 +11,7 @@ export default function Intro() {
     const { t } = useI18n();
 
     return (
-        <div className="w-full bg-white dark:bg-slate-950 p-4 pt-12">
+        <div className="w-full bg-white dark:bg-stone-900 p-4 pt-12">
             <div className="m-auto max-w-[1000px]">
                 <div className="mb-8">
                     <AudioWithTranscript

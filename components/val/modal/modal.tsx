@@ -180,7 +180,7 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                 Duplicating dimensional styling on the dialog and inner container seems to be the only way to get it to work as expected
             */}
             <div className={`relative ${dialogDimensionalClasses} rounded-sm overflow-hidden flex h-max`}>
-                <div ref={dialogInnerRef} className="relative dark:bg-slate-950 dark:text-amber-50">
+                <div ref={dialogInnerRef} className="relative dark:bg-stone-950 dark:text-amber-50">
                     <header className="absolute top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900">
                         <div className="ml-4 my-2 dark:text-amber-50">
                             <h1 className="font-header">

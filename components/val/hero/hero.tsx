@@ -18,7 +18,7 @@ export default function Intro() {
                 className="h-full w-full object-cover lg:lg-[100svh] lg:w-auto xl:h-[80svh]"
             />
 
-            <div className="absolute bottom-12 left-0 right-0 bg-amber-50 dark:bg-slate-950 py-4 lg:static lg:w-full lg:flex lg:justify-center">
+            <div className="absolute bottom-12 left-0 right-0 bg-amber-50 dark:bg-stone-950 py-4 lg:static lg:w-full lg:flex lg:justify-center">
                 <div className="lg:w-fit lg:pl-4">
                     <ReactMarkdown className="font-header text-5xl text-amber-900 dark:text-amber-200 text-center lg:text-left">
                         {t('hero.hero_text_md')}
