@@ -32,6 +32,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     const playbackSpeedMenuRef = useRef<HTMLUListElement | null>(null);
     const playbackSpeedButtonRef = useRef<HTMLButtonElement | null>(null);
     const playbackSpeedClickawayHandlerRef = useRef<null | ((event: MouseEvent) => void)>(null);
+    const documentHasClickawayListener = useRef(false);
 
     const { t } = useI18n();
 
@@ -99,14 +100,24 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     }, [isPlaying]);
 
     useEffect(() => {
+        const unregisterDocumentClickawayListener = () => {
+            if (documentHasClickawayListener.current) {
+                document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+                documentHasClickawayListener.current = false;
+            }
+        };
+
         if (showPlaybackSpeedOptions) {
-            document.addEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+            if (!documentHasClickawayListener.current) {
+                document.addEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+                documentHasClickawayListener.current = true;
+            }
         } else {
-            document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+            unregisterDocumentClickawayListener();
         }
 
         return () => {
-            document.removeEventListener('mousedown', playbackSpeedClickawayHandlerRef.current!);
+            unregisterDocumentClickawayListener();
         };
     }, [showPlaybackSpeedOptions]);
 

@@ -48,23 +48,24 @@ export default function LanguageSwitcher() {
     clickawayHandlerRef.current = handleClickOutside;
 
     useEffect(() => {
+        const unregisterDocumentClickawayListener = () => {
+            if (documentHasClickawayListener.current) {
+                document.removeEventListener('mousedown', clickawayHandlerRef.current!);
+                documentHasClickawayListener.current = false;
+            }
+        };
+
         if (isOpen) {
             if (!documentHasClickawayListener.current) {
                 document.addEventListener('mousedown', clickawayHandlerRef.current!);
                 documentHasClickawayListener.current = true;
             }
         } else {
-            if (documentHasClickawayListener.current) {
-                document.removeEventListener('mousedown', clickawayHandlerRef.current!);
-                documentHasClickawayListener.current = false;
-            }
+            unregisterDocumentClickawayListener();
         }
 
         return () => {
-            if (documentHasClickawayListener.current) {
-                document.removeEventListener('mousedown', clickawayHandlerRef.current!);
-                documentHasClickawayListener.current = false;
-            }
+            unregisterDocumentClickawayListener();
         };
     }, [isOpen]);
 
