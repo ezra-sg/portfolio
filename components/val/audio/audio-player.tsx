@@ -137,6 +137,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                     }
                 }}
                 aria-label={playButtonAriaLabel}
+                title={playButtonAriaLabel}
                 className="h-8 w-8 flex items-center justify-center"
                 data-testid="audio-player-play-button"
             >
@@ -172,6 +173,8 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             <div className="relative">
                 <button
                     ref={playbackSpeedButtonRef}
+                    aria-label={`${t('inputs.change_playback_speed_aria')} ${title}`}
+                    title={`${t('inputs.change_playback_speed_aria')} ${title}`}
                     data-testid="audio-player-speed-button"
                     onClick={() => setShowSpeedOptions(!showPlaybackSpeedOptions)}
                     onKeyDown={(event) => {

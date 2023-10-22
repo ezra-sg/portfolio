@@ -20,11 +20,11 @@ export default function LanguageSwitcher() {
     const links = useRef([{
         href: '/val/en',
         label: t('nav.english'),
-        title: t('nav.english-link-description'),
+        title: t('nav.english_link_description'),
     }, {
         href: '/val/es',
         label: t('nav.spanish'),
-        title: t('nav.spanish-link-description'),
+        title: t('nav.spanish_link_description'),
     }]);
 
     function toggleLanguageMenu() {
@@ -77,7 +77,7 @@ export default function LanguageSwitcher() {
             aria-haspopup="listbox"
             aria-expanded={isOpen}
             aria-controls="language-switcher-popup"
-            aria-label={t('nav.language-button-label')}
+            aria-label={t('nav.language_button_label')}
             className="h-8 w-8 flex justify-center items-center rounded-full shadow-lg hover:border-[2px] border-[1px] border-amber-900 bg-amber-50 dark:bg-stone-950 dark:border-amber-200"
             onClick={toggleLanguageMenu}
         >

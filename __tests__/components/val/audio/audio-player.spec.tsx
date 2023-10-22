@@ -53,7 +53,6 @@ describe('AudioPlayer', () => {
         const audioElement = result.queryByTestId('audio-player-audio-element');
         expect(audioElement).toBeInTheDocument();
 
-        // eztodo update other tests to use act?
         act(() => {
             fireEvent.ended(audioElement!);
         });

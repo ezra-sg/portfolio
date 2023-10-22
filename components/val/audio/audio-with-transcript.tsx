@@ -23,7 +23,7 @@ export default function AudioWithTranscript({ description, title, transcript, sr
             <MdReadMore />
 
             <ReactMarkdown className="text-sm">
-                {t('global.view_transcript')}
+                {t('global.view_transcript_md')}
             </ReactMarkdown>
         </div>
     );
