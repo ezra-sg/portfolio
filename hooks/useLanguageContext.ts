@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { SupportedLanguage } from '@/types/i18n-types';
 import { createContext, useContext } from 'react';

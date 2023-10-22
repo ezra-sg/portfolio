@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { MdLanguage, MdStar } from 'react-icons/md';
+import { MdLanguage } from 'react-icons/md';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
@@ -16,6 +16,7 @@ export default function LanguageSwitcher() {
     const buttonRef = useRef<null | HTMLButtonElement>(null);
     const menuRef = useRef<null | HTMLMenuElement>(null);
     const clickawayHandlerRef = useRef<null | ((event: MouseEvent) => void)>(null);
+    const documentHasClickawayListener = useRef(false);
     const links = useRef([{
         href: '/val/en',
         label: t('nav.english'),
@@ -43,17 +44,27 @@ export default function LanguageSwitcher() {
             setIsOpen(false);
         }
     }, []);
+    // use ref to keep a stable function reference between renders, so the document event handler can be added and removed
     clickawayHandlerRef.current = handleClickOutside;
 
     useEffect(() => {
         if (isOpen) {
-            document.addEventListener('mousedown', clickawayHandlerRef.current!);
+            if (!documentHasClickawayListener.current) {
+                document.addEventListener('mousedown', clickawayHandlerRef.current!);
+                documentHasClickawayListener.current = true;
+            }
         } else {
-            document.removeEventListener('mousedown', clickawayHandlerRef.current!);
+            if (documentHasClickawayListener.current) {
+                document.removeEventListener('mousedown', clickawayHandlerRef.current!);
+                documentHasClickawayListener.current = false;
+            }
         }
 
         return () => {
-            document.removeEventListener('mousedown', clickawayHandlerRef.current!);
+            if (documentHasClickawayListener.current) {
+                document.removeEventListener('mousedown', clickawayHandlerRef.current!);
+                documentHasClickawayListener.current = false;
+            }
         };
     }, [isOpen]);
 
