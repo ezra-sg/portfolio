@@ -1,21 +1,15 @@
 import { useContext } from 'react';
-import en from '@/i18n/en.json';
-import es from '@/i18n/es.json';
 import { LanguageContext } from '@/hooks/useLanguageContext';
 
-const translations = {
-    en,
-    es,
-} as Record<'en' | 'es', Record<string, string>>;
 
 export const useI18n = () => {
-    const { language } = useContext(LanguageContext) ?? {};
+    const { language, translations } = useContext(LanguageContext) ?? {};
 
-    if (typeof language === 'undefined') {
+    if ([language, translations].some(attr => typeof attr === 'undefined')) {
         throw new Error('useI18n must be used within a LanguageProvider');
     }
 
-    const t = (slug: string) => translations[language]?.[slug] ?? slug;
+    const t = (slug: string) => translations?.[slug] ?? slug;
 
     return { t };
 };

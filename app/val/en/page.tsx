@@ -1,13 +1,7 @@
-'use client';
+import ValHomeEn from './val-home-en';
 
-import ValHome from '@/components/val/home/val-home';
-import { LanguageContext } from '@/hooks/useLanguageContext';
-import { SupportedLanguages } from '@/types/i18n-types';
+export default async function ValPageEn() {
+    const { default: translations } = await import('@/i18n/en.json');
 
-export default function ValPageEn() {
-    return (
-        <LanguageContext.Provider value={{ language: SupportedLanguages.english }}>
-            <ValHome />
-        </LanguageContext.Provider>
-    );
+    return <ValHomeEn translations={translations} />;
 }

@@ -5,6 +5,7 @@ import { createContext, useContext } from 'react';
 
 interface LanguageContextProps {
     language: SupportedLanguage;
+    translations: Record<string, string>;
 }
 
 export const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
