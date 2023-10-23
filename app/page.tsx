@@ -30,7 +30,7 @@ export default function Home() {
 
         <Starfield />
 
-        <div className="absolute top-0 right-0 bottom-0 left-0 p-8 m-auto w-max h-max max-w-[1000px] bg-white/90 rounded-md dark:bg-stone-900/90 dark:text-white">
+        <div className="absolute top-0 right-0 bottom-0 left-0 p-8 m-auto w-max h-max max-w-[90svw] max-h-[75svh] overflow-auto bg-white/90 rounded-md lg:max-w-[1000px] dark:bg-stone-900/90 dark:text-white">
             <div className="flex items-center justify-center gap-2 mb-4">
                 🛠️ This site is under construction 🛠️
             </div>
