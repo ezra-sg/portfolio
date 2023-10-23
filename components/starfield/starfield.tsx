@@ -215,6 +215,7 @@ export default function Starfield() {
     useEffect(() => {
         cancelAnimation(animationFrameId.current);
         if (!prefersReducedMotion) {
+            animationStopped.current = false;
             driftFunctionRef.current?.();
         }
     }, [prefersReducedMotion]);
