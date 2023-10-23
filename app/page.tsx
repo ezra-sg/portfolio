@@ -69,12 +69,11 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                     <BsFillFileEarmarkPdfFill />
-                    <Link href="/documents/ezra-resume--october-2023.pdf" className="text-blue-500 hover:underline" download>
+                    <a href="/documents/ezra-resume--october-2023.pdf" download className="text-blue-500 hover:underline">
                         Resume (PDF)
-                    </Link>
+                    </a>
                 </li>
             </ul>
-
 
             <p>Below you can get a sneak peek of what&apos;s to come:</p>
 
