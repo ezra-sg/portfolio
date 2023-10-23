@@ -35,12 +35,6 @@ function getDiamondVertices(size: number) {
     return vertices;
 }
 
-function cancelAnimation(id: number | null) {
-    if (id !== null) {
-        window.cancelAnimationFrame(id);
-    }
-}
-
 function drawDotOnCanvas(ctx: CanvasRenderingContext2D, star: StarData) {
     ctx.fillStyle = `#${star.color}`;
     ctx.beginPath();
@@ -87,11 +81,20 @@ export default function Starfield() {
     const frameCount = useRef(0);
     const lastTimeFpsCounter = useRef(Date.now());
     const lastTimeDriftRate = useRef(Date.now());
+    const animationStopped = useRef(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationFrameId = useRef<number | null>(null); // To hold the ID returned by requestAnimationFrame in drift()
 
     // useRef is used to create a stable reference to the drift() function so that it can be called recursively
     const driftFunctionRef = useRef<() => void>();
+
+    function cancelAnimation(id: number | null) {
+        animationStopped.current = true;
+
+        if (id !== null) {
+            window.cancelAnimationFrame(id);
+        }
+    }
 
     function resetCanvas() {
         const canvas = canvasRef.current;
@@ -152,6 +155,10 @@ export default function Starfield() {
     }
 
     function drift () {
+        if (animationStopped.current) {
+            return;
+        }
+
         const currentTime = Date.now();
         const deltaTime = currentTime - lastTimeDriftRate.current;
         lastTimeDriftRate.current = currentTime;
@@ -182,13 +189,13 @@ export default function Starfield() {
             animationFrameId.current = window.requestAnimationFrame(driftFunctionRef.current);
         }
     }
-
     driftFunctionRef.current = drift;
 
     useEffect(() => {
         const resizeHandler = () => {
             cancelAnimation(animationFrameId.current);
             resetCanvas();
+            animationStopped.current = false;
             driftFunctionRef.current?.();
         };
         const resizeHandlerDebounced = debounce(resizeHandler, 100);
