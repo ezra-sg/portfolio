@@ -4,6 +4,6 @@ const nextConfig = {
     images: {
         unoptimized: true, // because image optimization is not compatible with SSG
     },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
