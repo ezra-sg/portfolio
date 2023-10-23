@@ -1,7 +1,6 @@
 import ValHomeEn from './val-home-en';
+import en from '@/i18n/en.json' assert { type: 'json' };
 
 export default async function ValPageEn() {
-    const { default: translations } = await import('@/i18n/en.json');
-
-    return <ValHomeEn translations={translations} />;
+    return <ValHomeEn translations={en} />;
 }
