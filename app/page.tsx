@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
 
@@ -28,7 +29,9 @@ export default function Home() {
     return (<>
         <Script data-goatcounter="https://ezra-sg.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
 
-        <Starfield />
+        <Suspense fallback={<div className="fixed top-0 right-0 bottom-0 left-0 z-0 bg-black"></div>}>
+            <Starfield />
+        </Suspense>
 
         <div className="absolute top-0 right-0 bottom-0 left-0 p-8 m-auto w-max h-max max-w-[90svw] max-h-[75svh] overflow-auto bg-white/90 rounded-md lg:max-w-[1000px] dark:bg-stone-900/90 dark:text-white">
             <div className="flex items-center justify-center gap-2 mb-4">
