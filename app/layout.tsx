@@ -1,3 +1,5 @@
+import Script from 'next/script';
+
 import './globals.css';
 import { Inter } from 'next/font/google';
 
@@ -10,6 +12,8 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
+            <Script data-goatcounter="https://ezra-sg.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
+
             <body className={inter.className}>{children}</body>
         </html>
     );

@@ -48,8 +48,6 @@ export default function ValHome() {
     }, []);
 
     return (<>
-        <Script data-goatcounter="https://ezra-sg-val.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
-
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
             <header className={`${showHeader ? 'opacity-100' : 'opacity-0'} transition-opacity fixed top-4 right-4 z-50`}>
                 <LanguageSwitcher />

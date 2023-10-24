@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import Script from 'next/script';
 
 import type { Metadata } from 'next';
 
@@ -24,11 +23,8 @@ export const metadata: Metadata = {
     },
 };
 
-
 export default function Home() {
     return (<>
-        <Script data-goatcounter="https://ezra-sg.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
-
         <Suspense fallback={<div className="fixed top-0 right-0 bottom-0 left-0 z-0 bg-black"></div>}>
             <Starfield />
         </Suspense>
