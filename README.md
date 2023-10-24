@@ -20,11 +20,14 @@ bun end # export 'n' deploy
 - Next.js (React)
 - TypeScript
 - Tailwind CSS
+- Sass
 - GitHub Pages
 
-## Concepts
+## Features
 - [internationalization](docs/i18n.md) (i18n)
+- accessibility (a11y)
 - responsive design (RWD) / mobile first
 - auto dark/light theme (based on user agent preference)
-- accessibility (a11y)
+- [privacy-first analytics](docs/analytics.md) (GoatCounter)
 - static site generation (SSG)
+- comprehensive unit testing (Jest)
