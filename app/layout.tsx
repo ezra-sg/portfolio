@@ -3,7 +3,10 @@ import Script from 'next/script';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+    subsets: ['latin'],
+    preload: true,
+});
 
 export default function RootLayout({
     children,
