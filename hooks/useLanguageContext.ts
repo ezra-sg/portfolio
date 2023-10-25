@@ -1,11 +1,11 @@
 'use client';
 
-import { SupportedLanguage } from '@/types/i18n-types';
+import { RawTranslations, SupportedLanguage } from '@/types/i18n-types';
 import { createContext, useContext } from 'react';
 
 interface LanguageContextProps {
     language: SupportedLanguage;
-    translations: Record<string, string>;
+    translations: RawTranslations;
 }
 
 export const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);

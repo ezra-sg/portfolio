@@ -9,7 +9,7 @@ export function renderWithLanguage(
     language: SupportedLanguage = SupportedLanguages.english,
 ) {
     return render((
-        <LanguageContext.Provider value={{ language }}>
+        <LanguageContext.Provider value={{ language, translations: {} }}>
             {children}
         </LanguageContext.Provider>
     ));

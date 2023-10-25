@@ -6,10 +6,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
   >
     <button
-      aria-label="Begin audio playback for: title text"
+      aria-label="inputs.play_audio_aria title text"
       class="h-8 w-8 flex items-center justify-center"
       data-testid="audio-player-play-button"
-      title="Begin audio playback for: title text"
+      title="inputs.play_audio_aria title text"
     >
       <div>
         play circle outline
@@ -17,12 +17,12 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     </button>
     <code
       class="text-xs"
-      title="Time remaining in audio: title text"
+      title="inputs.audio_time_elapsed_title title text"
     >
       00:00
     </code>
     <input
-      aria-label="Controls audio playback position for: title text"
+      aria-label="inputs.audio_scrubber_aria title text"
       class="c-audio-player__scrubber"
       min="0"
       step="0.1"
@@ -31,7 +31,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     />
     <code
       class="text-xs"
-      title="Total length of audio: title text"
+      title="inputs.audio_time_total_title title text"
     >
       00:00
     </code>
@@ -39,10 +39,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
-        aria-label="Open playback speed menu for: title text"
+        aria-label="inputs.change_playback_speed_aria title text"
         class="h-8 w-8 flex items-center justify-center"
         data-testid="audio-player-speed-button"
-        title="Open playback speed menu for: title text"
+        title="inputs.change_playback_speed_aria title text"
       >
         <div>
           speed
@@ -50,7 +50,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       </button>
       <ul
         aria-hidden="true"
-        aria-label="Audio playback speed menu for: title text"
+        aria-label="inputs.audio_speed_menu_label title text"
         class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
         data-testid="audio-player-speed-menu"
         hidden=""
@@ -58,7 +58,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       >
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.25"
+          aria-label="inputs.audio_speed_item_label 0.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-0"
           role="menuitemradio"
@@ -68,7 +68,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.5"
+          aria-label="inputs.audio_speed_item_label 0.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-1"
           role="menuitemradio"
@@ -78,7 +78,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.75"
+          aria-label="inputs.audio_speed_item_label 0.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-2"
           role="menuitemradio"
@@ -88,17 +88,17 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="true"
-          aria-label="Set audio playback speed to: 1"
+          aria-label="inputs.audio_speed_item_label 1"
           class="font-bold text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-3"
           role="menuitemradio"
           tabindex="0"
         >
-          Normal
+          global.normal
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.25"
+          aria-label="inputs.audio_speed_item_label 1.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-4"
           role="menuitemradio"
@@ -108,7 +108,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.5"
+          aria-label="inputs.audio_speed_item_label 1.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-5"
           role="menuitemradio"
@@ -118,7 +118,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.75"
+          aria-label="inputs.audio_speed_item_label 1.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-6"
           role="menuitemradio"
@@ -145,10 +145,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
   >
     <button
-      aria-label="Pause audio playback for: title text"
+      aria-label="inputs.pause_audio_aria title text"
       class="h-8 w-8 flex items-center justify-center"
       data-testid="audio-player-play-button"
-      title="Pause audio playback for: title text"
+      title="inputs.pause_audio_aria title text"
     >
       <div>
         pause circle outline
@@ -156,12 +156,12 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     </button>
     <code
       class="text-xs"
-      title="Time remaining in audio: title text"
+      title="inputs.audio_time_elapsed_title title text"
     >
       00:00
     </code>
     <input
-      aria-label="Controls audio playback position for: title text"
+      aria-label="inputs.audio_scrubber_aria title text"
       class="c-audio-player__scrubber"
       min="0"
       step="0.1"
@@ -170,7 +170,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     />
     <code
       class="text-xs"
-      title="Total length of audio: title text"
+      title="inputs.audio_time_total_title title text"
     >
       00:00
     </code>
@@ -178,10 +178,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
-        aria-label="Open playback speed menu for: title text"
+        aria-label="inputs.change_playback_speed_aria title text"
         class="h-8 w-8 flex items-center justify-center"
         data-testid="audio-player-speed-button"
-        title="Open playback speed menu for: title text"
+        title="inputs.change_playback_speed_aria title text"
       >
         <div>
           speed
@@ -189,7 +189,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       </button>
       <ul
         aria-hidden="true"
-        aria-label="Audio playback speed menu for: title text"
+        aria-label="inputs.audio_speed_menu_label title text"
         class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
         data-testid="audio-player-speed-menu"
         hidden=""
@@ -197,7 +197,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       >
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.25"
+          aria-label="inputs.audio_speed_item_label 0.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-0"
           role="menuitemradio"
@@ -207,7 +207,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.5"
+          aria-label="inputs.audio_speed_item_label 0.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-1"
           role="menuitemradio"
@@ -217,7 +217,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.75"
+          aria-label="inputs.audio_speed_item_label 0.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-2"
           role="menuitemradio"
@@ -227,17 +227,17 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="true"
-          aria-label="Set audio playback speed to: 1"
+          aria-label="inputs.audio_speed_item_label 1"
           class="font-bold text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-3"
           role="menuitemradio"
           tabindex="0"
         >
-          Normal
+          global.normal
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.25"
+          aria-label="inputs.audio_speed_item_label 1.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-4"
           role="menuitemradio"
@@ -247,7 +247,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.5"
+          aria-label="inputs.audio_speed_item_label 1.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-5"
           role="menuitemradio"
@@ -257,7 +257,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.75"
+          aria-label="inputs.audio_speed_item_label 1.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-6"
           role="menuitemradio"
@@ -284,10 +284,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
   >
     <button
-      aria-label="Restart audio playback for: title text"
+      aria-label="inputs.restart_audio_aria title text"
       class="h-8 w-8 flex items-center justify-center"
       data-testid="audio-player-play-button"
-      title="Restart audio playback for: title text"
+      title="inputs.restart_audio_aria title text"
     >
       <div>
         restart alt
@@ -295,12 +295,12 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     </button>
     <code
       class="text-xs"
-      title="Time remaining in audio: title text"
+      title="inputs.audio_time_elapsed_title title text"
     >
       00:00
     </code>
     <input
-      aria-label="Controls audio playback position for: title text"
+      aria-label="inputs.audio_scrubber_aria title text"
       class="c-audio-player__scrubber"
       min="0"
       step="0.1"
@@ -309,7 +309,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     />
     <code
       class="text-xs"
-      title="Total length of audio: title text"
+      title="inputs.audio_time_total_title title text"
     >
       00:00
     </code>
@@ -317,10 +317,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
-        aria-label="Open playback speed menu for: title text"
+        aria-label="inputs.change_playback_speed_aria title text"
         class="h-8 w-8 flex items-center justify-center"
         data-testid="audio-player-speed-button"
-        title="Open playback speed menu for: title text"
+        title="inputs.change_playback_speed_aria title text"
       >
         <div>
           speed
@@ -328,7 +328,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       </button>
       <ul
         aria-hidden="true"
-        aria-label="Audio playback speed menu for: title text"
+        aria-label="inputs.audio_speed_menu_label title text"
         class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
         data-testid="audio-player-speed-menu"
         hidden=""
@@ -336,7 +336,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       >
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.25"
+          aria-label="inputs.audio_speed_item_label 0.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-0"
           role="menuitemradio"
@@ -346,7 +346,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.5"
+          aria-label="inputs.audio_speed_item_label 0.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-1"
           role="menuitemradio"
@@ -356,7 +356,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 0.75"
+          aria-label="inputs.audio_speed_item_label 0.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-2"
           role="menuitemradio"
@@ -366,17 +366,17 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="true"
-          aria-label="Set audio playback speed to: 1"
+          aria-label="inputs.audio_speed_item_label 1"
           class="font-bold text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-3"
           role="menuitemradio"
           tabindex="0"
         >
-          Normal
+          global.normal
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.25"
+          aria-label="inputs.audio_speed_item_label 1.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-4"
           role="menuitemradio"
@@ -386,7 +386,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.5"
+          aria-label="inputs.audio_speed_item_label 1.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-5"
           role="menuitemradio"
@@ -396,7 +396,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="Set audio playback speed to: 1.75"
+          aria-label="inputs.audio_speed_item_label 1.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-6"
           role="menuitemradio"

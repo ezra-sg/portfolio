@@ -6,7 +6,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
     aria-controls="language-switcher-popup"
     aria-expanded="false"
     aria-haspopup="listbox"
-    aria-label="Switch language"
+    aria-label="nav.language_button_label"
     class="h-8 w-8 flex justify-center items-center rounded-full shadow-lg hover:border-[2px] border-[1px] border-amber-900 bg-amber-50 dark:bg-stone-950 dark:border-amber-200"
     data-testid="language-switcher-button"
     id="language-switcher-button"
@@ -33,7 +33,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
   </button>
   <menu
     aria-hidden="true"
-    aria-label="Language switcher popup"
+    aria-label="nav.popup-label"
     class="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-sm dark:bg-stone-950 dark:border-amber-200"
     data-testid="language-switcher-popup"
     hidden=""
@@ -47,9 +47,9 @@ exports[`LanguageSwitcher should render correctly 1`] = `
       <a
         class=" text-amber-900 dark:text-amber-200 hover:underline"
         href="/val/en"
-        title="Switch the language to English"
+        title="nav.english_link_description"
       >
-        English
+        nav.english
       </a>
     </li>
     <li
@@ -59,9 +59,9 @@ exports[`LanguageSwitcher should render correctly 1`] = `
       <a
         class=" text-amber-900 dark:text-amber-200 hover:underline"
         href="/val/es"
-        title="Cambiar el idioma a español"
+        title="nav.spanish_link_description"
       >
-        Español
+        nav.spanish
       </a>
     </li>
   </menu>
