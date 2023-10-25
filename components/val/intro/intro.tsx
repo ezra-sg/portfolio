@@ -23,15 +23,15 @@ export default function Intro() {
                 </div>
 
                 <ReactMarkdown className={`${firstParagraphClasses} ${paragraphClasses}`}>
-                    {t('intro.paragraph_1_md')}
+                    {t('val.intro.paragraph_1_md')}
                 </ReactMarkdown>
 
                 <ReactMarkdown className={`${paragraphClasses} first-letter:ml-8`}>
-                    {t('intro.paragraph_2_md')}
+                    {t('val.intro.paragraph_2_md')}
                 </ReactMarkdown>
 
                 <ReactMarkdown className={`${paragraphClasses} first-letter:ml-8`}>
-                    {t('intro.paragraph_3_md')}
+                    {t('val.intro.paragraph_3_md')}
                 </ReactMarkdown>
             </div>
 
