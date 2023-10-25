@@ -19,7 +19,7 @@ export default function Intro() {
             />
 
             <div className="absolute bottom-12 left-0 right-0 bg-amber-50 dark:bg-stone-950 py-4 lg:static lg:w-full lg:flex lg:justify-center">
-                <div className="lg:w-fit lg:pl-4">
+                <hgroup className="lg:w-fit lg:pl-4">
                     <ReactMarkdown className="font-header text-5xl text-amber-900 dark:text-amber-200 text-center lg:text-left">
                         {t('val.hero.hero_text_md')}
                     </ReactMarkdown>
@@ -35,7 +35,7 @@ export default function Intro() {
                     <ReactMarkdown className="font-sans dark:text-amber-50 text-center lg:text-left text-sm">
                         {t('val.hero.interview_date_md')}
                     </ReactMarkdown>
-                </div>
+                </hgroup>
             </div>
         </div>
     );
