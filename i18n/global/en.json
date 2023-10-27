@@ -25,6 +25,7 @@
         "language_button_label": "Switch language",
         "popup-label": "Language switcher popup",
         "spanish_link_description": "Cambiar el idioma a español",
-        "spanish": "Español"
+        "spanish": "Español",
+        "go_to_section_label": "Go to section"
     }
 }

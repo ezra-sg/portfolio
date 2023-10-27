@@ -1,10 +1,9 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
-
 import './progress-tracker.scss';
 
 import throttle from '@/utils/throttle';
+import { useI18n } from '@/hooks/useI18n';
 
 interface ProgressTrackerProps {
     sectionOneRef: RefObject<HTMLElement>;
@@ -27,6 +26,8 @@ export default function ProgressTracker({
 
     const rootElementRef = useRef<HTMLDivElement | null>(null);
     const lastScrollTop = useRef(0);
+
+    const { t } = useI18n();
 
     const buttons = [
         {
@@ -128,6 +129,8 @@ export default function ProgressTracker({
             setProgressPercent(Number(overallProgress.toFixed(0)));
         }, 100);
 
+        scrollHandler();
+
         document.addEventListener('scroll', scrollHandler);
 
         return () => {
@@ -162,17 +165,18 @@ export default function ProgressTracker({
             */}
             <div className="absolute -top-6 h-6 w-full hidden lg:block"></div>
 
-            <nav className="relative flex items-center justify-around w-full">
+            <nav role="navigation" className="relative flex items-center justify-around w-full">
                 {buttons.map((button, index) => (
-                    <div key={`tracker-button-${index}`} className="flex flex-col items-center gap-1 z-10">
-                        <button
-                            className={`${expanded ? 'h-6 w-6' : 'h-1.5 w-1.5'} rounded-full flex items-center justify-center bg-amber-50 border-[1px] border-amber-900 transition-all`}
-                            onClick={() => scrollTo({ top: button.ref.current!.offsetTop, behavior: 'instant' })}
-                            onFocus={() => setExpanded(true)}
-                        >
-                            {expanded && <span className="text-xs font-header text-amber-900">{button.label}</span>}
-                        </button>
-                    </div>
+                    <button
+                        key={`nav-button-${index}`}
+                        className={`${expanded ? 'h-6 w-6' : 'h-1.5 w-1.5'} rounded-full flex items-center justify-center bg-amber-50 border-[1px] border-amber-900 transition-all z-10`}
+                        aria-label={`${t('nav.go_to_section_label')} ${index + 1}`}
+                        title={`${t('nav.go_to_section_label')} ${index + 1}`}
+                        onClick={() => scrollTo({ top: button.ref.current!.offsetTop, behavior: 'instant' })}
+                        onFocus={() => setExpanded(true)}
+                    >
+                        {expanded && <span className="text-xs font-header text-amber-900">{button.label}</span>}
+                    </button>
                 ))}
             </nav>
         </div>
