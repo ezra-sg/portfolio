@@ -64,7 +64,7 @@ export default function ProgressTracker({
 
             setExpanded(!userScrolledDown);
 
-            setHidden(scrollTop < document.documentElement.clientHeight);
+            (scrollTop !== lastScrollTop.current) && setHidden(scrollTop < document.documentElement.clientHeight);
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
