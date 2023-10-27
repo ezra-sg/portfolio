@@ -10,7 +10,7 @@
     }
 
     &--expanded:not(#{$this}--hidden) {
-        @apply h-12 lg:h-10 shadow-lg;
+        @apply h-12 lg:h-10;
     }
 
     &::before {
