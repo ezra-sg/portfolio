@@ -152,11 +152,13 @@ export default function ProgressTracker({
     return (
         <div
             ref={rootElementRef}
-            className={`c-progress-tracker ${expanded ? 'c-progress-tracker--expanded' : ''} ${hidden ? 'c-progress-tracker--hidden' : ''}`}
+            className={`c-progress-tracker ${expanded ? 'c-progress-tracker--expanded' : ''}`}
             role="progressbar"
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Number(progressPercent.toFixed(0))}
+            hidden={hidden}
+            aria-hidden={hidden}
             onMouseOver={() => setExpanded(true)}
             onMouseOut={() => setExpanded(false)}
         >
