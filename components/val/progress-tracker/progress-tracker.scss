@@ -3,9 +3,13 @@
 
     --progress-percent: 0%;
 
-    @apply fixed right-0 bottom-0 left-0 h-3 flex items-center bg-amber-50 transition-all duration-[0.2s];
+    @apply fixed right-0 bottom-0 left-0 h-3 items-center bg-amber-50 transition-all duration-[0.2s];
 
-    &--expanded:not(#{$this}--hidden) {
+    &:not([hidden]) {
+        @apply flex;
+    }
+
+    &--expanded {
         @apply h-12 lg:h-10;
     }
 
