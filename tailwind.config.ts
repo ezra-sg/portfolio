@@ -13,6 +13,7 @@ const config: Config = {
         extend: {
             animation: {
                 'fade-in': 'fade-in 5s 1',
+                'fade-in-fast': 'fade-in 0.3s 1',
             },
             fontFamily: {
                 serif: ['Georgia', 'serif'],
