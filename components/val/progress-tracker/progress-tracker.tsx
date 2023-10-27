@@ -60,7 +60,7 @@ export default function ProgressTracker({
             // 3. the progress percentage, based on the user's scroll position
 
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
-            const userScrolledDown = scrollTop > lastScrollTop.current;
+            const userScrolledDown = scrollTop >= lastScrollTop.current;
 
             setExpanded(!userScrolledDown);
 
