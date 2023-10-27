@@ -44,7 +44,7 @@ export default function ValHome() {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             const userScrolledDown = scrollTop > lastScrollTop.current;
 
-            setShowHeader(!userScrolledDown);
+            (scrollTop !== lastScrollTop.current) && setShowHeader(!userScrolledDown);
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
