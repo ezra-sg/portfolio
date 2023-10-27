@@ -53,7 +53,7 @@ export default function ProgressTracker({
     ];
 
     useEffect(() => {
-        const scrollHandler = throttle(() => {
+        const throttledScrollHandler = throttle(() => {
             // scroll handler controls 3 things:
             // 1. whether the progress tracker is hidden or not, based on whether the user has scrolled past the height of the viewport
             // 2. whether the progress tracker is expanded or not, based on the user's scroll direction
@@ -62,9 +62,9 @@ export default function ProgressTracker({
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             const userScrolledDown = scrollTop >= lastScrollTop.current;
 
-            setExpanded(!userScrolledDown);
+            (scrollTop !== lastScrollTop.current) && setExpanded(!userScrolledDown);
 
-            (scrollTop !== lastScrollTop.current) && setHidden(scrollTop < document.documentElement.clientHeight);
+            setHidden(scrollTop < document.documentElement.clientHeight);
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
@@ -129,12 +129,12 @@ export default function ProgressTracker({
             setProgressPercent(Number(overallProgress.toFixed(0)));
         }, 100);
 
-        scrollHandler();
+        throttledScrollHandler();
 
-        document.addEventListener('scroll', scrollHandler);
+        document.addEventListener('scroll', throttledScrollHandler);
 
         return () => {
-            document.removeEventListener('scroll', scrollHandler);
+            document.removeEventListener('scroll', throttledScrollHandler);
         };
     }, [
         sectionOneRef,
