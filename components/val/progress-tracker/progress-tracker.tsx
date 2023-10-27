@@ -69,14 +69,13 @@ export default function ProgressTracker({
             // Update last scroll position
             lastScrollTop.current = scrollTop;
 
-            const rootElement = rootElementRef.current;
             const sectionOne = sectionOneRef.current;
             const sectionTwo = sectionTwoRef.current;
             const sectionThree = sectionThreeRef.current;
             const sectionFour = sectionFourRef.current;
             const sectionFive = sectionFiveRef.current;
 
-            if (!rootElement || !sectionOne || !sectionTwo || !sectionThree || !sectionFour || !sectionFive) {
+            if (!sectionOne || !sectionTwo || !sectionThree || !sectionFour || !sectionFive) {
                 return;
             }
 
@@ -92,41 +91,47 @@ export default function ProgressTracker({
             const sectionFourOffset = sectionFour.offsetTop;
             const sectionFiveOffset = sectionFive.offsetTop;
 
-            // Calculate the total height of the 5 "real" sections
-            const totalHeight = sectionOneHeight + sectionTwoHeight + sectionThreeHeight + sectionFourHeight + sectionFiveHeight - window.innerHeight;
-
-            // Calculate the starting offset; this is where the first "real" section starts.
-            const startOffset = sectionOneOffset;
-
             // Calculate how far the user has scrolled, taking the starting offset into account.
-            const scrolledTop = Math.max(0, window.scrollY || document.documentElement.scrollTop) - startOffset;
+            const scrolledTop = Math.max(0, window.scrollY || document.documentElement.scrollTop);
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const bottomOfScreen = scrolledTop + viewportHeight;
 
-            let currentSectionProgress = 0;
-            let scrolledPastHeight = 0;
+            let currentSectionProgress: number;
+            let scrolledPastHeight: number;
 
-            const scrolled = scrolledTop + startOffset;
+            const getSectionProgressPercentage = (sectionOffset: number, sectionHeight: number) => {
+                let percentageAboveBottom = ((scrolledTop + viewportHeight - sectionOffset) / sectionHeight) * 100;
+                return Math.min(100, Math.max(0, percentageAboveBottom));
+            };
 
             // Determine which section the user is currently in and calculate the progress within that section
-            if (scrolled >= sectionFiveOffset) {
-                currentSectionProgress = ((scrolled - sectionFiveOffset) / sectionFiveHeight) * (sectionFiveHeight / totalHeight) * 100;
-                scrolledPastHeight = sectionOneHeight + sectionTwoHeight + sectionThreeHeight + sectionFourHeight;
-            } else if (scrolled >= sectionFourOffset) {
-                currentSectionProgress = ((scrolled - sectionFourOffset) / sectionFourHeight) * (sectionFourHeight / totalHeight) * 100;
-                scrolledPastHeight = sectionOneHeight + sectionTwoHeight + sectionThreeHeight;
-            } else if (scrolled >= sectionThreeOffset) {
-                currentSectionProgress = ((scrolled - sectionThreeOffset) / sectionThreeHeight) * (sectionThreeHeight / totalHeight) * 100;
-                scrolledPastHeight = sectionOneHeight + sectionTwoHeight;
-            } else if (scrolled >= sectionTwoOffset) {
-                currentSectionProgress = ((scrolled - sectionTwoOffset) / sectionTwoHeight) * (sectionTwoHeight / totalHeight) * 100;
-                scrolledPastHeight = sectionOneHeight;
-            } else if (scrolled >= sectionOneOffset) {
-                currentSectionProgress = (scrolledTop / sectionOneHeight) * (sectionOneHeight / totalHeight) * 100;
+            if ((scrolledTop + viewportHeight) < sectionOneOffset) {
+                currentSectionProgress = 0;
+                scrolledPastHeight = 0;
+            } else if ((sectionOneOffset + sectionOneHeight) > bottomOfScreen) {
+                currentSectionProgress = getSectionProgressPercentage(sectionOneOffset, sectionOneHeight);
+                scrolledPastHeight = 0;
+            } else if ((sectionTwoOffset + sectionTwoHeight) > bottomOfScreen) {
+                currentSectionProgress = getSectionProgressPercentage(sectionTwoOffset, sectionTwoHeight);
+                scrolledPastHeight = 1/5 * 100;
+            } else if ((sectionThreeOffset + sectionThreeHeight) > bottomOfScreen) {
+                currentSectionProgress = getSectionProgressPercentage(sectionThreeOffset, sectionThreeHeight);
+                scrolledPastHeight = 2/5 * 100;
+            } else if ((sectionFourOffset + sectionFourHeight) > bottomOfScreen) {
+                currentSectionProgress = getSectionProgressPercentage(sectionFourOffset, sectionFourHeight);
+                scrolledPastHeight = 3/5 * 100;
+            } else {
+                currentSectionProgress = getSectionProgressPercentage(sectionFiveOffset, sectionFiveHeight);
+                scrolledPastHeight = 4/5 * 100;
             }
 
             // Calculate the overall progress by combining the progress in the current section with the height of sections the user has already scrolled past
-            const overallProgress = (scrolledPastHeight / totalHeight) * 100 + currentSectionProgress;
+            const overallProgress = scrolledPastHeight + (currentSectionProgress * 1/5);
 
-            setProgressPercent(Number(overallProgress.toFixed(0)));
+            const newProgressPercent = Number(overallProgress.toFixed(0));
+
+            setProgressPercent(newProgressPercent);
+            rootElementRef.current!.style.setProperty('--progress-percent', `${newProgressPercent}%`);
         }, 100);
 
         scrollHandler();
@@ -143,10 +148,6 @@ export default function ProgressTracker({
         sectionFourRef,
         sectionFiveRef,
     ]);
-
-    useEffect(() => {
-        rootElementRef.current!.style.setProperty('--progress-percent', `${progressPercent}%`);
-    }, [progressPercent]);
 
     return (
         <div
