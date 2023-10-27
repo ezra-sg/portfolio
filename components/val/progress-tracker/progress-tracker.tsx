@@ -160,7 +160,7 @@ export default function ProgressTracker({
             onMouseOver={() => setExpanded(true)}
             onMouseOut={() => setExpanded(false)}
         >
-            {expanded && (
+            {(expanded && !hidden) && (
                 <div className="absolute -top-14 right-0 left-0 rounded-md w-max bg-amber-50 p-2 font-header m-auto animate-fade-in-fast shadow-lg" aria-hidden={true}>
                     {t('nav.sections')}
                 </div>
