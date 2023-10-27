@@ -1,13 +1,23 @@
 .c-progress-tracker {
-    @apply fixed right-0 bottom-0 left-0 h-4;
+    $this: &;
 
-    &--expanded {
-        @apply h-16;
+    --progress-percent: 0%;
+
+    @apply fixed right-0 bottom-0 left-0 h-3 flex items-center bg-amber-50 transition-all duration-[0.2s];
+
+    &--hidden {
+        @apply -bottom-10;
     }
 
-    &::after {
-        @apply block h-full w-full h-4 bg-amber-900;
+    &--expanded:not(#{$this}--hidden) {
+        @apply h-8;
+    }
+
+    &::before {
+        @apply block absolute -left-full h-full w-full bg-amber-900 z-0;
+
         content: '';
-        transform: translateX(var(--tracker-background-left));
+        transform: translateX(var(--progress-percent));
+        transition: 0.3s ease all;
     }
 }

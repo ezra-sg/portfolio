@@ -11,7 +11,7 @@ export default function SectionTwo() {
     return (
         <div className="w-full bg-white dark:bg-stone-900 p-4">
             <div className="m-auto max-w-[1000px]">
-                <h2 className="text-3xl font-header mb-4 dark:text-amber-200">Part II: Engineer</h2>
+                <h2 className="text-3xl font-header mb-4">Part II: Engineer</h2>
 
                 <ReactMarkdown className={`${paragraphClasses}`}>
                     {t('val.section_2.paragraph_1_md')}

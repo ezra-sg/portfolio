@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
-import debounce from '@/utils/debounce';
+import throttle from '@/utils/throttle';
 
 import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
 import Hero from '@/components/val/hero/hero';
@@ -40,7 +40,7 @@ export default function ValHome() {
     const lastScrollTop = useRef(0);
 
     useEffect(() => {
-        const scrollHandler = debounce(() => {
+        const scrollHandler = throttle(() => {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             const userScrolledDown = scrollTop > lastScrollTop.current;
 
@@ -94,7 +94,13 @@ export default function ValHome() {
                 </section>
             </article>
 
-            <ProgressTracker />
+            <ProgressTracker
+                sectionOneRef={sectionOneRef}
+                sectionTwoRef={sectionTwoRef}
+                sectionThreeRef={sectionThreeRef}
+                sectionFourRef={sectionFourRef}
+                sectionFiveRef={sectionFiveRef}
+            />
         </div>
     </>);
 }
