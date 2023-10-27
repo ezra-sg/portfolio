@@ -1,0 +1,13 @@
+.c-progress-tracker {
+    @apply fixed right-0 bottom-0 left-0 h-4;
+
+    &--expanded {
+        @apply h-16;
+    }
+
+    &::after {
+        @apply block h-full w-full h-4 bg-amber-900;
+        content: '';
+        transform: translateX(var(--tracker-background-left));
+    }
+}
