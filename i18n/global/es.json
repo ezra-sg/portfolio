@@ -22,8 +22,10 @@
     "nav": {
         "english_link_description": "Switch the language to English",
         "english": "English",
+        "go_to_section_label": "ir a la sección",
         "language_button_label": "cambiar de idioma",
         "popup-label": "Ventana emergente de cambio de idioma",
+        "sections": "secciones",
         "spanish_link_description": "Cambiar el idioma a español",
         "spanish": "Español"
     }

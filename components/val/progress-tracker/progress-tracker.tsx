@@ -160,6 +160,12 @@ export default function ProgressTracker({
             onMouseOver={() => setExpanded(true)}
             onMouseOut={() => setExpanded(false)}
         >
+            {expanded && (
+                <div className="absolute -top-14 right-0 left-0 rounded-md w-max bg-amber-50 p-2 font-header m-auto animate-fade-in-fast shadow-lg" aria-hidden={true}>
+                    {t('nav.sections')}
+                </div>
+            )}
+
             {/*
                 this div acts as a handle by expanding the mouseover section, making it easier for desktop users to expand the navbar on hover;
                 without it, it is very easy to accidentally mouse out of the navbar and have it collapse unintentionally.
