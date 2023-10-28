@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 
 import { useI18n } from '@/hooks/useI18n';
 
-const firstParagraphClasses = 'first-letter:text-amber-900 first-letter:text-7xl first-letter:float-left first-letter:font-bold first-letter:mr-3 dark:first-letter:text-amber-200';
+const firstParagraphClasses = 'first-letter:text-amber-900 first-letter:text-7xl first-letter:float-left first-letter:font-bold first-letter:mr-3 dark:first-letter:text-orange-300';
 const paragraphClasses = 'font-serif mb-4 dark:text-white';
 
 export default function SectionZero() {

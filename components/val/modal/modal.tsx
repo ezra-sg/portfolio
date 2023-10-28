@@ -190,13 +190,13 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                         </div>
 
                         <button
-                            className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-amber-200"
+                            className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-orange-300"
                             data-testid="modal-close-button"
                             title={`${t('modal.close_modal_label')} ${title}`}
                             aria-label={`${t('modal.close_modal_label')} ${title}`}
                             onClick={() => setModalIsVisible(false)}
                         >
-                            <MdClose className="text-xl text-amber-900 dark:text-amber-200" aria-hidden="true" />
+                            <MdClose className="text-xl text-amber-900 dark:text-orange-300" aria-hidden="true" />
                         </button>
                     </header>
 

@@ -19,7 +19,7 @@ export default function AudioWithTranscript({ description, title, transcript, sr
     const titleId = `audio-title--${title.replaceAll(' ', '-')}`;
 
     const modalTrigger = (
-        <div className="flex gap-2 items-center justify-center text-amber-900 dark:text-amber-200">
+        <div className="flex gap-2 items-center justify-center text-amber-900 dark:text-orange-300">
             <MdReadMore />
 
             <ReactMarkdown className="text-sm">

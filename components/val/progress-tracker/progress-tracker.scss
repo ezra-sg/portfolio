@@ -14,7 +14,7 @@
     }
 
     &::before {
-        @apply block absolute -left-full h-full w-full bg-amber-900 z-0 dark:bg-amber-200;
+        @apply block absolute -left-full h-full w-full bg-amber-900 z-0 dark:bg-orange-300;
 
         content: '';
         transform: translateX(var(--progress-percent));

@@ -3,7 +3,7 @@
 exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 1`] = `
 <div>
   <div
-    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
+    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300"
   >
     <button
       aria-label="inputs.play_audio_aria title text"
@@ -51,7 +51,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       <ul
         aria-hidden="true"
         aria-label="inputs.audio_speed_menu_label title text"
-        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
         data-testid="audio-player-speed-menu"
         hidden=""
         role="menu"
@@ -142,7 +142,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
 exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 2`] = `
 <div>
   <div
-    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
+    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300"
   >
     <button
       aria-label="inputs.pause_audio_aria title text"
@@ -190,7 +190,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       <ul
         aria-hidden="true"
         aria-label="inputs.audio_speed_menu_label title text"
-        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
         data-testid="audio-player-speed-menu"
         hidden=""
         role="menu"
@@ -281,7 +281,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
 exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 3`] = `
 <div>
   <div
-    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200"
+    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300"
   >
     <button
       aria-label="inputs.restart_audio_aria title text"
@@ -329,7 +329,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       <ul
         aria-hidden="true"
         aria-label="inputs.audio_speed_menu_label title text"
-        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
         data-testid="audio-player-speed-menu"
         hidden=""
         role="menu"

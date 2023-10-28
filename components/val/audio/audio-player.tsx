@@ -122,7 +122,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     }, [showPlaybackSpeedOptions]);
 
     return (<>
-        <div className="flex items-center gap-1 text-2xl text-amber-900 dark:text-amber-200">
+        <div className="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300">
             {/* play/pause button */}
             <button
                 onClick={() => {
@@ -191,7 +191,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                 <ul
                     ref={playbackSpeedMenuRef}
                     role="menu"
-                    className="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-amber-200"
+                    className="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
                     hidden={!showPlaybackSpeedOptions}
                     aria-hidden={!showPlaybackSpeedOptions}
                     aria-label={`${t('inputs.audio_speed_menu_label')} ${title}`}
