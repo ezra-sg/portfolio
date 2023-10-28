@@ -164,7 +164,7 @@ export default function ProgressTracker({
         >
             {expanded && (
                 <div
-                    className="absolute -top-14 right-0 left-0 rounded-md w-max bg-amber-50 p-2 font-header m-auto animate-fade-in-fast shadow-lg"
+                    className="absolute -top-14 right-0 left-0 rounded-md w-max bg-amber-50 p-2 font-header m-auto animate-fade-in-fast shadow-lg dark:bg-stone-950 dark:text-amber-50"
                     aria-hidden={true}
                 >
                     {t('nav.sections')}
@@ -181,13 +181,13 @@ export default function ProgressTracker({
                 {buttons.map((button, index) => (
                     <button
                         key={`nav-button-${index}`}
-                        className={`${expanded ? 'h-9 w-10 lg:w-8 lg:h-8 rounded-lg px-2' : 'h-1.5 w-1.5'} rounded-full flex items-center justify-center bg-amber-50 border-[1px] border-amber-900 transition-all z-10 hover:border-[2px]`}
+                        className={`${expanded ? 'h-9 w-10 lg:w-8 lg:h-8 rounded-lg px-2' : 'h-1.5 w-1.5'} rounded-full flex items-center justify-center bg-amber-50 border-[1px] border-amber-900 transition-all z-10 hover:border-[2px] dark:bg-stone-900 dark:border-amber-200`}
                         aria-label={`${t('nav.go_to_section_label')} ${index + 1}`}
                         title={`${t('nav.go_to_section_label')} ${index + 1}`}
                         onClick={() => scrollTo({ top: button.ref.current!.offsetTop, behavior: 'instant' })}
                         onFocus={() => setExpanded(true)}
                     >
-                        {expanded && <span className="text-sm font-header text-amber-900 animate-fade-in-fast">{button.label}</span>}
+                        {expanded && <span className="text-sm font-header text-amber-900 animate-fade-in-fast dark:text-amber-200">{button.label}</span>}
                     </button>
                 ))}
             </nav>
