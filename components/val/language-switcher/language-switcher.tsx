@@ -89,7 +89,7 @@ export default function LanguageSwitcher() {
             id="language-switcher-popup"
             data-testid="language-switcher-popup"
             role="region"
-            aria-label={t('nav.popup-label')}
+            aria-label={t('nav.language_popup_label')}
             hidden={!isOpen}
             aria-hidden={!isOpen}
             className="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-sm dark:bg-stone-950 dark:border-orange-300"

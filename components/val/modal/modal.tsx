@@ -9,6 +9,7 @@ import './modal.scss';
 export type ModalProps = {
     description: string;
     title: string;
+    subtitle: string;
     trigger: React.ReactNode;
     children: React.ReactNode;
 };
@@ -30,7 +31,7 @@ const focusableElementsString = `
 type ClickListener = (event: MouseEvent) => void;
 type KeydownListener = (event: KeyboardEvent) => void;
 
-export default function Modal({ children, description, title, trigger }: ModalProps) {
+export default function Modal({ children, description, title, subtitle, trigger }: ModalProps) {
     const [modalIsVisible, setModalIsVisible] = useState(false);
 
     const dialogRef = useRef<HTMLDialogElement | null>(null);
@@ -186,7 +187,9 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                             <h1 className="font-header">
                                 {title}
                             </h1>
-                            <p className="text-xs italic">{t('global.audio_transcript')}</p>
+                            <p className="text-xs italic">
+                                {subtitle}
+                            </p>
                         </div>
 
                         <button

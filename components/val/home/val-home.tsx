@@ -5,14 +5,18 @@ import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
 import throttle from '@/utils/throttle';
 
+import { AudioProvider } from '@/hooks/useAudioContext';
+
+import AudioBanner from '@/components/val/audio/audio-banner';
+import TranscriptModal from '@/components/val/audio/transcript-modal';
 import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
 import Hero from '@/components/val/hero/hero';
-import SectionZero from '@/components/val/section-0/section-0';
-import SectionOne from '@/components/val/section-1/section-1';
-import SectionTwo from '@/components/val/section-2/section-2';
-import SectionThree from '@/components/val/section-3/section-3';
-import SectionFour from '@/components/val/section-4/section-4';
-import SectionFive from '@/components/val/section-5/section-5';
+import SectionZero from '@/components/val/sections/section-0';
+import SectionOne from '@/components/val/sections/section-1';
+import SectionTwo from '@/components/val/sections/section-2';
+import SectionThree from '@/components/val/sections/section-3';
+import SectionFour from '@/components/val/sections/section-4';
+import SectionFive from '@/components/val/sections/section-5';
 import ProgressTracker from '@/components/val/progress-tracker/progress-tracker';
 
 const youngSerif = Young_Serif({
@@ -37,7 +41,7 @@ export default function ValHome() {
     const sectionThreeRef = useRef<HTMLElement | null>(null);
     const sectionFourRef  = useRef<HTMLElement | null>(null);
     const sectionFiveRef  = useRef<HTMLElement | null>(null);
-    const lastScrollTop = useRef(0);
+    const lastScrollTop   = useRef(0);
 
     useEffect(() => {
         const scrollHandler = throttle(() => {
@@ -59,48 +63,56 @@ export default function ValHome() {
 
     return (<>
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
-            <header className={`${showHeader ? 'opacity-100' : 'opacity-0'} transition-opacity fixed top-4 right-4 z-50`}>
-                <LanguageSwitcher />
-            </header>
+            <AudioProvider>
+                <AudioBanner />
+                <TranscriptModal />
 
-            {/* eztodo add refs for each section and pass to the progress tracker. also, pass the 'showheader' var to the progress tracker as 'expanded' prop */}
-            <article>
-                <section>
-                    <Hero />
-                </section>
+                <div
+                    hidden
+                    role="region"
+                    className={`${showHeader ? 'opacity-100' : 'opacity-0'} transition-opacity fixed top-4 right-4 z-50`}
+                >
+                    <LanguageSwitcher />
+                </div>
 
-                <section>
-                    <SectionZero />
-                </section>
+                <article>
+                    <section>
+                        <Hero />
+                    </section>
 
-                <section ref={sectionOneRef}>
-                    <SectionOne />
-                </section>
+                    <section>
+                        <SectionZero />
+                    </section>
 
-                <section ref={sectionTwoRef}>
-                    <SectionTwo />
-                </section>
+                    <section ref={sectionOneRef}>
+                        <SectionOne />
+                    </section>
 
-                <section ref={sectionThreeRef}>
-                    <SectionThree />
-                </section>
+                    <section ref={sectionTwoRef}>
+                        <SectionTwo />
+                    </section>
 
-                <section ref={sectionFourRef}>
-                    <SectionFour />
-                </section>
+                    <section ref={sectionThreeRef}>
+                        <SectionThree />
+                    </section>
 
-                <section ref={sectionFiveRef}>
-                    <SectionFive />
-                </section>
-            </article>
+                    <section ref={sectionFourRef}>
+                        <SectionFour />
+                    </section>
 
-            <ProgressTracker
-                sectionOneRef={sectionOneRef}
-                sectionTwoRef={sectionTwoRef}
-                sectionThreeRef={sectionThreeRef}
-                sectionFourRef={sectionFourRef}
-                sectionFiveRef={sectionFiveRef}
-            />
+                    <section ref={sectionFiveRef}>
+                        <SectionFive />
+                    </section>
+                </article>
+
+                <ProgressTracker
+                    sectionOneRef={sectionOneRef}
+                    sectionTwoRef={sectionTwoRef}
+                    sectionThreeRef={sectionThreeRef}
+                    sectionFourRef={sectionFourRef}
+                    sectionFiveRef={sectionFiveRef}
+                />
+            </AudioProvider>
         </div>
     </>);
 }

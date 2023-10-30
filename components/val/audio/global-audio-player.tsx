@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import {
     MdPlayCircleOutline,
     MdOutlinePauseCircleOutline,
@@ -6,20 +11,19 @@ import {
     MdRestartAlt,
 } from 'react-icons/md';
 
-import './audio-player.scss';
+import './global-audio-player.scss';
 
 import { useI18n } from '@/hooks/useI18n';
+import { AudioStatuses, useAudioContext } from '@/hooks/useAudioContext';
 import { prettyPrintTimestamp } from '@/utils/text-utils';
 
 export type AudioPlayerProps = {
-    src: string;
     labelledBy: string; // the id of the element which describes the audio
-    title: string; // a short description of the audio
 };
 
 export const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
-export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps) {
+export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [showPlaybackSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
@@ -36,9 +40,28 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
 
     const { t } = useI18n();
 
+    const {
+        showGlobalAudioPlayer,
+        currentAudioData,
+        loadAudioData,
+        clearAudioData,
+        audioPlaybackState,
+        setAudioPlaybackState,
+        setAudioElementRef,
+        audioElementRef: contextAudioElementRef,
+    } = useAudioContext();
+
+    if (!showGlobalAudioPlayer) {
+        return null;
+    }
+
+    if (contextAudioElementRef !== audioElementRef.current) {
+        setAudioElementRef(audioElementRef.current);
+    }
+
     const playButtonAriaLabel = `${
         showRestartIcon ? t('inputs.restart_audio_aria') : t(`inputs.${isPlaying ? 'pause' : 'play'}_audio_aria`)
-    } ${title}`;
+    } ${currentAudioData.title}`;
 
     const audioTimePretty = prettyPrintTimestamp(audioTime);
     const prettyTotalAudioTime = prettyPrintTimestamp(totalAudioTime);
@@ -122,23 +145,26 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
     }, [showPlaybackSpeedOptions]);
 
     return (<>
-        <div className="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300">
+        <div className="flex items-center gap-2 text-2xl w-full text-amber-900 dark:text-orange-300">
             {/* play/pause button */}
             <button
                 onClick={() => {
                     setIsPlaying(!isPlaying);
                     setShowRestartIcon(false);
+                    setAudioPlaybackState(isPlaying ? AudioStatuses.playing : AudioStatuses.paused);
                 }}
                 onKeyDown={(event) => {
                     if([' ', 'Enter'].includes(event.key)) {
                         event.preventDefault();
                         setIsPlaying(!isPlaying);
                         setShowRestartIcon(false);
+                        setAudioPlaybackState(isPlaying ? AudioStatuses.playing : AudioStatuses.paused);
+
                     }
                 }}
                 aria-label={playButtonAriaLabel}
                 title={playButtonAriaLabel}
-                className="h-8 w-8 flex items-center justify-center"
+                className="h-10 w-10 flex items-center justify-center flex-shrink-0"
                 data-testid="audio-player-play-button"
             >
                 {
@@ -149,7 +175,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             </button>
 
             {/* time elapsed */}
-            <code className="text-xs" title={`${t('inputs.audio_time_elapsed_title')} ${title}`}>
+            <code className="text-xs" title={`${t('inputs.audio_time_elapsed_title')} ${currentAudioData.title}`}>
                 {audioTimePretty}
             </code>
 
@@ -160,12 +186,12 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                 min="0"
                 step="0.1"
                 defaultValue={0}
-                aria-label={`${t('inputs.audio_scrubber_aria')} ${title}`}
+                aria-label={`${t('inputs.audio_scrubber_aria')} ${currentAudioData.title}`}
                 className="c-audio-player__scrubber"
             />
 
             {/* total audio time */}
-            <code className="text-xs" title={`${t('inputs.audio_time_total_title')} ${title}`}>
+            <code className="text-xs" title={`${t('inputs.audio_time_total_title')} ${currentAudioData.title}`}>
                 {prettyTotalAudioTime}
             </code>
 
@@ -173,8 +199,8 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
             <div className="relative">
                 <button
                     ref={playbackSpeedButtonRef}
-                    aria-label={`${t('inputs.change_playback_speed_aria')} ${title}`}
-                    title={`${t('inputs.change_playback_speed_aria')} ${title}`}
+                    aria-label={`${t('inputs.change_playback_speed_aria')} ${currentAudioData.title}`}
+                    title={`${t('inputs.change_playback_speed_aria')} ${currentAudioData.title}`}
                     data-testid="audio-player-speed-button"
                     onClick={() => setShowSpeedOptions(!showPlaybackSpeedOptions)}
                     onKeyDown={(event) => {
@@ -183,7 +209,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                             setShowSpeedOptions(!showPlaybackSpeedOptions);
                         }
                     }}
-                    className="h-8 w-8 flex items-center justify-center"
+                    className="h-10 w-10 flex items-center justify-center"
                 >
                     <MdSpeed aria-hidden="true" />
                 </button>
@@ -194,7 +220,7 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
                     className="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
                     hidden={!showPlaybackSpeedOptions}
                     aria-hidden={!showPlaybackSpeedOptions}
-                    aria-label={`${t('inputs.audio_speed_menu_label')} ${title}`}
+                    aria-label={`${t('inputs.audio_speed_menu_label')} ${currentAudioData.title}`}
                     data-testid="audio-player-speed-menu"
                     onKeyDown={(event) => {
                         if (event.key === 'Escape') {
@@ -235,13 +261,14 @@ export default function AudioPlayer({ src, labelledBy, title }: AudioPlayerProps
         <audio
             ref={audioElementRef}
             controls
-            src={src}
+            src={currentAudioData.src ?? undefined}
             aria-labelledby={labelledBy}
             hidden
             data-testid="audio-player-audio-element"
             onEnded={() => {
                 setIsPlaying(false);
                 setShowRestartIcon(true);
+                setAudioPlaybackState(AudioStatuses.complete);
             }}
         />
     </>);

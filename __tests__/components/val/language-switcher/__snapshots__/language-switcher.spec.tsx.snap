@@ -33,7 +33,7 @@ exports[`LanguageSwitcher should render correctly 1`] = `
   </button>
   <menu
     aria-hidden="true"
-    aria-label="nav.popup-label"
+    aria-label="nav.language_popup_label"
     class="absolute top-8 right-8 shadow-lg p-3 bg-amber-50 border-[1px] border-amber-900 rounded-sm dark:bg-stone-950 dark:border-orange-300"
     data-testid="language-switcher-popup"
     hidden=""

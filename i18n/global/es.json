@@ -24,7 +24,8 @@
         "english": "English",
         "go_to_section_label": "ir a la sección",
         "language_button_label": "cambiar de idioma",
-        "popup-label": "Ventana emergente de cambio de idioma",
+        "language_container_label": "Contenedor de cambio de idioma",
+        "language_popup_label": "Ventana emergente de cambio de idioma",
         "sections": "secciones",
         "spanish_link_description": "Cambiar el idioma a español",
         "spanish": "Español"
