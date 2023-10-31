@@ -1,25 +1,24 @@
-import { useContext } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { MdReadMore } from 'react-icons/md';
 
-import { useAudioContext } from '@/hooks/useAudioContext';
 import { useI18n } from '@/hooks/useI18n';
-
+import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
 
 import AudioPlayer from '@/components/val/audio/global-audio-player';
 
 
 export default function AudioBanner() {
-    const { currentAudioData: audioState } = useAudioContext();
     const { t } = useI18n();
 
-    if (!audioState) {
-        throw new Error('AudioBanner must be rendered within an AudioProvider');
-    }
+    const {
+        globalPlayer: {
+            audioPlaybackState,
+        },
+    } = useAudioContext();
 
-    // if (!audioState?.src || !audioState?.title) {
-    //     return null;
-    // }
+    if (audioPlaybackState === AudioStatus.stopped) {
+        return null;
+    }
 
     return (
         // eztodo add aria label

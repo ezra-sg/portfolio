@@ -14,7 +14,7 @@ import {
 import './global-audio-player.scss';
 
 import { useI18n } from '@/hooks/useI18n';
-import { AudioStatuses, useAudioContext } from '@/hooks/useAudioContext';
+import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
 import { prettyPrintTimestamp } from '@/utils/text-utils';
 
 export type AudioPlayerProps = {
@@ -24,7 +24,6 @@ export type AudioPlayerProps = {
 export const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
 export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
-    const [isPlaying, setIsPlaying] = useState(false);
     const [showPlaybackSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showRestartIcon, setShowRestartIcon] = useState(false);
@@ -41,19 +40,18 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     const { t } = useI18n();
 
     const {
-        showGlobalAudioPlayer,
-        currentAudioData,
-        loadAudioData,
-        clearAudioData,
-        audioPlaybackState,
-        setAudioPlaybackState,
-        setAudioElementRef,
-        audioElementRef: contextAudioElementRef,
+        globalPlayer: {
+            currentAudioData,
+            audioPlaybackState,
+            setAudioElementRef,
+            setAudioStatus,
+        },
+        snippet: {
+            audioElementRef: contextAudioElementRef,
+        },
     } = useAudioContext();
 
-    if (!showGlobalAudioPlayer) {
-        return null;
-    }
+    const isPlaying = audioPlaybackState === AudioStatus.playing;
 
     if (contextAudioElementRef !== audioElementRef.current) {
         setAudioElementRef(audioElementRef.current);
@@ -111,16 +109,30 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
 
     useEffect(() => {
         const audioElement = audioElementRef.current!;
-        if (isPlaying) {
+
+        audioElement.src = currentAudioData.src ?? '';
+    }, [currentAudioData]);
+
+    useEffect(() => {
+        const audioElement = audioElementRef.current!;
+
+        if (audioPlaybackState === AudioStatus.playing) {
             if (audioElement.currentTime === audioElement.duration) {
                 // restart audio
                 audioElement.currentTime = 0;
             }
             audioElement.play();
-        } else {
+        } else if (audioPlaybackState === AudioStatus.paused) {
             audioElement.pause();
+        } else if (audioPlaybackState === AudioStatus.stopped) {
+
+        } else if (audioPlaybackState === AudioStatus.complete) {
+
+        } else if (audioPlaybackState === AudioStatus.loading) {
+
         }
-    }, [isPlaying]);
+
+    }, [audioPlaybackState]);
 
     useEffect(() => {
         const unregisterDocumentClickawayListener = () => {
@@ -149,18 +161,21 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
             {/* play/pause button */}
             <button
                 onClick={() => {
-                    setIsPlaying(!isPlaying);
+                    setAudioStatus(AudioStatus.paused);
                     setShowRestartIcon(false);
-                    setAudioPlaybackState(isPlaying ? AudioStatuses.playing : AudioStatuses.paused);
                 }}
                 onKeyDown={(event) => {
                     if([' ', 'Enter'].includes(event.key)) {
                         event.preventDefault();
-                        setIsPlaying(!isPlaying);
+                        setAudioStatus(AudioStatus.paused);
                         setShowRestartIcon(false);
-                        setAudioPlaybackState(isPlaying ? AudioStatuses.playing : AudioStatuses.paused);
-
                     }
+                }}
+                onLoadStart={() => {
+                    setAudioStatus(AudioStatus.loading);
+                }}
+                onLoadedData={() => {
+                    setAudioStatus(AudioStatus.playing);
                 }}
                 aria-label={playButtonAriaLabel}
                 title={playButtonAriaLabel}
@@ -266,9 +281,8 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
             hidden
             data-testid="audio-player-audio-element"
             onEnded={() => {
-                setIsPlaying(false);
+                setAudioStatus(AudioStatus.complete);
                 setShowRestartIcon(true);
-                setAudioPlaybackState(AudioStatuses.complete);
             }}
         />
     </>);

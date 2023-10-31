@@ -1,7 +1,6 @@
-import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, createContext, useContext, useRef, useState } from 'react';
 
-export type AudioStatus = 'playing' | 'paused' | 'stopped' | 'complete' | 'loading';
-export enum AudioStatuses {
+export enum AudioStatus {
     playing = 'playing',
     paused = 'paused',
     stopped = 'stopped',
@@ -10,136 +9,129 @@ export enum AudioStatuses {
 }
 
 type AudioData = {
+    snippetId: null | string; // unique ID for each audio snippet
     src: null | string;
-    audioId: null | string; // unique ID for each audio snippet
     title: null | string;
     transcript: null | string;
 };
 
 type AudioContextType = {
-    showGlobalAudioPlayer: boolean;
+    globalPlayer: {
+        currentAudioData: AudioData;
+        audioPlaybackState: AudioStatus;
+        setAudioElementRef: (audioElement: HTMLAudioElement | null) => void;
+        setAudioStatus: (status: AudioStatus) => void;
+    };
 
-    currentAudioData: AudioData;
-    loadAudioData: (src: string, audioId: string, title: string, transcript: string) => void;
-    clearAudioData: () => void;
+    snippet: {
+        playAudio: (
+            snippetId: string,
+            src: string,
+            title: string,
+            transcript: string, // markdown string
+        ) => void;
+        pauseAudio: () => void;
 
-    audioPlaybackState: AudioStatus;
-    setAudioPlaybackState: (state: AudioStatus) => void;
+        audioElementRef: HTMLAudioElement | null;
 
-    setAudioElementRef: (audioElement: HTMLAudioElement | null) => void;
-    audioElementRef: HTMLAudioElement | null;
-
-    subscribe: (audioId: string, callback: (status: AudioStatus) => void) => void;
-    unsubscribe: (audioId: string) => void;
-    notify: (audioId: string, status: AudioStatus) => void;
+        subscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
+        unsubscribe: (snippetId: string) => void;
+    };
 };
 
 export const AudioContext = createContext<AudioContextType | null>(null);
 
 export function AudioProvider({ children }: { children: ReactNode }) {
-    const [showGlobalAudioPlayer, setShowGlobalAudioPlayer] = useState(false);
-    const [currentAudioData, setAudioState] = useState<AudioData>({
+    const [currentAudioData, setCurrentAudioData] = useState<AudioData>({
         src: null,
-        audioId: null,
+        snippetId: null,
         title: null,
         transcript: null,
     });
-    const [audioPlaybackState, setAudioPlaybackState] = useState<AudioStatus>(AudioStatuses.stopped);
+    const [audioPlaybackState, setAudioPlaybackState] = useState<AudioStatus>(AudioStatus.stopped);
 
     const listeners = useRef<Map<string, (status: AudioStatus) => void>>(new Map());
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
 
-    const setAudioElementRef = (audioElement: HTMLAudioElement | null) => {
+    function playAudio(
+        snippetId: string,
+        src: string,
+        title: string,
+        transcript: string,
+    ) {
+        setCurrentAudioData({
+            snippetId,
+            src,
+            title,
+            transcript,
+        });
+        setAudioStatus(AudioStatus.loading, snippetId);
+    }
+
+    function pauseAudio() {
+        if (!currentAudioData.snippetId) {
+            throw new Error('Cannot pause audio when no snippetId is set');
+        }
+        setAudioStatus(AudioStatus.paused, currentAudioData.snippetId);
+    }
+
+    function setAudioStatus(status: AudioStatus, snippetId: string) {
+        if (status === AudioStatus.playing) {
+            notifyAllStopped(snippetId);
+        } else if (status === AudioStatus.stopped) {
+            setCurrentAudioData({
+                src: null,
+                snippetId: null,
+                title: null,
+                transcript: null,
+            });
+        }
+
+        notify(snippetId, status);
+        setAudioPlaybackState(status);
+    }
+
+    function setAudioElementRef (audioElement: HTMLAudioElement | null) {
         audioElementRef.current = audioElement;
     };
 
-
-    const subscribe = (audioId: string, callback: (status: AudioStatus) => void) => {
-        listeners.current.set(audioId, callback);
+    function subscribe(snippetId: string, callback: (status: AudioStatus) => void) {
+        listeners.current.set(snippetId, callback);
     };
 
-    const unsubscribe = (audioId: string) => {
-        listeners.current.delete(audioId);
+    function unsubscribe(snippetId: string) {
+        listeners.current.delete(snippetId);
     };
 
-    const notify = (audioId: string, status: AudioStatus) => {
-        const listener = listeners.current.get(audioId);
+    function notify(snippetId: string, status: AudioStatus) {
+        const listener = listeners.current.get(snippetId);
         if (listener) {
             listener(status);
         }
     };
 
     function notifyAllStopped(except?: string) {
-        listeners.current.forEach((listener, audioId) => {
-            if (audioId !== except) {
-                listener(AudioStatuses.stopped);
+        listeners.current.forEach((listener, snippetId) => {
+            if (snippetId !== except) {
+                listener(AudioStatus.stopped);
             }
         });
     }
 
-
-
-    const loadAudioData = (src: string, audioId: string, title: string, transcript: string) => {
-        setAudioState({
-            src,
-            audioId,
-            title,
-            transcript,
-        });
-        setAudioIsPlaying(true);
-    };
-
-    const clearAudioData = () => {
-        setAudioState({
-            src: null,
-            audioId: null,
-            title: null,
-            transcript: null,
-        });
-        setAudioIsPlaying(false);
-    };
-
-    useEffect(() => {
-        if (!currentAudioData.audioId) {
-            return;
-        }
-        notifyAllStopped(currentAudioData.audioId);
-        notify(currentAudioData.audioId, AudioStatuses.loading);
-    }, [currentAudioData]);
-
-    useEffect(() => {
-        let hidePlayerTimeoutId: ReturnType<typeof setTimeout> | null = null;
-
-        if (audioPlaybackState === AudioStatuses.complete) {
-            // a few seconds after audio completes, hide the player
-            hidePlayerTimeoutId = setTimeout(() => {
-                setShowGlobalAudioPlayer(false);
-            }, 3000);
-        }
-
-        return () => {
-            if (hidePlayerTimeoutId) {
-                clearTimeout(hidePlayerTimeoutId);
-            }
-        };
-    }, [audioPlaybackState]);
-
-    const providerProps = {
-        showGlobalAudioPlayer,
-
-        currentAudioData,
-        loadAudioData,
-        clearAudioData,
-
-        audioPlaybackState,
-        setAudioPlaybackState,
-
-        setAudioElementRef,
-        audioElementRef: audioElementRef.current,
-
-        subscribe,
-        unsubscribe,
-        notify,
+    const providerProps: AudioContextType = {
+        globalPlayer: {
+            currentAudioData,
+            audioPlaybackState,
+            setAudioElementRef,
+            setAudioStatus,
+        },
+        snippet: {
+            playAudio,
+            pauseAudio,
+            audioElementRef: audioElementRef.current,
+            subscribe,
+            unsubscribe,
+        },
     };
 
     return (
