@@ -73,7 +73,7 @@ export default function AudioBanner() {
 
     return (
         // eztodo add aria label
-        <div role="region" className={`${isRemoving ? '-top-40' : 'top-0'} fixed right-0 left-0 h-fit py-2 px-4 bg-amber-50 shadow-sm z-50 flex items-center justify-center flex-col transition-all dark:bg-stone-950`}>
+        <div role="region" className={`${isRemoving ? '-top-40' : 'top-0'} fixed right-0 left-0 h-fit py-2 px-4 bg-amber-50 shadow-sm z-50 flex items-center justify-center flex-col transition-all duration-300 dark:bg-stone-950`}>
             <h3 id="audio-banner-title" className="font-header text-sm">
                 {currentAudioData.title}
             </h3>
