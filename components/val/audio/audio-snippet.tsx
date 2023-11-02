@@ -15,6 +15,8 @@ type AudioSnippetProps = {
 
 export default function AudioSnippet({ src, title, transcript }: AudioSnippetProps) {
     const [icon, setIcon] = useState<'play' | 'pause' | 'restart'>('play');
+    const [completed, setCompleted] = useState(false);
+
     const snippetId = title.replaceAll(' ', '-').toLowerCase();
 
     const {
@@ -40,6 +42,7 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
 
         if (status === playing) {
             pauseAudio();
+            setCompleted(false);
         } else if ([paused, complete, stopped].includes(status)) {
             playAudio(snippetId, src, title, transcript);
         }
@@ -58,7 +61,8 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
                 setIcon('pause');
             } else if (status === paused) {
                 setIcon('play');
-            } else if (status === complete) {
+            } else if (status === complete || completed) {
+                setCompleted(true);
                 setIcon('restart');
             } else if (status === stopped) {
                 setIcon('play');
@@ -68,7 +72,7 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
         return () => {
             unsubscribe(snippetId);
         };
-    }, [title, subscribe, unsubscribe, snippetId]);
+    }, [title, subscribe, unsubscribe, snippetId, completed]);
 
     return (
         <div className="flex flex-col items-center justify-center">

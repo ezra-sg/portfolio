@@ -57,8 +57,6 @@ export default function AudioBanner() {
     }, [markedForRemoval]);
 
     useEffect(() => {
-        console.log('audioPlaybackState', audioPlaybackState);
-
         if (audioPlaybackState !== AudioStatus.stopped) {
             setIsRemoving(false);
             setShouldRender(true);
