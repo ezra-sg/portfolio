@@ -77,13 +77,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     function setAudioStatus(status: AudioStatus, snippetId: string | null) {
         if (status === AudioStatus.playing) {
             notifyAllStopped(snippetId);
-        } else if (status === AudioStatus.stopped) {
-            setCurrentAudioData({
-                src: null,
-                snippetId: null,
-                title: null,
-                transcript: null,
-            });
         }
 
         if (snippetId) {

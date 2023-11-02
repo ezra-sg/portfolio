@@ -144,7 +144,7 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
         } else if (audioPlaybackState === AudioStatus.complete) {
             setStateToStoppedTimeoutId.current = setTimeout(() => {
                 setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
-            }, 5000);
+            }, 3000);
         }
 
     }, [audioPlaybackState, setAudioStatus, currentAudioData]);
