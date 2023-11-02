@@ -36,9 +36,9 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
         } = AudioStatus;
         const status = audioStatus;
 
-        if ([playing, complete].includes(status)) {
+        if (status === playing) {
             pauseAudio();
-        } else if ([paused, stopped].includes(status)) {
+        } else if ([paused, complete, stopped].includes(status)) {
             playAudio(snippetId, src, title, transcript);
         }
     }
@@ -50,7 +50,6 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
                 paused,
                 complete,
                 stopped,
-                loading,
             } = AudioStatus;
 
             if (status === playing) {
@@ -60,14 +59,13 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
                 setIcon('play');
                 setAudioStatus(paused);
             } else if (status === complete) {
+                console.log('here');
+
                 setIcon('restart');
                 setAudioStatus(complete);
             } else if (status === stopped) {
                 setIcon('play');
                 setAudioStatus(stopped);
-            } else {
-                setIcon('play');
-                setAudioStatus(loading);
             }
         });
 
@@ -83,8 +81,6 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
             </h3>
 
             <div className="flex gap-2 items-center">
-                {audioStatus === AudioStatus.loading && <div className="animate-pulse">Loading...</div>}
-
                 <button className="text-amber-900 dark:text-orange-300" onClick={handleButtonClick}>
                     {icon === 'play' && <MdPlayCircleOutline className="h-12 w-12" aria-hidden={true} />}
                     {icon === 'pause' && <MdOutlinePauseCircleOutline className="h-12 w-12" aria-hidden={true} />}

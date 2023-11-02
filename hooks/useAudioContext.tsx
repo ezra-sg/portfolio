@@ -5,7 +5,6 @@ export enum AudioStatus {
     paused = 'paused',
     stopped = 'stopped',
     complete = 'complete',
-    loading = 'loading',
 }
 
 type AudioData = {
@@ -20,7 +19,7 @@ type AudioContextType = {
         currentAudioData: AudioData;
         audioPlaybackState: AudioStatus;
         setAudioElementRef: (audioElement: HTMLAudioElement | null) => void;
-        setAudioStatus: (status: AudioStatus) => void;
+        setAudioStatus: (status: AudioStatus, snippetId?: string | null) => void;
     };
 
     snippet: {
@@ -65,7 +64,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
             title,
             transcript,
         });
-        setAudioStatus(AudioStatus.loading, snippetId);
+        setAudioStatus(AudioStatus.playing, snippetId);
     }
 
     function pauseAudio() {
@@ -75,7 +74,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         setAudioStatus(AudioStatus.paused, currentAudioData.snippetId);
     }
 
-    function setAudioStatus(status: AudioStatus, snippetId: string) {
+    function setAudioStatus(status: AudioStatus, snippetId: string | null) {
         if (status === AudioStatus.playing) {
             notifyAllStopped(snippetId);
         } else if (status === AudioStatus.stopped) {
@@ -87,7 +86,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
             });
         }
 
-        notify(snippetId, status);
+        if (snippetId) {
+            notify(snippetId, status);
+        }
+
         setAudioPlaybackState(status);
     }
 
@@ -110,7 +112,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    function notifyAllStopped(except?: string) {
+    function notifyAllStopped(except?: string | null) {
         listeners.current.forEach((listener, snippetId) => {
             if (snippetId !== except) {
                 listener(AudioStatus.stopped);

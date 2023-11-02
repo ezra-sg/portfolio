@@ -36,6 +36,8 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     const playbackSpeedButtonRef = useRef<HTMLButtonElement | null>(null);
     const playbackSpeedClickawayHandlerRef = useRef<null | ((event: MouseEvent) => void)>(null);
     const documentHasClickawayListener = useRef(false);
+    const isLoaded = useRef(false);
+    const audioId = useRef<string | null>(null);
 
     const { t } = useI18n();
 
@@ -110,7 +112,12 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     useEffect(() => {
         const audioElement = audioElementRef.current!;
 
-        audioElement.src = currentAudioData.src ?? '';
+        if (audioId.current !== currentAudioData.snippetId) {
+            audioId.current = currentAudioData.snippetId;
+
+            audioElement.src = currentAudioData.src ?? '';
+            audioElement.load();
+        }
     }, [currentAudioData]);
 
     useEffect(() => {
@@ -121,14 +128,14 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
                 // restart audio
                 audioElement.currentTime = 0;
             }
-            audioElement.play();
+            if (isLoaded.current) {
+                audioElement.play();
+            }
         } else if (audioPlaybackState === AudioStatus.paused) {
             audioElement.pause();
         } else if (audioPlaybackState === AudioStatus.stopped) {
 
         } else if (audioPlaybackState === AudioStatus.complete) {
-
-        } else if (audioPlaybackState === AudioStatus.loading) {
 
         }
 
@@ -161,21 +168,16 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
             {/* play/pause button */}
             <button
                 onClick={() => {
-                    setAudioStatus(AudioStatus.paused);
+                    const newAudioStatus = isPlaying ? AudioStatus.paused : AudioStatus.playing;
+                    setAudioStatus(newAudioStatus, currentAudioData.snippetId);
                     setShowRestartIcon(false);
                 }}
                 onKeyDown={(event) => {
                     if([' ', 'Enter'].includes(event.key)) {
                         event.preventDefault();
-                        setAudioStatus(AudioStatus.paused);
+                        setAudioStatus(AudioStatus.paused, currentAudioData.snippetId);
                         setShowRestartIcon(false);
                     }
-                }}
-                onLoadStart={() => {
-                    setAudioStatus(AudioStatus.loading);
-                }}
-                onLoadedData={() => {
-                    setAudioStatus(AudioStatus.playing);
                 }}
                 aria-label={playButtonAriaLabel}
                 title={playButtonAriaLabel}
@@ -281,8 +283,18 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
             hidden
             data-testid="audio-player-audio-element"
             onEnded={() => {
-                setAudioStatus(AudioStatus.complete);
+                setAudioStatus(AudioStatus.complete, currentAudioData.snippetId);
                 setShowRestartIcon(true);
+            }}
+            onLoadStart={() => {
+                isLoaded.current = false;
+            }}
+            onLoadedMetadata={() => {
+                isLoaded.current = true;
+
+                if (isPlaying) {
+                    audioElementRef.current!.play();
+                }
             }}
         />
     </>);
