@@ -15,7 +15,6 @@ type AudioSnippetProps = {
 
 export default function AudioSnippet({ src, title, transcript }: AudioSnippetProps) {
     const [icon, setIcon] = useState<'play' | 'pause' | 'restart'>('play');
-    const [audioStatus, setAudioStatus] = useState<AudioStatus>(AudioStatus.stopped);
     const snippetId = title.replaceAll(' ', '-').toLowerCase();
 
     const {
@@ -24,6 +23,9 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
             pauseAudio,
             subscribe,
             unsubscribe,
+        },
+        globalPlayer: {
+            audioPlaybackState,
         },
     } = useAudioContext();
 
@@ -34,7 +36,7 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
             complete,
             stopped,
         } = AudioStatus;
-        const status = audioStatus;
+        const status = audioPlaybackState;
 
         if (status === playing) {
             pauseAudio();
@@ -54,18 +56,12 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
 
             if (status === playing) {
                 setIcon('pause');
-                setAudioStatus(playing);
             } else if (status === paused) {
                 setIcon('play');
-                setAudioStatus(paused);
             } else if (status === complete) {
-                console.log('here');
-
                 setIcon('restart');
-                setAudioStatus(complete);
             } else if (status === stopped) {
                 setIcon('play');
-                setAudioStatus(stopped);
             }
         });
 

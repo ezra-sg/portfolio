@@ -38,6 +38,7 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     const documentHasClickawayListener = useRef(false);
     const isLoaded = useRef(false);
     const audioId = useRef<string | null>(null);
+    const setStateToStoppedTimeoutId = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const { t } = useI18n();
 
@@ -123,6 +124,11 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     useEffect(() => {
         const audioElement = audioElementRef.current!;
 
+        if (setStateToStoppedTimeoutId.current) {
+            clearTimeout(setStateToStoppedTimeoutId.current);
+            setStateToStoppedTimeoutId.current = null;
+        }
+
         if (audioPlaybackState === AudioStatus.playing) {
             if (audioElement.currentTime === audioElement.duration) {
                 // restart audio
@@ -136,10 +142,12 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
         } else if (audioPlaybackState === AudioStatus.stopped) {
 
         } else if (audioPlaybackState === AudioStatus.complete) {
-
+            setStateToStoppedTimeoutId.current = setTimeout(() => {
+                setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
+            }, 5000);
         }
 
-    }, [audioPlaybackState]);
+    }, [audioPlaybackState, setAudioStatus, currentAudioData]);
 
     useEffect(() => {
         const unregisterDocumentClickawayListener = () => {
