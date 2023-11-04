@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
 import {
@@ -6,6 +6,8 @@ import {
     MdOutlinePauseCircleOutline,
     MdRestartAlt,
 } from 'react-icons/md';
+
+import { AudioSpectrograph } from '@/components/val/audio/audio-spectrograph';
 
 type AudioSnippetProps = {
     src: string;
@@ -49,7 +51,7 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
     }
 
     useEffect(() => {
-        subscribe(snippetId, (status: AudioStatus) => {
+        const handler = (status: AudioStatus) => {
             const {
                 playing,
                 paused,
@@ -67,10 +69,12 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
             } else if (status === stopped) {
                 setIcon('play');
             }
-        });
+        };
+
+        subscribe(snippetId, handler);
 
         return () => {
-            unsubscribe(snippetId);
+            unsubscribe(snippetId, handler);
         };
     }, [title, subscribe, unsubscribe, snippetId, completed]);
 
@@ -87,7 +91,7 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
                     {icon === 'restart' && <MdRestartAlt className="h-12 w-12" aria-hidden={true} />}
                 </button>
 
-                <div className="text-xs">Spectrograph placeholder</div>
+                <AudioSpectrograph snippetId={snippetId} />
             </div>
         </div>
     );

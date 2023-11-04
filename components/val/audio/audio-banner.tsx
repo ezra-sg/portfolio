@@ -65,9 +65,10 @@ export default function AudioBanner() {
         setMarkedForRemoval(audioPlaybackState === AudioStatus.stopped);
     }, [audioPlaybackState]);
 
-    if (!shouldRender) {
-        return null;
-    }
+    // eztodo
+    // if (!shouldRender) {
+    //     return null;
+    // }
 
     return (
         // eztodo add aria label

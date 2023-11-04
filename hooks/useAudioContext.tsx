@@ -31,10 +31,10 @@ type AudioContextType = {
         ) => void;
         pauseAudio: () => void;
 
-        audioElementRef: HTMLAudioElement | null;
+        audioElement: HTMLAudioElement | null;
 
         subscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
-        unsubscribe: (snippetId: string) => void;
+        unsubscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
     };
 };
 
@@ -48,9 +48,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         transcript: null,
     });
     const [audioPlaybackState, setAudioPlaybackState] = useState<AudioStatus>(AudioStatus.stopped);
+    const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
 
-    const listeners = useRef<Map<string, (status: AudioStatus) => void>>(new Map());
-    const audioElementRef = useRef<HTMLAudioElement | null>(null);
+    const listeners = useRef<Map<string, ((status: AudioStatus) => void)[]>>(new Map());
 
     function playAudio(
         snippetId: string,
@@ -87,32 +87,57 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     }
 
     function setAudioElementRef (audioElement: HTMLAudioElement | null) {
-        audioElementRef.current = audioElement;
+        setAudioElement(audioElement);
     };
 
-    function subscribe(snippetId: string, callback: (status: AudioStatus) => void) {
-        listeners.current.set(snippetId, callback);
+    function subscribe(snippetId: string, handler: (status: AudioStatus) => void) {
+        const handlers = listeners.current.get(snippetId);
+
+        if (!handlers) {
+            listeners.current.set(snippetId, [handler]);
+            return;
+
+        } else {
+            handlers.push(handler);
+            return;
+        }
     };
 
-    function unsubscribe(snippetId: string) {
-        listeners.current.delete(snippetId);
+    function unsubscribe(snippetId: string, handler: (status: AudioStatus) => void) {
+        const handlers = listeners.current.get(snippetId);
+
+        if (!handlers) {
+            return;
+        }
+
+        const index = handlers.indexOf(handler);
+        handlers.splice(index, 1);
+
+        if (handlers.length === 0) {
+            listeners.current.delete(snippetId);
+        }
     };
 
     function notify(snippetId: string, status: AudioStatus) {
-        const listener = listeners.current.get(snippetId);
-        if (listener) {
-            listener(status);
+        const handlers = listeners.current.get(snippetId);
+        if (handlers) {
+            handlers.forEach((handler) => {
+                handler(status);
+            });
         }
     };
 
     function notifyAllStopped(except?: string | null) {
-        listeners.current.forEach((listener, snippetId) => {
+        listeners.current.forEach((handlers, snippetId) => {
             if (snippetId !== except) {
-                listener(AudioStatus.stopped);
+                handlers.forEach((handler) => {
+                    handler(AudioStatus.stopped);
+                });
             }
         });
     }
 
+    // eztodo change the shape of these props
     const providerProps: AudioContextType = {
         globalPlayer: {
             currentAudioData,
@@ -123,7 +148,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         snippet: {
             playAudio,
             pauseAudio,
-            audioElementRef: audioElementRef.current,
+            audioElement: audioElement,
             subscribe,
             unsubscribe,
         },

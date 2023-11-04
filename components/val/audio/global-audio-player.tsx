@@ -50,7 +50,7 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
             setAudioStatus,
         },
         snippet: {
-            audioElementRef: contextAudioElementRef,
+            audioElement: contextAudioElementRef,
         },
     } = useAudioContext();
 
