@@ -7,7 +7,7 @@ import {
     MdRestartAlt,
 } from 'react-icons/md';
 
-import { AudioSpectrograph } from '@/components/val/audio/audio-spectrograph';
+import { AudioSpectrograph } from '@/components/val/audio/audio-spectrogram';
 
 type AudioSnippetProps = {
     src: string;
