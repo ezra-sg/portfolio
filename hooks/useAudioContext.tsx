@@ -96,7 +96,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         if (!handlers) {
             listeners.current.set(snippetId, [handler]);
             return;
-
         } else {
             handlers.push(handler);
             return;

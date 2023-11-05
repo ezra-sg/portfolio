@@ -23,7 +23,7 @@ export type AudioPlayerProps = {
 
 export const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
-export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
+export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
     const [showPlaybackSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showRestartIcon, setShowRestartIcon] = useState(false);
@@ -55,10 +55,6 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     } = useAudioContext();
 
     const isPlaying = audioPlaybackState === AudioStatus.playing;
-
-    if (contextAudioElementRef !== audioElementRef.current) {
-        setAudioElementRef(audioElementRef.current);
-    }
 
     const playButtonAriaLabel = `${
         showRestartIcon ? t('inputs.restart_audio_aria') : t(`inputs.${isPlaying ? 'pause' : 'play'}_audio_aria`)
@@ -111,6 +107,12 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
     }, []);
 
     useEffect(() => {
+        if (contextAudioElementRef !== audioElementRef.current) {
+            setAudioElementRef(audioElementRef.current);
+        }
+    }, [setAudioElementRef, contextAudioElementRef]);
+
+    useEffect(() => {
         const audioElement = audioElementRef.current!;
 
         if (audioId.current !== currentAudioData.snippetId) {
@@ -135,6 +137,7 @@ export default function AudioPlayer({ labelledBy }: AudioPlayerProps) {
                 audioElement.currentTime = 0;
             }
             if (isLoaded.current) {
+                // if it's not loaded, defer playing to the onLoad event handler on the audio element
                 audioElement.play();
             }
         } else if (audioPlaybackState === AudioStatus.paused) {
