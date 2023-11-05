@@ -14,6 +14,7 @@ export default function SectionOne() {
                 <h2 className="text-3xl font-header mb-4 dark:text-white">Part I: &quot;Guy&quot;</h2>
 
                 <AudioSnippet src="/audio/intro.m4a" title="Ezra tests some audio" transcript="test" />
+                <AudioSnippet src="/audio/test-2.m4a" title="Test #2" transcript="test" />
 
                 <ReactMarkdown className={`${paragraphClasses}`}>
                     {t('val.section_1.paragraph_1_md')}
