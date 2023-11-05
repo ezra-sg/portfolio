@@ -19,17 +19,6 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
         mediaSource,
     } = useAudioContext();
 
-    function cleanup() {
-        // audioCtx.current?.close();
-        // mediaSource.current?.disconnect();
-        // analyser.current = null;
-        // audioCtx.current = null;
-
-        if (animationId.current) {
-            // window.cancelAnimationFrame(animationId.current);
-        }
-    };
-
     function drawLineOnCanvas(canvas: HTMLCanvasElement) {
         const canvasCtx = canvas?.getContext('2d');
 
@@ -94,12 +83,7 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     }, []);
 
     useEffect(() => {
-        const {
-            playing,
-            paused,
-            complete,
-            stopped,
-        } = AudioStatus;
+        const { playing } = AudioStatus;
 
         const handler = (status: AudioStatus) => {
             isPlaying.current = status === playing;
@@ -108,8 +92,6 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
                 const bufferLength = audioAnalyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
                 drawFunctionRef.current?.(audioAnalyser, dataArray);
-            } else if ([paused, complete, complete, stopped].includes(status)) {
-                cleanup();
             }
         };
 
@@ -117,9 +99,8 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
 
         return () => {
             unsubscribe(snippetId, handler);
-            cleanup();
         };
-    }, [audioElement, subscribe, unsubscribe, snippetId]);
+    }, [audioElement, audioAnalyser, subscribe, unsubscribe, snippetId]);
 
     return <canvas ref={spectrogramElementRef} className="w-40"></canvas>;
 }
