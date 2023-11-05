@@ -14,6 +14,7 @@
         "change_playback_speed_aria": "Open playback speed menu for:",
         "pause_audio_aria": "Pause audio playback for:",
         "play_audio_aria": "Begin audio playback for:",
+        "stop_audio_aria": "Stop audio playback for:",
         "restart_audio_aria": "Restart audio playback for:"
     },
     "modal": {

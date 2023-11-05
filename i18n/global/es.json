@@ -14,6 +14,7 @@
         "change_playback_speed_aria": "Abra el menú de velocidad de reproducción para:",
         "pause_audio_aria": "Pausar la reproducción de audio para:",
         "play_audio_aria": "Inicie la reproducción de audio para:",
+        "stop_audio_aria": "Detener la reproducción de audio para:",
         "restart_audio_aria": "Reinicie la reproducción de audio para:"
     },
     "modal": {

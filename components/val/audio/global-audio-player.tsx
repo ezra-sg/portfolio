@@ -8,6 +8,7 @@ import {
     MdPlayCircleOutline,
     MdOutlinePauseCircleOutline,
     MdSpeed,
+    MdOutlineStopCircle,
     MdRestartAlt,
 } from 'react-icons/md';
 
@@ -139,7 +140,8 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
         } else if (audioPlaybackState === AudioStatus.paused) {
             audioElement.pause();
         } else if (audioPlaybackState === AudioStatus.stopped) {
-
+            audioElement.pause();
+            audioElement.currentTime = 0;
         } else if (audioPlaybackState === AudioStatus.complete) {
             setStateToStoppedTimeoutId.current = setTimeout(() => {
                 setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
@@ -280,6 +282,27 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
                     ))}
                 </ul>
             </div>
+
+            {/* stop button */}
+            <button
+                onClick={() => {
+                    setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
+                    setShowRestartIcon(false);
+                }}
+                onKeyDown={(event) => {
+                    if ([' ', 'Enter'].includes(event.key)) {
+                        event.preventDefault();
+                        setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
+                        setShowRestartIcon(false);
+                    }
+                }}
+                aria-label={`${t('inputs.stop_audio_aria')} ${currentAudioData.title}`}
+                title={`${t('inputs.stop_audio_aria')} ${currentAudioData.title}`}
+                className="h-10 w-10 flex items-center justify-center"
+                data-testid="audio-player-stop-button"
+            >
+                <MdOutlineStopCircle aria-hidden="true" />
+            </button>
         </div>
 
         <audio

@@ -12,11 +12,11 @@ import AudioPlayer from '@/components/val/audio/global-audio-player';
 
 export default function AudioBanner() {
     const [markedForRemoval, setMarkedForRemoval] = useState(false);
-    const [shouldRender, setShouldRender] = useState(false);
+    const [isHidden, setIsHidden] = useState(true);
     const [isRemoving, setIsRemoving] = useState(false);
 
     const lastScrollTop = useRef(0);
-    const shouldRenderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const shouldHideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const { t } = useI18n();
 
@@ -36,10 +36,10 @@ export default function AudioBanner() {
             if (userScrolledDown && markedForRemoval) {
                 setIsRemoving(true);
 
-                if (!shouldRenderTimeoutRef.current) {
-                    shouldRenderTimeoutRef.current = setTimeout(() => {
-                        setShouldRender(false);
-                        shouldRenderTimeoutRef.current = null;
+                if (!shouldHideTimeoutRef.current) {
+                    shouldHideTimeoutRef.current = setTimeout(() => {
+                        setIsHidden(true);
+                        shouldHideTimeoutRef.current = null;
                     }, 500);
                 }
             }
@@ -57,25 +57,26 @@ export default function AudioBanner() {
     useEffect(() => {
         if (audioPlaybackState !== AudioStatus.stopped) {
             setIsRemoving(false);
-            setShouldRender(true);
+            setIsHidden(false);
         }
 
         setMarkedForRemoval(audioPlaybackState === AudioStatus.stopped);
     }, [audioPlaybackState]);
 
-    // eztodo
-    // if (!shouldRender) {
-    //     return null;
-    // }
-
     return (
         // eztodo add aria label
-        <div role="region" className={`${isRemoving ? '-top-40' : 'top-0'} fixed right-0 left-0 h-fit py-2 px-4 bg-amber-50 shadow-sm z-50 flex items-center justify-center flex-col transition-all duration-300 dark:bg-stone-950`}>
+        <div
+            role="region"
+            className={`${isRemoving ? '-top-40' : 'top-0'} ${isHidden ? 'hidden' : 'flex'} fixed right-0 left-0 h-fit py-2 px-4 bg-amber-50 shadow-sm z-50 items-center justify-center flex-col transition-all duration-300 dark:bg-stone-950`}
+            aria-hidden={isHidden}
+        >
             <h3 id="audio-banner-title" className="font-header text-sm">
                 {currentAudioData.title}
             </h3>
 
-            <AudioPlayer labelledBy="audio-banner-title" />
+            <div className="max-w-lg m-auto">
+                <AudioPlayer labelledBy="audio-banner-title" />
+            </div>
 
             <div className="flex gap-2 items-center justify-center text-amber-900 dark:text-orange-300">
                 <MdReadMore />
