@@ -63,7 +63,6 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
             const height = canvas.height * percent;
             const barHeight = height / 2;
 
-            // eztodo switch color for dark mode
             canvasCtx.fillStyle = color.current;
             canvasCtx.fillRect(i * barWidth * 2, canvas.height/2, barWidth, barHeight);
             // Mirror the bar across the x-axis

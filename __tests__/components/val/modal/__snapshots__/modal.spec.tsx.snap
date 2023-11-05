@@ -38,7 +38,7 @@ exports[`Modal should render properly 1`] = `
             <p
               class="text-xs italic"
             >
-              global.audio_transcript
+              audio.audio_transcript
             </p>
           </div>
           <button

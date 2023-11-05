@@ -64,11 +64,11 @@ export default function AudioBanner() {
     }, [audioPlaybackState]);
 
     return (
-        // eztodo add aria label
         <div
             role="region"
             className={`${isRemoving ? '-top-40' : 'top-0'} ${isHidden ? 'hidden' : 'flex'} fixed right-0 left-0 h-fit py-2 px-4 bg-amber-50 shadow-sm z-50 items-center justify-center flex-col transition-all duration-300 dark:bg-stone-950`}
             aria-hidden={isHidden}
+            aria-label={t('audio.audio_banner_aria')}
         >
             <h3 id="audio-banner-title" className="font-header text-sm">
                 {currentAudioData.title}
@@ -82,7 +82,7 @@ export default function AudioBanner() {
                 <MdReadMore />
 
                 <ReactMarkdown className="text-xs">
-                    {t('global.view_transcript_md')}
+                    {t('audio.view_transcript_md')}
                 </ReactMarkdown>
             </div>
         </div>

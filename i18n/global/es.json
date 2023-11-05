@@ -1,9 +1,12 @@
 {
-    "global": {
+    "audio": {
         "audio_transcript": "Transcripción de audio",
-        "normal": "Normal",
+        "audio_banner_aria": "Reproductor de audio mundial",
         "open_transcript_modal": "Abra el cuadro de diálogo para ver la transcripción de audio de:",
         "view_transcript_md": "Ver transcripción"
+    },
+    "global": {
+        "normal": "Normal"
     },
     "inputs": {
         "audio_scrubber_aria": "Controla la posición de reproducción de audio para:",

@@ -1,9 +1,12 @@
 {
-    "global": {
+    "audio": {
         "audio_transcript": "Audio transcript",
-        "normal": "Normal",
+        "audio_banner_aria": "Global audio player",
         "open_transcript_modal": "Open dialog to view audio transcripiton for:",
         "view_transcript_md": "View transcript"
+    },
+    "global": {
+        "normal": "Normal"
     },
     "inputs": {
         "audio_scrubber_aria": "Controls audio playback position for:",

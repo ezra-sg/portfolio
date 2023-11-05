@@ -166,7 +166,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         }
     }, [audioPlaybackState, currentAudioData]);
 
-    // eztodo change the shape of these props
     const providerProps: AudioContextType = {
         currentAudioData,
         audioPlaybackState,
