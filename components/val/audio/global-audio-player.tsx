@@ -43,15 +43,11 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
     const { t } = useI18n();
 
     const {
-        globalPlayer: {
-            currentAudioData,
-            audioPlaybackState,
-            setAudioElementRef,
-            setAudioStatus,
-        },
-        snippet: {
-            audioElement: contextAudioElementRef,
-        },
+        currentAudioData,
+        audioPlaybackState,
+        setAudioElementRef,
+        setAudioStatus,
+        audioElement: contextAudioElementRef,
     } = useAudioContext();
 
     const isPlaying = audioPlaybackState === AudioStatus.playing;

@@ -16,14 +16,10 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     const prefersDarkMode = usePrefersDarkMode();
 
     const {
-        snippet: {
-            audioElement,
-            subscribe,
-            unsubscribe,
-        },
-        nativeAudioContext,
+        audioElement,
+        subscribe,
+        unsubscribe,
         audioAnalyser,
-        mediaSource,
     } = useAudioContext();
 
     function drawLineOnCanvas(canvas: HTMLCanvasElement) {

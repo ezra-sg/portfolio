@@ -15,31 +15,24 @@ type AudioData = {
 };
 
 type AudioContextType = {
-    globalPlayer: {
-        currentAudioData: AudioData;
-        audioPlaybackState: AudioStatus;
-        setAudioElementRef: (audioElement: HTMLAudioElement | null) => void;
-        setAudioStatus: (status: AudioStatus, snippetId?: string | null) => void;
-    };
+    currentAudioData: AudioData;
+    audioPlaybackState: AudioStatus;
+    setAudioElementRef: (audioElement: HTMLAudioElement | null) => void;
+    setAudioStatus: (status: AudioStatus, snippetId?: string | null) => void;
 
-    snippet: {
-        playAudio: (
-            snippetId: string,
-            src: string,
-            title: string,
-            transcript: string, // markdown string
-        ) => void;
-        pauseAudio: () => void;
+    playAudio: (
+        snippetId: string,
+        src: string,
+        title: string,
+        transcript: string, // markdown string
+    ) => void;
+    pauseAudio: () => void;
 
-        audioElement: HTMLAudioElement | null;
+    subscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
+    unsubscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
 
-        subscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
-        unsubscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
-    };
-
-    nativeAudioContext: AudioContext | null;
+    audioElement: HTMLAudioElement | null;
     audioAnalyser: AnalyserNode | null;
-    mediaSource: MediaElementAudioSourceNode | null;
 };
 
 export const AudioContext = createContext<AudioContextType | null>(null);
@@ -175,22 +168,18 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     // eztodo change the shape of these props
     const providerProps: AudioContextType = {
-        globalPlayer: {
-            currentAudioData,
-            audioPlaybackState,
-            setAudioElementRef,
-            setAudioStatus,
-        },
-        snippet: {
-            playAudio,
-            pauseAudio,
-            audioElement: audioElement,
-            subscribe,
-            unsubscribe,
-        },
-        nativeAudioContext,
+        currentAudioData,
+        audioPlaybackState,
+        setAudioElementRef,
+        setAudioStatus,
+
+        playAudio,
+        pauseAudio,
+        subscribe,
+        unsubscribe,
+
+        audioElement: audioElement,
         audioAnalyser,
-        mediaSource,
     };
 
     return (

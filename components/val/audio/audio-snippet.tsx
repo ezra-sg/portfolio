@@ -22,16 +22,12 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
     const snippetId = title.replaceAll(' ', '-').toLowerCase();
 
     const {
-        snippet: {
-            playAudio,
-            pauseAudio,
-            subscribe,
-            unsubscribe,
-        },
-        globalPlayer: {
-            audioPlaybackState,
-            currentAudioData,
-        },
+        playAudio,
+        pauseAudio,
+        subscribe,
+        unsubscribe,
+        audioPlaybackState,
+        currentAudioData,
     } = useAudioContext();
 
     function handleButtonClick() {

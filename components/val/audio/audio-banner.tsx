@@ -21,10 +21,8 @@ export default function AudioBanner() {
     const { t } = useI18n();
 
     const {
-        globalPlayer: {
-            audioPlaybackState,
-            currentAudioData,
-        },
+        audioPlaybackState,
+        currentAudioData,
     } = useAudioContext();
 
     useEffect(() => {
