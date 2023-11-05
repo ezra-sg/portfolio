@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-// eztodo tests
 export default function usePrefersDarkMode() {
     const [prefersDarkMode, setPrefersDarkMode] = useState(false);
 
