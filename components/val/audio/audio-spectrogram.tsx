@@ -1,12 +1,19 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
+import usePrefersDarkMode from '@/hooks/usePrefersDarkMode';
+
+const ORANGE_300 = '#fdba74';
+const AMBER_900 = '#78350f';
 
 export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
+    const color = useRef(ORANGE_300);
     const isPlaying = useRef(false);
     const animationId = useRef<null | number>();
     const spectrogramElementRef = useRef<HTMLCanvasElement | null>(null);
     const drawFunctionRef = useRef<null | ((analyzer: AnalyserNode, dataArray: Uint8Array) => void)>(null);
+
+    const prefersDarkMode = usePrefersDarkMode();
 
     const {
         snippet: {
@@ -31,7 +38,7 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
         canvasCtx.beginPath(); // Start a new path
         canvasCtx.moveTo(0, middleY); // Move to the start of the line
         canvasCtx.lineTo(canvas.width, middleY); // Draw the line
-        canvasCtx.strokeStyle = '#78350f'; // Set the color of the line
+        canvasCtx.strokeStyle = color.current; // Set the color of the line
         canvasCtx.lineWidth = 1; // Set the line width to 1 pixel
         canvasCtx.stroke(); // Render the line
     }
@@ -61,7 +68,7 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
             const barHeight = height / 2;
 
             // eztodo switch color for dark mode
-            canvasCtx.fillStyle = '#78350f';
+            canvasCtx.fillStyle = color.current;
             canvasCtx.fillRect(i * barWidth * 2, canvas.height/2, barWidth, barHeight);
             // Mirror the bar across the x-axis
             canvasCtx.fillRect(i * barWidth * 2, (canvas.height - barHeight) - (canvas.height / 2), barWidth, barHeight);
@@ -81,6 +88,10 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     useEffect(() => {
         drawLineOnCanvas(spectrogramElementRef.current!);
     }, []);
+
+    useEffect(() => {
+        color.current = prefersDarkMode ? ORANGE_300 : AMBER_900;
+    }, [prefersDarkMode]);
 
     useEffect(() => {
         const { playing } = AudioStatus;
