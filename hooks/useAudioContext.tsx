@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useRef, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 export enum AudioStatus {
     playing = 'playing',
@@ -36,6 +36,10 @@ type AudioContextType = {
         subscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
         unsubscribe: (snippetId: string, callback: (status: AudioStatus) => void) => void;
     };
+
+    nativeAudioContext: AudioContext | null;
+    audioAnalyser: AnalyserNode | null;
+    mediaSource: MediaElementAudioSourceNode | null;
 };
 
 export const AudioContext = createContext<AudioContextType | null>(null);
@@ -49,7 +53,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     });
     const [audioPlaybackState, setAudioPlaybackState] = useState<AudioStatus>(AudioStatus.stopped);
     const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
+    const [nativeAudioContext, setNativeAudioContext] = useState<AudioContext | null>(null);
+    const [audioAnalyser, setAudioAnalyser] = useState<AnalyserNode | null>(null);
+    const [mediaSource, setMediaSource] = useState<MediaElementAudioSourceNode | null>(null);
 
+    const mediaElementConnectedToSourceNode = useRef(false);
     const listeners = useRef<Map<string, ((status: AudioStatus) => void)[]>>(new Map());
 
     function playAudio(
@@ -76,11 +84,31 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     function setAudioStatus(status: AudioStatus, snippetId?: string | null) {
         if (status === AudioStatus.playing) {
-            notifyAllStopped(snippetId);
-        }
+            if (!audioElement) {
+                return;
+            }
 
-        if (snippetId) {
-            notify(snippetId, status);
+            const audioCtx = nativeAudioContext ?? new window.AudioContext();
+            if (!nativeAudioContext) {
+                setNativeAudioContext(audioCtx);
+            }
+
+            const analyzer = audioAnalyser ?? audioCtx.createAnalyser();
+            if (!audioAnalyser) {
+                analyzer.fftSize = 2048;
+                analyzer.minDecibels = -70;
+                analyzer.maxDecibels = -10;
+                setAudioAnalyser(analyzer);
+            }
+
+            if (!mediaSource && !mediaElementConnectedToSourceNode.current) {
+                const mediaSource = audioCtx.createMediaElementSource(audioElement);
+                setMediaSource(mediaSource);
+                mediaSource.connect(analyzer);
+                mediaElementConnectedToSourceNode.current = true;
+            }
+
+            analyzer.connect(audioCtx.destination);
         }
 
         setAudioPlaybackState(status);
@@ -136,6 +164,15 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         });
     }
 
+    useEffect(() => {
+        const { snippetId } = currentAudioData;
+        notifyAllStopped(snippetId);
+
+        if (snippetId) {
+            notify(snippetId, audioPlaybackState);
+        }
+    }, [audioPlaybackState, currentAudioData]);
+
     // eztodo change the shape of these props
     const providerProps: AudioContextType = {
         globalPlayer: {
@@ -151,6 +188,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
             subscribe,
             unsubscribe,
         },
+        nativeAudioContext,
+        audioAnalyser,
+        mediaSource,
     };
 
     return (

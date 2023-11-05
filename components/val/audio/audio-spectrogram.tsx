@@ -4,11 +4,8 @@ import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
 
 export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     const isPlaying = useRef(false);
-    const audioCtx = useRef<null | AudioContext>();
-    const analyser = useRef<null | AnalyserNode>();
-    const mediaSource = useRef<null | MediaElementAudioSourceNode>();
     const animationId = useRef<null | number>();
-    const spectrographElementRef = useRef<HTMLCanvasElement | null>(null);
+    const spectrogramElementRef = useRef<HTMLCanvasElement | null>(null);
     const drawFunctionRef = useRef<null | ((analyzer: AnalyserNode, dataArray: Uint8Array) => void)>(null);
 
     const {
@@ -17,6 +14,9 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
             subscribe,
             unsubscribe,
         },
+        nativeAudioContext,
+        audioAnalyser,
+        mediaSource,
     } = useAudioContext();
 
     function cleanup() {
@@ -50,7 +50,7 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     const draw = useCallback((analyzer: AnalyserNode, dataArray: Uint8Array) => {
         console.log('draw');
 
-        const canvas = spectrographElementRef.current;
+        const canvas = spectrogramElementRef.current;
         const canvasCtx = canvas?.getContext('2d');
 
         if (!canvas || !canvasCtx) {
@@ -90,7 +90,7 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     drawFunctionRef.current = draw;
 
     useEffect(() => {
-        drawLineOnCanvas(spectrographElementRef.current!);
+        drawLineOnCanvas(spectrogramElementRef.current!);
     }, []);
 
     useEffect(() => {
@@ -104,31 +104,10 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
         const handler = (status: AudioStatus) => {
             isPlaying.current = status === playing;
 
-            if (status === playing && audioElement && spectrographElementRef.current) {
-                if (!audioCtx.current) {
-                    audioCtx.current = new window.AudioContext();
-                }
-
-                if (!analyser.current) {
-                    analyser.current = audioCtx.current.createAnalyser();
-                }
-
-                const analyzer = analyser.current;
-                const context = audioCtx.current;
-
-                analyzer.fftSize = 2048;
-                analyzer.minDecibels = -70;
-                analyzer.maxDecibels = -10;
-
-                if (!mediaSource.current) {
-                    mediaSource.current = context.createMediaElementSource(audioElement);
-                    mediaSource.current.connect(analyzer);
-                }
-                analyzer.connect(context.destination);
-
-                const bufferLength = analyzer.frequencyBinCount;
+            if (status === playing && audioElement && audioAnalyser && spectrogramElementRef.current) {
+                const bufferLength = audioAnalyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
-                drawFunctionRef.current?.(analyzer, dataArray);
+                drawFunctionRef.current?.(audioAnalyser, dataArray);
             } else if ([paused, complete, complete, stopped].includes(status)) {
                 cleanup();
             }
@@ -142,5 +121,5 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
         };
     }, [audioElement, subscribe, unsubscribe, snippetId]);
 
-    return <canvas ref={spectrographElementRef} className="w-40"></canvas>;
+    return <canvas ref={spectrogramElementRef} className="w-40"></canvas>;
 }
