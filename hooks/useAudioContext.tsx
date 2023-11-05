@@ -90,7 +90,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
             if (!audioAnalyser) {
                 analyzer.fftSize = 2048;
                 analyzer.minDecibels = -70;
-                analyzer.maxDecibels = -10;
+                analyzer.maxDecibels = -20;
                 setAudioAnalyser(analyzer);
             }
 
