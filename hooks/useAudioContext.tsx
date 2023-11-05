@@ -166,9 +166,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         const { snippetId } = currentAudioData;
-        notifyAllStopped(snippetId);
 
         if (snippetId) {
+            notifyAllStopped(snippetId);
             notify(snippetId, audioPlaybackState);
         }
     }, [audioPlaybackState, currentAudioData]);

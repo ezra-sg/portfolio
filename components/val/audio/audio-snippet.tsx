@@ -30,6 +30,7 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
         },
         globalPlayer: {
             audioPlaybackState,
+            currentAudioData,
         },
     } = useAudioContext();
 
@@ -42,10 +43,10 @@ export default function AudioSnippet({ src, title, transcript }: AudioSnippetPro
         } = AudioStatus;
         const status = audioPlaybackState;
 
-        if (status === playing) {
+        if (status === playing && currentAudioData.snippetId === snippetId) {
             pauseAudio();
             setCompleted(false);
-        } else if ([paused, complete, stopped].includes(status)) {
+        } else if ([paused, complete, stopped].includes(status) || currentAudioData.snippetId !== snippetId) {
             playAudio(snippetId, src, title, transcript);
         }
     }
