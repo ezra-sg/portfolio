@@ -109,5 +109,5 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
         };
     }, [audioElement, audioAnalyser, subscribe, unsubscribe, snippetId]);
 
-    return <canvas ref={spectrogramElementRef} className="w-40"></canvas>;
+    return <canvas ref={spectrogramElementRef} className="w-40 h-14"></canvas>;
 }
