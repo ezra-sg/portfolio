@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
-import img from '@/public/images/val--indian.jpg';
+import img from '@/public/images/val--indian.webp';
 
 import { useI18n } from '@/hooks/useI18n';
 
