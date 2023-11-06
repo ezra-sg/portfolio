@@ -37,6 +37,7 @@ export default function Modal({ children, description, title, subtitle, trigger,
 
     const dialogRef = useRef<HTMLDialogElement | null>(null);
     const dialogInnerRef = useRef<HTMLDivElement | null>(null);
+    const footerElementRef = useRef<HTMLDivElement | null>(null);
     const handleClickOutsideFnRef = useRef<ClickListener | null>(null);
     const handleKeydownFnRef = useRef <KeydownListener | null>(null);
     const documentHasClickawayListener = useRef(false);
@@ -147,6 +148,11 @@ export default function Modal({ children, description, title, subtitle, trigger,
         }
 
         handleModalVisibilityChange(modalIsVisible);
+
+        if (footerElementRef.current) {
+            // if the footer is visible, add extra padding to the bottom of the dialog content so it doesn't get cut off
+            dialogRef.current?.style.setProperty('--extra-padding-bottom', `${footerElementRef.current.offsetHeight + 16}px`);
+        }
     }, [modalIsVisible]);
 
     return (<>
@@ -209,7 +215,10 @@ export default function Modal({ children, description, title, subtitle, trigger,
                     </div>
 
                     {footer && (
-                        <footer className="sticky bottom-0 left-0 right-0 py-2 flex justify-center items-center shadow-sm bg-amber-50 dark:bg-stone-950">
+                        <footer
+                            ref={footerElementRef}
+                            className="sticky bottom-0 left-0 right-0 py-2 flex justify-center items-center shadow-sm bg-amber-50 dark:bg-stone-950"
+                        >
                             {footer}
                         </footer>
                     )}

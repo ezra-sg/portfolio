@@ -1,7 +1,10 @@
 .c-modal {
+    --extra-padding-bottom: 0;
+
     &__content {
         @apply mt-16 p-4 lg:p-8 overflow-y-auto;
 
         height: calc(100% - 4rem);
+        padding-bottom: var(--extra-padding-bottom);
     }
 }

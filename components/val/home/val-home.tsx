@@ -8,7 +8,6 @@ import throttle from '@/utils/throttle';
 import { AudioProvider } from '@/hooks/useAudioContext';
 
 import AudioBanner from '@/components/val/audio/audio-banner';
-import TranscriptModal from '@/components/val/audio/transcript-modal';
 import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
 import Hero from '@/components/val/hero/hero';
 import SectionZero from '@/components/val/sections/section-0';
@@ -65,7 +64,6 @@ export default function ValHome() {
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
             <AudioProvider>
                 <AudioBanner />
-                <TranscriptModal />
 
                 <div
                     hidden
