@@ -40,8 +40,6 @@ export function AudioSpectrograph({ snippetId }: { snippetId: string }) {
     }
 
     const draw = useCallback((analyzer: AnalyserNode, dataArray: Uint8Array) => {
-        console.log('draw');
-
         const canvas = spectrogramElementRef.current;
         const canvasCtx = canvas?.getContext('2d');
 

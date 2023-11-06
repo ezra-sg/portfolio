@@ -20,11 +20,12 @@ import { prettyPrintTimestamp } from '@/utils/text-utils';
 
 export type AudioPlayerProps = {
     labelledBy: string; // the id of the element which describes the audio
+    modalMode: boolean; // determines whether the component uses the <audio> element from the context or its own
 };
 
 export const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
-export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
+export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayerProps) {
     const [showPlaybackSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showRestartIcon, setShowRestartIcon] = useState(false);
@@ -48,7 +49,7 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
         audioPlaybackState,
         setAudioElementRef,
         setAudioStatus,
-        audioElement: contextAudioElementRef,
+        audioElement,
     } = useAudioContext();
 
     const isPlaying = audioPlaybackState === AudioStatus.playing;
@@ -58,7 +59,7 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
     } ${currentAudioData.title}`;
 
     const audioTimePretty = prettyPrintTimestamp(audioTime);
-    const prettyTotalAudioTime = prettyPrintTimestamp(totalAudioTime);
+    const totalAudioTimePretty = prettyPrintTimestamp(totalAudioTime);
 
     const handlePlaybackSpeedClickaway = useCallback((event: MouseEvent) => {
         const clickedElement = event.target as HTMLElement;
@@ -71,8 +72,11 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
     playbackSpeedClickawayHandlerRef.current = handlePlaybackSpeedClickaway;
 
     useEffect(() => {
-        const audioElement = audioElementRef.current!;
         const scrubberElement = scrubberElementRef.current!;
+
+        if (!audioElement) {
+            return;
+        }
 
         const handleAudioMetaLoaded = () => {
             scrubberElement.max = audioElement.duration.toString();
@@ -101,27 +105,32 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
             audioElement.removeEventListener('timeupdate', handleAudioTimeUpdate);
             scrubberElement.removeEventListener('input', updateAudioPosition);
         };
-    }, []);
+    }, [audioElement]);
 
     useEffect(() => {
-        if (contextAudioElementRef !== audioElementRef.current) {
+        if (!modalMode && audioElement !== audioElementRef.current) {
             setAudioElementRef(audioElementRef.current);
         }
-    }, [setAudioElementRef, contextAudioElementRef]);
+    }, [setAudioElementRef, audioElement, modalMode]);
 
     useEffect(() => {
-        const audioElement = audioElementRef.current!;
+        if (!audioElement) {
+            return;
+        }
 
         if (audioId.current !== currentAudioData.snippetId) {
             audioId.current = currentAudioData.snippetId;
 
             audioElement.src = currentAudioData.src ?? '';
+            isLoaded.current = false;
             audioElement.load();
         }
-    }, [currentAudioData]);
+    }, [audioElement, currentAudioData]);
 
     useEffect(() => {
-        const audioElement = audioElementRef.current!;
+        if (!audioElement) {
+            return;
+        }
 
         if (setStateToStoppedTimeoutId.current) {
             clearTimeout(setStateToStoppedTimeoutId.current);
@@ -148,7 +157,7 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
             }, 3000);
         }
 
-    }, [audioPlaybackState, setAudioStatus, currentAudioData]);
+    }, [audioElement, audioPlaybackState, setAudioStatus, currentAudioData]);
 
     useEffect(() => {
         const unregisterDocumentClickawayListener = () => {
@@ -218,7 +227,7 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
 
             {/* total audio time */}
             <code className="text-xs" title={`${t('inputs.audio_time_total_title')} ${currentAudioData.title}`}>
-                {prettyTotalAudioTime}
+                {totalAudioTimePretty}
             </code>
 
             {/* audio speed controls */}
@@ -243,7 +252,7 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
                 <ul
                     ref={playbackSpeedMenuRef}
                     role="menu"
-                    className="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
+                    className={`${modalMode ? '-top-60' : ''} absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300`}
                     hidden={!showPlaybackSpeedOptions}
                     aria-hidden={!showPlaybackSpeedOptions}
                     aria-label={`${t('inputs.audio_speed_menu_label')} ${currentAudioData.title}`}
@@ -264,14 +273,18 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
                             className={`${playbackSpeed === speed ? 'font-bold' : ''} text-sm cursor-pointer my-2 hover:underline`}
                             data-testid={`audio-player-speed-option-${index}`}
                             onClick={() => {
-                                audioElementRef.current!.playbackRate = speed;
+                                if (audioElement) {
+                                    audioElement.playbackRate = speed;
+                                }
                                 setPlaybackSpeed(speed);
                                 setShowSpeedOptions(false);
                             }}
                             onKeyDown={(event) => {
                                 if ([' ', 'Enter'].includes(event.key)) {
                                     event.preventDefault();
-                                    audioElementRef.current!.playbackRate = speed;
+                                    if (audioElement) {
+                                        audioElement.playbackRate = speed;
+                                    }
                                     setPlaybackSpeed(speed);
                                     setShowSpeedOptions(false);
                                 }
@@ -305,27 +318,29 @@ export default function GlobalAudioPlayer({ labelledBy }: AudioPlayerProps) {
             </button>
         </div>
 
-        <audio
-            ref={audioElementRef}
-            controls
-            src={currentAudioData.src ?? undefined}
-            aria-labelledby={labelledBy}
-            hidden
-            data-testid="audio-player-audio-element"
-            onEnded={() => {
-                setAudioStatus(AudioStatus.complete, currentAudioData.snippetId);
-                setShowRestartIcon(true);
-            }}
-            onLoadStart={() => {
-                isLoaded.current = false;
-            }}
-            onLoadedMetadata={() => {
-                isLoaded.current = true;
+        {!modalMode && (
+            <audio
+                ref={audioElementRef}
+                controls
+                src={currentAudioData.src ?? undefined}
+                aria-labelledby={labelledBy}
+                hidden
+                data-testid="audio-player-audio-element"
+                onEnded={() => {
+                    setAudioStatus(AudioStatus.complete, currentAudioData.snippetId);
+                    setShowRestartIcon(true);
+                }}
+                onLoadStart={() => {
+                    isLoaded.current = false;
+                }}
+                onLoadedMetadata={() => {
+                    isLoaded.current = true;
 
-                if (isPlaying) {
-                    audioElementRef.current!.play();
-                }
-            }}
-        />
+                    if (isPlaying) {
+                        audioElement?.play();
+                    }
+                }}
+            />
+        )}
     </>);
 }

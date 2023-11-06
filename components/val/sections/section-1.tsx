@@ -19,7 +19,7 @@ export default function SectionOne() {
                     {t('val.section_1.paragraph_1_md')}
                 </ReactMarkdown>
 
-                <AudioSnippet src="/audio/test-2.m4a" title="Test #2" transcript="test" />
+                <AudioSnippet src="/audio/test-2.m4a" title="Test #2" transcript={t('val.section_3.paragraph_3_md')} />
 
                 <ReactMarkdown className={`${paragraphClasses} first-letter:ml-8`}>
                     {t('val.section_1.paragraph_2_md')}

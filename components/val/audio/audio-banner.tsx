@@ -7,7 +7,8 @@ import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
 
 import throttle from '@/utils/throttle';
 
-import AudioPlayer from '@/components/val/audio/global-audio-player';
+import GlobalAudioPlayer from '@/components/val/audio/global-audio-player';
+import Modal from '@/components/val/modal/modal';
 
 
 export default function AudioBanner() {
@@ -24,6 +25,22 @@ export default function AudioBanner() {
         audioPlaybackState,
         currentAudioData,
     } = useAudioContext();
+
+    const modalTrigger = (
+        <div className="flex gap-2 items-center justify-center cursor-pointer text-amber-900 dark:text-orange-300">
+            <MdReadMore aria-hidden={true} />
+
+            <ReactMarkdown className="text-xs">
+                {t('audio.view_transcript_md')}
+            </ReactMarkdown>
+        </div>
+    );
+
+    const modalFooter = (
+        <div className="w-max m-auto">
+            <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={true} />
+        </div>
+    );
 
     useEffect(() => {
         const scrollHandler = throttle(() => {
@@ -75,16 +92,21 @@ export default function AudioBanner() {
             </h3>
 
             <div className="max-w-lg m-auto">
-                <AudioPlayer labelledBy="audio-banner-title" />
+                <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={false} />
             </div>
 
-            <div className="flex gap-2 items-center justify-center text-amber-900 dark:text-orange-300">
-                <MdReadMore />
-
-                <ReactMarkdown className="text-xs">
-                    {t('audio.view_transcript_md')}
+            <Modal
+                trigger={modalTrigger}
+                description={`${t('audio.open_transcript_modal')} ${currentAudioData.title}`}
+                title={currentAudioData.title ?? ''}
+                subtitle={t('audio.audio_transcript')}
+                footer={modalFooter}
+            >
+                <ReactMarkdown>
+                    {currentAudioData.transcript ?? ''}
                 </ReactMarkdown>
-            </div>
+            </Modal>
+
         </div>
     );
 }
