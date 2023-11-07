@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
 import throttle from '@/utils/throttle';
@@ -16,7 +16,8 @@ import SectionTwo from '@/components/val/sections/section-2';
 import SectionThree from '@/components/val/sections/section-3';
 import SectionFour from '@/components/val/sections/section-4';
 import SectionFive from '@/components/val/sections/section-5';
-import ProgressTracker from '@/components/val/progress-tracker/progress-tracker';
+
+const ProgressTracker = lazy(() => import('@/components/val/progress-tracker/progress-tracker'));
 
 const youngSerif = Young_Serif({
     weight: '400',
@@ -34,6 +35,7 @@ const poppins = Nunito_Sans({
 
 export default function ValHome() {
     const [showHeader, setShowHeader] = useState(true);
+    const [renderProgressTracker, setRenderProgressTracker] = useState(false);
 
     const sectionOneRef   = useRef<HTMLElement | null>(null);
     const sectionTwoRef   = useRef<HTMLElement | null>(null);
@@ -44,10 +46,16 @@ export default function ValHome() {
 
     useEffect(() => {
         const scrollHandler = throttle(() => {
+            if (!renderProgressTracker) {
+                setRenderProgressTracker(true);
+            }
+
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             const userScrolledDown = scrollTop > lastScrollTop.current;
 
-            (scrollTop !== lastScrollTop.current) && setShowHeader(!userScrolledDown);
+            if (scrollTop !== lastScrollTop.current) {
+                setShowHeader(!userScrolledDown);
+            }
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
@@ -58,7 +66,7 @@ export default function ValHome() {
         return () => {
             document.removeEventListener('scroll', scrollHandler);
         };
-    }, []);
+    }, [renderProgressTracker]);
 
     return (<>
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
@@ -103,13 +111,17 @@ export default function ValHome() {
                     </section>
                 </article>
 
-                <ProgressTracker
-                    sectionOneRef={sectionOneRef}
-                    sectionTwoRef={sectionTwoRef}
-                    sectionThreeRef={sectionThreeRef}
-                    sectionFourRef={sectionFourRef}
-                    sectionFiveRef={sectionFiveRef}
-                />
+                <Suspense fallback={null}>
+                    {renderProgressTracker && (
+                        <ProgressTracker
+                            sectionOneRef={sectionOneRef}
+                            sectionTwoRef={sectionTwoRef}
+                            sectionThreeRef={sectionThreeRef}
+                            sectionFourRef={sectionFourRef}
+                            sectionFiveRef={sectionFiveRef}
+                        />
+                    )}
+                </Suspense>
             </AudioProvider>
         </div>
     </>);
