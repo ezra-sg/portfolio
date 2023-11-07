@@ -8,7 +8,6 @@ import throttle from '@/utils/throttle';
 import { AudioProvider } from '@/hooks/useAudioContext';
 
 import AudioBanner from '@/components/val/audio/audio-banner';
-import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
 import Hero from '@/components/val/hero/hero';
 import SectionZero from '@/components/val/sections/section-0';
 
@@ -34,7 +33,6 @@ const poppins = Nunito_Sans({
 });
 
 export default function ValHome() {
-    const [showHeader, setShowHeader] = useState(true);
     const [renderProgressTracker, setRenderProgressTracker] = useState(false);
 
     const [renderSectionOne, setRenderSectionOne]     = useState(false);
@@ -48,7 +46,6 @@ export default function ValHome() {
     const sectionThreeRef = useRef<HTMLElement | null>(null);
     const sectionFourRef  = useRef<HTMLElement | null>(null);
     const sectionFiveRef  = useRef<HTMLElement | null>(null);
-    const lastScrollTop   = useRef(0);
 
     const sectionFallback = <div className="w-full h-[200vh]"></div>;
 
@@ -109,16 +106,7 @@ export default function ValHome() {
             if (!renderProgressTracker) {
                 setRenderProgressTracker(true);
             }
-
-            let scrollTop = window.scrollY || document.documentElement.scrollTop;
-            const userScrolledDown = scrollTop > lastScrollTop.current;
-
-            if (scrollTop !== lastScrollTop.current) {
-                setShowHeader(!userScrolledDown);
-            }
-
-            // Update last scroll position
-            lastScrollTop.current = scrollTop;
+            // eztodo unregister here
         }, 100);
 
         document.addEventListener('scroll', scrollHandler);
@@ -132,14 +120,6 @@ export default function ValHome() {
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
             <AudioProvider>
                 <AudioBanner />
-
-                <div
-                    hidden
-                    role="region"
-                    className={`${showHeader ? 'opacity-100' : 'opacity-0'} transition-opacity fixed top-4 right-4 z-50`}
-                >
-                    <LanguageSwitcher />
-                </div>
 
                 <article>
                     <section>
