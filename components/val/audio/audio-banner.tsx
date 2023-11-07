@@ -37,7 +37,7 @@ export default function AudioBanner() {
     );
 
     const modalFooter = (
-        <div className="w-max m-auto">
+        <div className="w-max m-auto min-w-0">
             <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={true} />
         </div>
     );
