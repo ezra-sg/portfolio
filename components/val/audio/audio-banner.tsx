@@ -46,10 +46,6 @@ export default function AudioBanner() {
         const scrollHandler = throttle(() => {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             const userScrolledDown = scrollTop > lastScrollTop.current;
-            console.log('userScrolledDown', userScrolledDown);
-            console.log('markedForRemoval', markedForRemoval);
-
-
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
