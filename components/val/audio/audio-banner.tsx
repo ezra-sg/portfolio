@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { MdReadMore } from 'react-icons/md';
 
@@ -8,13 +8,15 @@ import { AudioStatus, useAudioContext } from '@/hooks/useAudioContext';
 import throttle from '@/utils/throttle';
 
 import GlobalAudioPlayer from '@/components/val/audio/global-audio-player';
-import Modal from '@/components/val/modal/modal';
+
+const Modal = lazy(() => import('@/components/val/modal/modal'));
 
 
 export default function AudioBanner() {
     const [markedForRemoval, setMarkedForRemoval] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
     const [isRemoving, setIsRemoving] = useState(false);
+    const [modalInitiallyRendered, setModalInitiallyRendered] = useState(false);
 
     const lastScrollTop = useRef(0);
     const shouldHideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -83,6 +85,7 @@ export default function AudioBanner() {
         if (audioPlaybackState !== AudioStatus.stopped) {
             setIsRemoving(false);
             setIsHidden(false);
+            setModalInitiallyRendered(true);
         }
 
         setMarkedForRemoval(audioPlaybackState === AudioStatus.stopped);
@@ -103,17 +106,21 @@ export default function AudioBanner() {
                 <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={false} />
             </div>
 
-            <Modal
-                trigger={modalTrigger}
-                description={`${t('audio.open_transcript_modal')} ${currentAudioData.title}`}
-                title={currentAudioData.title ?? ''}
-                subtitle={t('audio.audio_transcript')}
-                footer={modalFooter}
-            >
-                <ReactMarkdown>
-                    {currentAudioData.transcript ?? ''}
-                </ReactMarkdown>
-            </Modal>
+            <Suspense fallback={null}>
+                {modalInitiallyRendered && (
+                    <Modal
+                        trigger={modalTrigger}
+                        description={`${t('audio.open_transcript_modal')} ${currentAudioData.title}`}
+                        title={currentAudioData.title ?? ''}
+                        subtitle={t('audio.audio_transcript')}
+                        footer={modalFooter}
+                    >
+                        <ReactMarkdown>
+                            {currentAudioData.transcript ?? ''}
+                        </ReactMarkdown>
+                    </Modal>
+                )}
+            </Suspense>
 
         </div>
     );
