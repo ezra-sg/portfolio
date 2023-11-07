@@ -71,6 +71,11 @@ export default function AudioBanner() {
 
         return () => {
             document.removeEventListener('scroll', scrollHandler);
+
+            if (shouldHideTimeoutRef.current) {
+                clearTimeout(shouldHideTimeoutRef.current);
+                shouldHideTimeoutRef.current = null;
+            }
         };
     }, [markedForRemoval]);
 
