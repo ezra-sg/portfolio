@@ -36,11 +36,7 @@ export default function AudioBanner() {
         </div>
     );
 
-    const modalFooter = (
-        <div className="w-max m-auto">
-            <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={true} />
-        </div>
-    );
+    const modalFooter = <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={true} />;
 
     useEffect(() => {
         const scrollHandler = throttle(() => {

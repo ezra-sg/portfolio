@@ -199,7 +199,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                 }}
                 aria-label={playButtonAriaLabel}
                 title={playButtonAriaLabel}
-                className="h-10 w-10 flex items-center justify-center flex-shrink-0"
+                className="h-10 w-10 flex items-center justify-center shrink-0"
                 data-testid="audio-player-play-button"
             >
                 {
@@ -244,7 +244,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                             setShowSpeedOptions(!showPlaybackSpeedOptions);
                         }
                     }}
-                    className="h-10 w-10 flex items-center justify-center"
+                    className="h-10 w-10 flex items-center justify-center shrink-0"
                 >
                     <MdSpeed aria-hidden="true" />
                 </button>
@@ -252,7 +252,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                 <ul
                     ref={playbackSpeedMenuRef}
                     role="menu"
-                    className={`${modalMode ? '-top-60' : ''} absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300`}
+                    className={`${modalMode ? '-top-60' : ''} absolute -left-12 p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300`}
                     hidden={!showPlaybackSpeedOptions}
                     aria-hidden={!showPlaybackSpeedOptions}
                     aria-label={`${t('inputs.audio_speed_menu_label')} ${currentAudioData.title}`}
@@ -311,7 +311,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                 }}
                 aria-label={`${t('inputs.stop_audio_aria')} ${currentAudioData.title}`}
                 title={`${t('inputs.stop_audio_aria')} ${currentAudioData.title}`}
-                className="h-10 w-10 flex items-center justify-center"
+                className="h-10 w-10 flex items-center justify-center shrink-0"
                 data-testid="audio-player-stop-button"
             >
                 <MdOutlineStopCircle aria-hidden="true" />

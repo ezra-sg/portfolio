@@ -217,7 +217,7 @@ export default function Modal({ children, description, title, subtitle, trigger,
                     {footer && (
                         <footer
                             ref={footerElementRef}
-                            className="sticky bottom-0 left-0 right-0 py-2 flex justify-center items-center shadow-sm bg-amber-50 dark:bg-stone-950"
+                            className="sticky bottom-0 left-0 right-0 p-2 flex justify-center items-center shadow-sm bg-amber-50 dark:bg-stone-950"
                         >
                             {footer}
                         </footer>
