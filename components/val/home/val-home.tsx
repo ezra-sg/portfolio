@@ -11,12 +11,12 @@ import AudioBanner from '@/components/val/audio/audio-banner';
 import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
 import Hero from '@/components/val/hero/hero';
 import SectionZero from '@/components/val/sections/section-0';
-import SectionOne from '@/components/val/sections/section-1';
-import SectionTwo from '@/components/val/sections/section-2';
-import SectionThree from '@/components/val/sections/section-3';
-import SectionFour from '@/components/val/sections/section-4';
-import SectionFive from '@/components/val/sections/section-5';
 
+const SectionOne      = lazy(() => import('@/components/val/sections/section-1'));
+const SectionTwo      = lazy(() => import('@/components/val/sections/section-2'));
+const SectionThree    = lazy(() => import('@/components/val/sections/section-3'));
+const SectionFour     = lazy(() => import('@/components/val/sections/section-4'));
+const SectionFive     = lazy(() => import('@/components/val/sections/section-5'));
 const ProgressTracker = lazy(() => import('@/components/val/progress-tracker/progress-tracker'));
 
 const youngSerif = Young_Serif({
@@ -37,12 +37,50 @@ export default function ValHome() {
     const [showHeader, setShowHeader] = useState(true);
     const [renderProgressTracker, setRenderProgressTracker] = useState(false);
 
+    const [renderSectionOne, setRenderSectionOne]     = useState(false);
+    const [renderSectionTwo, setRenderSectionTwo]     = useState(false);
+    const [renderSectionThree, setRenderSectionThree] = useState(false);
+    const [renderSectionFour, setRenderSectionFour]   = useState(false);
+    const [renderSectionFive, setRenderSectionFive]   = useState(false);
+
     const sectionOneRef   = useRef<HTMLElement | null>(null);
     const sectionTwoRef   = useRef<HTMLElement | null>(null);
     const sectionThreeRef = useRef<HTMLElement | null>(null);
     const sectionFourRef  = useRef<HTMLElement | null>(null);
     const sectionFiveRef  = useRef<HTMLElement | null>(null);
     const lastScrollTop   = useRef(0);
+
+    const sectionFallback = <div className="w-full h-[200vh]"></div>;
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.target === sectionOneRef.current) {
+                        setRenderSectionOne(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionTwoRef.current) {
+                        setRenderSectionTwo(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionThreeRef.current) {
+                        setRenderSectionThree(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionFourRef.current) {
+                        setRenderSectionFour(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionFiveRef.current) {
+                        setRenderSectionFive(isRendered => isRendered || entry.isIntersecting);
+                    }
+                });
+            },
+            { rootMargin: '1000px', threshold: 0.1 }
+        );
+
+        // Observe the placeholders
+        [sectionOneRef, sectionTwoRef, sectionThreeRef, sectionFourRef, sectionFiveRef].forEach((ref) => {
+            observer.observe(ref.current!);
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     useEffect(() => {
         const scrollHandler = throttle(() => {
@@ -90,24 +128,54 @@ export default function ValHome() {
                         <SectionZero />
                     </section>
 
-                    <section ref={sectionOneRef}>
-                        <SectionOne />
+                    <section ref={sectionOneRef} aria-live="polite">
+                        {!renderSectionOne && sectionFallback}
+
+                        <Suspense fallback={sectionFallback}>
+                            {renderSectionOne && (
+                                <SectionOne />
+                            )}
+                        </Suspense>
                     </section>
 
-                    <section ref={sectionTwoRef}>
-                        <SectionTwo />
+                    <section ref={sectionTwoRef} aria-live="polite">
+                        {!renderSectionTwo && sectionFallback}
+
+                        <Suspense fallback={sectionFallback}>
+                            {renderSectionTwo && (
+                                <SectionTwo />
+                            )}
+                        </Suspense>
                     </section>
 
-                    <section ref={sectionThreeRef}>
-                        <SectionThree />
+                    <section ref={sectionThreeRef} aria-live="polite">
+                        {!renderSectionThree && sectionFallback}
+
+                        <Suspense fallback={sectionFallback}>
+                            {renderSectionThree && (
+                                <SectionThree />
+                            )}
+                        </Suspense>
                     </section>
 
-                    <section ref={sectionFourRef}>
-                        <SectionFour />
+                    <section ref={sectionFourRef} aria-live="polite">
+                        {!renderSectionFour && sectionFallback}
+
+                        <Suspense fallback={sectionFallback}>
+                            {renderSectionFour && (
+                                <SectionFour />
+                            )}
+                        </Suspense>
                     </section>
 
-                    <section ref={sectionFiveRef}>
-                        <SectionFive />
+                    <section ref={sectionFiveRef} aria-live="polite">
+                        {!renderSectionFive && sectionFallback}
+
+                        <Suspense fallback={sectionFallback}>
+                            {renderSectionFive && (
+                                <SectionFive />
+                            )}
+                        </Suspense>
                     </section>
                 </article>
 
