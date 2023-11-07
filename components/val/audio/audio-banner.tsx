@@ -46,6 +46,10 @@ export default function AudioBanner() {
         const scrollHandler = throttle(() => {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             const userScrolledDown = scrollTop > lastScrollTop.current;
+            console.log('userScrolledDown', userScrolledDown);
+            console.log('markedForRemoval', markedForRemoval);
+
+
 
             // Update last scroll position
             lastScrollTop.current = scrollTop;
@@ -59,6 +63,9 @@ export default function AudioBanner() {
                         shouldHideTimeoutRef.current = null;
                     }, 500);
                 }
+            } else if (shouldHideTimeoutRef.current) {
+                clearTimeout(shouldHideTimeoutRef.current);
+                shouldHideTimeoutRef.current = null;
             }
         }, 100);
 
@@ -72,6 +79,8 @@ export default function AudioBanner() {
     }, [markedForRemoval]);
 
     useEffect(() => {
+        console.log(audioPlaybackState);
+
         if (audioPlaybackState !== AudioStatus.stopped) {
             setIsRemoving(false);
             setIsHidden(false);
