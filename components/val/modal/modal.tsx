@@ -224,7 +224,6 @@ export default function Modal({ children, description, title, subtitle, trigger,
                     )}
                 </div>
             </div>
-
         </dialog>
     </>);
 }
