@@ -52,6 +52,28 @@ export default function ValHome() {
 
     const sectionFallback = <div className="w-full h-[200vh]"></div>;
 
+    const sectionData = [{
+        ref: sectionOneRef,
+        shouldRender: renderSectionOne,
+        Component: SectionOne,
+    }, {
+        ref: sectionTwoRef,
+        shouldRender: renderSectionTwo,
+        Component: SectionTwo,
+    }, {
+        ref: sectionThreeRef,
+        shouldRender: renderSectionThree,
+        Component: SectionThree,
+    }, {
+        ref: sectionFourRef,
+        shouldRender: renderSectionFour,
+        Component: SectionFour,
+    }, {
+        ref: sectionFiveRef,
+        shouldRender: renderSectionFive,
+        Component: SectionFive,
+    }];
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -128,55 +150,17 @@ export default function ValHome() {
                         <SectionZero />
                     </section>
 
-                    <section ref={sectionOneRef} aria-live="polite">
-                        {!renderSectionOne && sectionFallback}
+                    {sectionData.map(({ ref, shouldRender, Component }, index) => (
+                        <section key={`home-section-${index}`} ref={ref} aria-live="polite">
+                            {!shouldRender && sectionFallback}
 
-                        <Suspense fallback={sectionFallback}>
-                            {renderSectionOne && (
-                                <SectionOne />
-                            )}
-                        </Suspense>
-                    </section>
-
-                    <section ref={sectionTwoRef} aria-live="polite">
-                        {!renderSectionTwo && sectionFallback}
-
-                        <Suspense fallback={sectionFallback}>
-                            {renderSectionTwo && (
-                                <SectionTwo />
-                            )}
-                        </Suspense>
-                    </section>
-
-                    <section ref={sectionThreeRef} aria-live="polite">
-                        {!renderSectionThree && sectionFallback}
-
-                        <Suspense fallback={sectionFallback}>
-                            {renderSectionThree && (
-                                <SectionThree />
-                            )}
-                        </Suspense>
-                    </section>
-
-                    <section ref={sectionFourRef} aria-live="polite">
-                        {!renderSectionFour && sectionFallback}
-
-                        <Suspense fallback={sectionFallback}>
-                            {renderSectionFour && (
-                                <SectionFour />
-                            )}
-                        </Suspense>
-                    </section>
-
-                    <section ref={sectionFiveRef} aria-live="polite">
-                        {!renderSectionFive && sectionFallback}
-
-                        <Suspense fallback={sectionFallback}>
-                            {renderSectionFive && (
-                                <SectionFive />
-                            )}
-                        </Suspense>
-                    </section>
+                            <Suspense fallback={sectionFallback}>
+                                {shouldRender && (
+                                    <Component />
+                                )}
+                            </Suspense>
+                        </section>
+                    ))}
                 </article>
 
                 <Suspense fallback={null}>
