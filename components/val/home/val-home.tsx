@@ -41,6 +41,8 @@ export default function ValHome() {
     const [renderSectionFour, setRenderSectionFour]   = useState(false);
     const [renderSectionFive, setRenderSectionFive]   = useState(false);
 
+    const scrollListenerRegistered = useRef(false);
+
     const sectionOneRef   = useRef<HTMLElement | null>(null);
     const sectionTwoRef   = useRef<HTMLElement | null>(null);
     const sectionThreeRef = useRef<HTMLElement | null>(null);
@@ -102,17 +104,22 @@ export default function ValHome() {
     }, []);
 
     useEffect(() => {
-        const scrollHandler = throttle(() => {
+        const scrollHandler = () => {
             if (!renderProgressTracker) {
                 setRenderProgressTracker(true);
+                document.removeEventListener('scroll', scrollHandler);
+                scrollListenerRegistered.current = false;
             }
-            // eztodo unregister here
-        }, 100);
+        };
 
         document.addEventListener('scroll', scrollHandler);
+        scrollListenerRegistered.current = true;
 
         return () => {
-            document.removeEventListener('scroll', scrollHandler);
+            if (scrollListenerRegistered.current) {
+                document.removeEventListener('scroll', scrollHandler);
+                scrollListenerRegistered.current = false;
+            }
         };
     }, [renderProgressTracker]);
 
