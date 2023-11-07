@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Page from './page';
 
 export const metadata: Metadata = {
@@ -17,6 +17,13 @@ export const metadata: Metadata = {
             'es': '/val/es',
         },
     },
+};
+
+export const viewport: Viewport = {
+    themeColor: [
+        { media: '(prefers-color-scheme: dark)', color: '#0c0a09' },
+        { media: '(prefers-color-scheme: light)', color: '#fffbeb' },
+    ],
 };
 
 export default Page;

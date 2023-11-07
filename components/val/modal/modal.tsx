@@ -9,8 +9,10 @@ import './modal.scss';
 export type ModalProps = {
     description: string;
     title: string;
+    subtitle: string;
     trigger: React.ReactNode;
     children: React.ReactNode;
+    footer?: React.ReactNode;
 };
 
 const dialogDimensionalClasses = 'w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px]';
@@ -30,11 +32,12 @@ const focusableElementsString = `
 type ClickListener = (event: MouseEvent) => void;
 type KeydownListener = (event: KeyboardEvent) => void;
 
-export default function Modal({ children, description, title, trigger }: ModalProps) {
+export default function Modal({ children, description, title, subtitle, trigger, footer }: ModalProps) {
     const [modalIsVisible, setModalIsVisible] = useState(false);
 
     const dialogRef = useRef<HTMLDialogElement | null>(null);
     const dialogInnerRef = useRef<HTMLDivElement | null>(null);
+    const footerElementRef = useRef<HTMLDivElement | null>(null);
     const handleClickOutsideFnRef = useRef<ClickListener | null>(null);
     const handleKeydownFnRef = useRef <KeydownListener | null>(null);
     const documentHasClickawayListener = useRef(false);
@@ -145,6 +148,11 @@ export default function Modal({ children, description, title, trigger }: ModalPr
         }
 
         handleModalVisibilityChange(modalIsVisible);
+
+        if (footerElementRef.current) {
+            // if the footer is visible, add extra padding to the bottom of the dialog content so it doesn't get cut off
+            dialogRef.current?.style.setProperty('--extra-padding-bottom', `${footerElementRef.current.offsetHeight + 16}px`);
+        }
     }, [modalIsVisible]);
 
     return (<>
@@ -180,17 +188,19 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                 Duplicating dimensional styling on the dialog and inner container seems to be the only way to get it to work as expected
             */}
             <div className={`relative ${dialogDimensionalClasses} rounded-sm overflow-hidden flex h-max`}>
-                <div ref={dialogInnerRef} className="relative bg-white dark:bg-stone-950 dark:text-amber-50">
+                <div ref={dialogInnerRef} className="relative w-full bg-white dark:bg-stone-950 dark:text-amber-50">
                     <header className="absolute top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900">
                         <div className="ml-4 my-2 dark:text-amber-50">
                             <h1 className="font-header">
                                 {title}
                             </h1>
-                            <p className="text-xs italic">{t('global.audio_transcript')}</p>
+                            <p className="text-xs italic">
+                                {subtitle}
+                            </p>
                         </div>
 
                         <button
-                            className="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-orange-300"
+                            className="h-8 w-8 m-4 flex items-center justify-center shrink-0 rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-orange-300"
                             data-testid="modal-close-button"
                             title={`${t('modal.close_modal_label')} ${title}`}
                             aria-label={`${t('modal.close_modal_label')} ${title}`}
@@ -203,9 +213,17 @@ export default function Modal({ children, description, title, trigger }: ModalPr
                     <div className="c-modal__content">
                         {children}
                     </div>
+
+                    {footer && (
+                        <footer
+                            ref={footerElementRef}
+                            className="sticky bottom-0 left-0 right-0 p-2 flex justify-center items-center shadow-sm bg-amber-50 dark:bg-stone-950"
+                        >
+                            {footer}
+                        </footer>
+                    )}
                 </div>
             </div>
-
         </dialog>
     </>);
 }

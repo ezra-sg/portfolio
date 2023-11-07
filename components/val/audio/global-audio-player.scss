@@ -17,6 +17,7 @@
 
 .c-audio-player {
     &__scrubber {
+        min-width: 0;
         -webkit-appearance: none;
         appearance: none;
 

@@ -5,6 +5,8 @@ import './progress-tracker.scss';
 import throttle from '@/utils/throttle';
 import { useI18n } from '@/hooks/useI18n';
 
+import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
+
 interface ProgressTrackerProps {
     sectionOneRef: RefObject<HTMLElement>;
     sectionTwoRef: RefObject<HTMLElement>;
@@ -160,14 +162,19 @@ export default function ProgressTracker({
             hidden={hidden}
             aria-hidden={hidden}
             onMouseOver={() => setExpanded(true)}
-            onMouseOut={() => setExpanded(false)}
         >
             {expanded && (
-                <div
-                    className="absolute -top-14 right-0 left-0 rounded-md w-max bg-amber-50 p-2 font-header m-auto animate-fade-in-fast shadow-lg dark:bg-stone-950 dark:text-amber-50"
-                    aria-hidden={true}
-                >
-                    {t('nav.sections')}
+                <div className="absolute -top-14 right-0 left-12 m-auto w-max flex gap-4 animate-fade-in-fast">
+                    <div
+                        className="rounded-md bg-amber-50 p-2 font-header shadow-lg dark:bg-stone-950 dark:text-amber-50"
+                        aria-hidden={true}
+                    >
+                        {t('nav.sections')}
+                    </div>
+
+                    <div className="flex items-center">
+                        <LanguageSwitcher />
+                    </div>
                 </div>
             )}
 

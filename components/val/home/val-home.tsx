@@ -1,19 +1,22 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
 import throttle from '@/utils/throttle';
 
-import LanguageSwitcher from '@/components/val/language-switcher/language-switcher';
+import { AudioProvider } from '@/hooks/useAudioContext';
+
+import AudioBanner from '@/components/val/audio/audio-banner';
 import Hero from '@/components/val/hero/hero';
-import SectionZero from '@/components/val/section-0/section-0';
-import SectionOne from '@/components/val/section-1/section-1';
-import SectionTwo from '@/components/val/section-2/section-2';
-import SectionThree from '@/components/val/section-3/section-3';
-import SectionFour from '@/components/val/section-4/section-4';
-import SectionFive from '@/components/val/section-5/section-5';
-import ProgressTracker from '@/components/val/progress-tracker/progress-tracker';
+import SectionZero from '@/components/val/sections/section-0';
+
+const SectionOne      = lazy(() => import('@/components/val/sections/section-1'));
+const SectionTwo      = lazy(() => import('@/components/val/sections/section-2'));
+const SectionThree    = lazy(() => import('@/components/val/sections/section-3'));
+const SectionFour     = lazy(() => import('@/components/val/sections/section-4'));
+const SectionFive     = lazy(() => import('@/components/val/sections/section-5'));
+const ProgressTracker = lazy(() => import('@/components/val/progress-tracker/progress-tracker'));
 
 const youngSerif = Young_Serif({
     weight: '400',
@@ -30,24 +33,80 @@ const poppins = Nunito_Sans({
 });
 
 export default function ValHome() {
-    const [showHeader, setShowHeader] = useState(true);
+    const [renderProgressTracker, setRenderProgressTracker] = useState(false);
+
+    const [renderSectionOne, setRenderSectionOne]     = useState(false);
+    const [renderSectionTwo, setRenderSectionTwo]     = useState(false);
+    const [renderSectionThree, setRenderSectionThree] = useState(false);
+    const [renderSectionFour, setRenderSectionFour]   = useState(false);
+    const [renderSectionFive, setRenderSectionFive]   = useState(false);
 
     const sectionOneRef   = useRef<HTMLElement | null>(null);
     const sectionTwoRef   = useRef<HTMLElement | null>(null);
     const sectionThreeRef = useRef<HTMLElement | null>(null);
     const sectionFourRef  = useRef<HTMLElement | null>(null);
     const sectionFiveRef  = useRef<HTMLElement | null>(null);
-    const lastScrollTop = useRef(0);
+
+    const sectionFallback = <div className="w-full h-[200vh]"></div>;
+
+    const sectionData = [{
+        ref: sectionOneRef,
+        shouldRender: renderSectionOne,
+        Component: SectionOne,
+    }, {
+        ref: sectionTwoRef,
+        shouldRender: renderSectionTwo,
+        Component: SectionTwo,
+    }, {
+        ref: sectionThreeRef,
+        shouldRender: renderSectionThree,
+        Component: SectionThree,
+    }, {
+        ref: sectionFourRef,
+        shouldRender: renderSectionFour,
+        Component: SectionFour,
+    }, {
+        ref: sectionFiveRef,
+        shouldRender: renderSectionFive,
+        Component: SectionFive,
+    }];
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.target === sectionOneRef.current) {
+                        setRenderSectionOne(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionTwoRef.current) {
+                        setRenderSectionTwo(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionThreeRef.current) {
+                        setRenderSectionThree(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionFourRef.current) {
+                        setRenderSectionFour(isRendered => isRendered || entry.isIntersecting);
+                    } else if (entry.target === sectionFiveRef.current) {
+                        setRenderSectionFive(isRendered => isRendered || entry.isIntersecting);
+                    }
+                });
+            },
+            { rootMargin: '1000px', threshold: 0.1 }
+        );
+
+        // Observe the placeholders
+        [sectionOneRef, sectionTwoRef, sectionThreeRef, sectionFourRef, sectionFiveRef].forEach((ref) => {
+            observer.observe(ref.current!);
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     useEffect(() => {
         const scrollHandler = throttle(() => {
-            let scrollTop = window.scrollY || document.documentElement.scrollTop;
-            const userScrolledDown = scrollTop > lastScrollTop.current;
-
-            (scrollTop !== lastScrollTop.current) && setShowHeader(!userScrolledDown);
-
-            // Update last scroll position
-            lastScrollTop.current = scrollTop;
+            if (!renderProgressTracker) {
+                setRenderProgressTracker(true);
+            }
+            // eztodo unregister here
         }, 100);
 
         document.addEventListener('scroll', scrollHandler);
@@ -55,52 +114,47 @@ export default function ValHome() {
         return () => {
             document.removeEventListener('scroll', scrollHandler);
         };
-    }, []);
+    }, [renderProgressTracker]);
 
     return (<>
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
-            <header className={`${showHeader ? 'opacity-100' : 'opacity-0'} transition-opacity fixed top-4 right-4 z-50`}>
-                <LanguageSwitcher />
-            </header>
+            <AudioProvider>
+                <AudioBanner />
 
-            {/* eztodo add refs for each section and pass to the progress tracker. also, pass the 'showheader' var to the progress tracker as 'expanded' prop */}
-            <article>
-                <section>
-                    <Hero />
-                </section>
+                <article>
+                    <section>
+                        <Hero />
+                    </section>
 
-                <section>
-                    <SectionZero />
-                </section>
+                    <section>
+                        <SectionZero />
+                    </section>
 
-                <section ref={sectionOneRef}>
-                    <SectionOne />
-                </section>
+                    {sectionData.map(({ ref, shouldRender, Component }, index) => (
+                        <section key={`home-section-${index}`} ref={ref} aria-live="polite">
+                            {!shouldRender && sectionFallback}
 
-                <section ref={sectionTwoRef}>
-                    <SectionTwo />
-                </section>
+                            <Suspense fallback={sectionFallback}>
+                                {shouldRender && (
+                                    <Component />
+                                )}
+                            </Suspense>
+                        </section>
+                    ))}
+                </article>
 
-                <section ref={sectionThreeRef}>
-                    <SectionThree />
-                </section>
-
-                <section ref={sectionFourRef}>
-                    <SectionFour />
-                </section>
-
-                <section ref={sectionFiveRef}>
-                    <SectionFive />
-                </section>
-            </article>
-
-            <ProgressTracker
-                sectionOneRef={sectionOneRef}
-                sectionTwoRef={sectionTwoRef}
-                sectionThreeRef={sectionThreeRef}
-                sectionFourRef={sectionFourRef}
-                sectionFiveRef={sectionFiveRef}
-            />
+                <Suspense fallback={null}>
+                    {renderProgressTracker && (
+                        <ProgressTracker
+                            sectionOneRef={sectionOneRef}
+                            sectionTwoRef={sectionTwoRef}
+                            sectionThreeRef={sectionThreeRef}
+                            sectionFourRef={sectionFourRef}
+                            sectionFiveRef={sectionFiveRef}
+                        />
+                    )}
+                </Suspense>
+            </AudioProvider>
         </div>
     </>);
 }

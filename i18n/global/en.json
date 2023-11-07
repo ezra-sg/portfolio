@@ -1,9 +1,12 @@
 {
-    "global": {
+    "audio": {
         "audio_transcript": "Audio transcript",
-        "normal": "Normal",
+        "audio_banner_aria": "Global audio player",
         "open_transcript_modal": "Open dialog to view audio transcripiton for:",
         "view_transcript_md": "View transcript"
+    },
+    "global": {
+        "normal": "Normal"
     },
     "inputs": {
         "audio_scrubber_aria": "Controls audio playback position for:",
@@ -14,6 +17,7 @@
         "change_playback_speed_aria": "Open playback speed menu for:",
         "pause_audio_aria": "Pause audio playback for:",
         "play_audio_aria": "Begin audio playback for:",
+        "stop_audio_aria": "Stop audio playback for:",
         "restart_audio_aria": "Restart audio playback for:"
     },
     "modal": {
@@ -24,7 +28,8 @@
         "english": "English",
         "go_to_section_label": "Go to section",
         "language_button_label": "Switch language",
-        "popup-label": "Language switcher popup",
+        "language_container_label": "Language switcher container",
+        "language_popup_label": "Language switcher popup",
         "sections": "Sections",
         "spanish_link_description": "Cambiar el idioma a español",
         "spanish": "Español"

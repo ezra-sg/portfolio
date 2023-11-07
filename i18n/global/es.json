@@ -1,9 +1,12 @@
 {
-    "global": {
+    "audio": {
         "audio_transcript": "Transcripción de audio",
-        "normal": "Normal",
+        "audio_banner_aria": "Reproductor de audio mundial",
         "open_transcript_modal": "Abra el cuadro de diálogo para ver la transcripción de audio de:",
         "view_transcript_md": "Ver transcripción"
+    },
+    "global": {
+        "normal": "Normal"
     },
     "inputs": {
         "audio_scrubber_aria": "Controla la posición de reproducción de audio para:",
@@ -14,6 +17,7 @@
         "change_playback_speed_aria": "Abra el menú de velocidad de reproducción para:",
         "pause_audio_aria": "Pausar la reproducción de audio para:",
         "play_audio_aria": "Inicie la reproducción de audio para:",
+        "stop_audio_aria": "Detener la reproducción de audio para:",
         "restart_audio_aria": "Reinicie la reproducción de audio para:"
     },
     "modal": {
@@ -24,7 +28,8 @@
         "english": "English",
         "go_to_section_label": "ir a la sección",
         "language_button_label": "cambiar de idioma",
-        "popup-label": "Ventana emergente de cambio de idioma",
+        "language_container_label": "Contenedor de cambio de idioma",
+        "language_popup_label": "Ventana emergente de cambio de idioma",
         "sections": "secciones",
         "spanish_link_description": "Cambiar el idioma a español",
         "spanish": "Español"
