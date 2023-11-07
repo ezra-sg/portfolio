@@ -105,11 +105,9 @@ export default function ValHome() {
 
     useEffect(() => {
         const scrollHandler = () => {
-            if (!renderProgressTracker) {
-                setRenderProgressTracker(true);
-                document.removeEventListener('scroll', scrollHandler);
-                scrollListenerRegistered.current = false;
-            }
+            setRenderProgressTracker(true);
+            document.removeEventListener('scroll', scrollHandler);
+            scrollListenerRegistered.current = false;
         };
 
         document.addEventListener('scroll', scrollHandler);
@@ -121,7 +119,7 @@ export default function ValHome() {
                 scrollListenerRegistered.current = false;
             }
         };
-    }, [renderProgressTracker]);
+    }, []);
 
     return (<>
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
