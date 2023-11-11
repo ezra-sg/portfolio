@@ -3,8 +3,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
-import throttle from '@/utils/throttle';
-
 import { AudioProvider } from '@/hooks/useAudioContext';
 
 import AudioBanner from '@/components/val/audio/audio-banner';
