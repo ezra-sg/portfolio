@@ -98,7 +98,7 @@ export default function AudioBanner() {
             aria-hidden={isHidden}
             aria-label={t('audio.audio_banner_aria')}
         >
-            <h3 id="audio-banner-title" className="font-header text-sm">
+            <h3 id="audio-banner-title" className="font-header text-sm dark:text-white">
                 {currentAudioData.title}
             </h3>
 

@@ -1,10 +1,10 @@
 .c-modal {
-    --extra-padding-bottom: 0;
+    --extra-margin-bottom: 0;
 
     &__content {
-        @apply mt-16 p-4 lg:p-8 overflow-y-auto;
+        @apply mt-16 p-4 lg:p-8 overflow-y-auto dark:bg-stone-900;
 
         height: calc(100% - 4rem);
-        padding-bottom: var(--extra-padding-bottom);
+        border-bottom: var(--extra-margin-bottom) solid transparent; // using border instead of margin to sidestep margin collapse
     }
 }
