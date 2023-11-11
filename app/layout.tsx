@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <Script data-goatcounter="https://ezra-sg.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
+            <Script data-goatcounter="https://ezra-sg.goatcounter.com/count" strategy="lazyOnload" src="//gc.zgo.at/count.js" />
 
             <body className={inter.className}>{children}</body>
         </html>
