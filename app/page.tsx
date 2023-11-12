@@ -12,6 +12,7 @@ import Starfield from '@/components/starfield/starfield';
 export const metadata: Metadata = {
     metadataBase: new URL('https://ezra-sg.com/'),
     title: 'Ezra Sowden-Guzman\'s personal website',
+    description: 'Ezra Sowden-Guzman\'s personal website',
     openGraph: {
         title: 'Ezra Sowden-Guzman\'s personal website',
     },

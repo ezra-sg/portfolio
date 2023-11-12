@@ -4,6 +4,7 @@ import Page from './page';
 export const metadata: Metadata = {
     metadataBase: new URL('https://ezra-sg.com/'),
     title: 'Goose | Una tarde con el Dr. Valentín Guzmán',
+    description: 'Una página dedicada a la vida de Valentín Guzmán, mi padre.',
     openGraph: {
         title: 'Goose | Una tarde con el Dr. Valentín Guzmán',
     },

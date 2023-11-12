@@ -4,6 +4,7 @@ import Page from './page';
 export const metadata: Metadata = {
     metadataBase: new URL('https://ezra-sg.com/'),
     title: 'Goose | An afternoon with Valentín Guzman',
+    description: 'A page dedicated to the life of Valentín Guzman, my father.',
     openGraph: {
         title: 'Goose | An afternoon with Valentín Guzman',
     },
