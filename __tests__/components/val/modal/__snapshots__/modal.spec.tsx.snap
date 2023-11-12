@@ -16,16 +16,16 @@ exports[`Modal should render properly 1`] = `
   </div>
   <dialog
     aria-modal="true"
-    class=" w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px] h-max fixed top-0 right-0 bottom-0 left-0 items-center justify-center overflow-hidden bg-transparent backdrop:bg-stone-900 backdrop:opacity-90"
+    class=" w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px] h-max fixed top-0 right-0 bottom-0 left-0 items-center justify-center overflow-hidden bg-transparent backdrop:bg-black backdrop:opacity-90"
   >
     <div
       class="relative w-[90vw] max-w-[1000px] min-h-[40vh] max-h-[80vh] md:max-h-[600px] rounded-sm overflow-hidden flex h-max"
     >
       <div
-        class="relative bg-white dark:bg-stone-950 dark:text-amber-50"
+        class="relative w-full bg-white dark:bg-stone-950 dark:text-amber-50"
       >
         <header
-          class="absolute top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-900"
+          class="absolute top-0 left-0 right-0 shadow-sm flex justify-between items-center bg-amber-50 dark:bg-stone-950"
         >
           <div
             class="ml-4 my-2 dark:text-amber-50"
@@ -37,13 +37,11 @@ exports[`Modal should render properly 1`] = `
             </h1>
             <p
               class="text-xs italic"
-            >
-              audio.audio_transcript
-            </p>
+            />
           </div>
           <button
             aria-label="modal.close_modal_label title text"
-            class="h-8 w-8 m-4 flex items-center justify-center rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-orange-300"
+            class="h-8 w-8 m-4 flex items-center justify-center shrink-0 rounded-full border-[1px] border-amber-900 hover:border-[2px] dark:border-orange-300"
             data-testid="modal-close-button"
             title="modal.close_modal_label title text"
           >

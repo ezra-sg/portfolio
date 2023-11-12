@@ -1,13 +1,16 @@
 import { act, fireEvent } from '@testing-library/react';
 
-import AudioPlayer, { playbackSpeedOptions } from '@/components/val/audio/audio-player';
 import { renderWithLanguage } from '@/__tests__/testing-helpers';
+import { AudioProvider } from '@/hooks/useAudioContext';
+
+import GlobalAudioPlayer, { playbackSpeedOptions } from '@/components/val/audio/global-audio-player';
 
 jest.mock('react-icons/md', () => ({
     MdPlayCircleOutline: () => <div>play circle outline</div>,
     MdOutlinePauseCircleOutline: () => <div>pause circle outline</div>,
     MdSpeed: () => <div>speed</div>,
     MdRestartAlt: () => <div>restart alt</div>,
+    MdOutlineStopCircle: () => <div>stop circle</div>,
 }));
 
 describe('AudioPlayer', () => {
@@ -15,11 +18,12 @@ describe('AudioPlayer', () => {
     const playAudioSpy = jest.fn();
 
     const AudioPlayerNode = (
-        <AudioPlayer
-            src="src text"
-            labelledBy="labelled by text"
-            title="title text"
-        />
+        <AudioProvider>
+            <GlobalAudioPlayer
+                labelledBy="labelled by text"
+                modalMode={false}
+            />
+        </AudioProvider>
     );
 
     beforeAll(() => {
@@ -28,6 +32,18 @@ describe('AudioPlayer', () => {
             .mockImplementation(pauseAudioSpy);
         jest.spyOn(window.HTMLMediaElement.prototype, 'play')
             .mockImplementation(playAudioSpy);
+
+        // address error "window.AudioContext is not a constructor"
+        window.AudioContext= jest.fn().mockImplementation(() => ({
+            createAnalyser: () => ({
+                connect: () => {},
+                disconnect: () => {},
+            }),
+            createMediaElementSource: () => ({
+                connect: () => {},
+                disconnect: () => {},
+            }),
+        } as unknown as AudioContext));
     });
 
     afterAll(() => {

@@ -1,24 +1,22 @@
 {
     "audio": {
-        "audio_transcript": "Transcripción de audio",
         "audio_banner_aria": "Reproductor de audio mundial",
-        "open_transcript_modal": "Abra el cuadro de diálogo para ver la transcripción de audio de:",
-        "view_transcript_md": "Ver transcripción"
-    },
-    "global": {
-        "normal": "Normal"
-    },
-    "inputs": {
         "audio_scrubber_aria": "Controla la posición de reproducción de audio para:",
         "audio_speed_item_label": "Establezca la velocidad de reproducción de audio en:",
         "audio_speed_menu_label": "Menú de velocidad de reproducción de audio para:",
         "audio_time_elapsed_title": "Tiempo restante en audio:",
         "audio_time_total_title": "Duración total del audio:",
+        "audio_transcript": "Transcripción de audio",
         "change_playback_speed_aria": "Abra el menú de velocidad de reproducción para:",
+        "open_transcript_modal": "Abra el cuadro de diálogo para ver la transcripción de audio de:",
         "pause_audio_aria": "Pausar la reproducción de audio para:",
         "play_audio_aria": "Inicie la reproducción de audio para:",
+        "restart_audio_aria": "Reinicie la reproducción de audio para:",
         "stop_audio_aria": "Detener la reproducción de audio para:",
-        "restart_audio_aria": "Reinicie la reproducción de audio para:"
+        "view_transcript_md": "Ver transcripción"
+    },
+    "global": {
+        "normal": "Normal"
     },
     "modal": {
         "close_modal_label": "Cerrar modal para:"

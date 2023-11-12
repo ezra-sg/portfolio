@@ -55,7 +55,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
     const isPlaying = audioPlaybackState === AudioStatus.playing;
 
     const playButtonAriaLabel = `${
-        showRestartIcon ? t('inputs.restart_audio_aria') : t(`inputs.${isPlaying ? 'pause' : 'play'}_audio_aria`)
+        showRestartIcon ? t('audio.restart_audio_aria') : t(`inputs.${isPlaying ? 'pause' : 'play'}_audio_aria`)
     } ${currentAudioData.title}`;
 
     const audioTimePretty = prettyPrintTimestamp(audioTime);
@@ -210,7 +210,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
             </button>
 
             {/* time elapsed */}
-            <code className="text-xs" title={`${t('inputs.audio_time_elapsed_title')} ${currentAudioData.title}`}>
+            <code className="text-xs" title={`${t('audio.audio_time_elapsed_title')} ${currentAudioData.title}`}>
                 {audioTimePretty}
             </code>
 
@@ -221,12 +221,12 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                 min="0"
                 step="0.1"
                 defaultValue={0}
-                aria-label={`${t('inputs.audio_scrubber_aria')} ${currentAudioData.title}`}
+                aria-label={`${t('audio.audio_scrubber_aria')} ${currentAudioData.title}`}
                 className="c-audio-player__scrubber"
             />
 
             {/* total audio time */}
-            <code className="text-xs" title={`${t('inputs.audio_time_total_title')} ${currentAudioData.title}`}>
+            <code className="text-xs" title={`${t('audio.audio_time_total_title')} ${currentAudioData.title}`}>
                 {totalAudioTimePretty}
             </code>
 
@@ -234,8 +234,8 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
             <div className="relative">
                 <button
                     ref={playbackSpeedButtonRef}
-                    aria-label={`${t('inputs.change_playback_speed_aria')} ${currentAudioData.title}`}
-                    title={`${t('inputs.change_playback_speed_aria')} ${currentAudioData.title}`}
+                    aria-label={`${t('audio.change_playback_speed_aria')} ${currentAudioData.title}`}
+                    title={`${t('audio.change_playback_speed_aria')} ${currentAudioData.title}`}
                     data-testid="audio-player-speed-button"
                     onClick={() => setShowSpeedOptions(!showPlaybackSpeedOptions)}
                     onKeyDown={(event) => {
@@ -255,7 +255,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                     className={`${modalMode ? '-top-60' : ''} absolute -left-12 p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300`}
                     hidden={!showPlaybackSpeedOptions}
                     aria-hidden={!showPlaybackSpeedOptions}
-                    aria-label={`${t('inputs.audio_speed_menu_label')} ${currentAudioData.title}`}
+                    aria-label={`${t('audio.audio_speed_menu_label')} ${currentAudioData.title}`}
                     data-testid="audio-player-speed-menu"
                     onKeyDown={(event) => {
                         if (event.key === 'Escape') {
@@ -269,7 +269,7 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                             role="menuitemradio"
                             aria-checked={playbackSpeed === speed}
                             tabIndex={0}
-                            aria-label={`${t('inputs.audio_speed_item_label')} ${speed}`}
+                            aria-label={`${t('audio.audio_speed_item_label')} ${speed}`}
                             className={`${playbackSpeed === speed ? 'font-bold' : ''} text-sm cursor-pointer my-2 hover:underline`}
                             data-testid={`audio-player-speed-option-${index}`}
                             onClick={() => {
@@ -309,8 +309,8 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                         setShowRestartIcon(false);
                     }
                 }}
-                aria-label={`${t('inputs.stop_audio_aria')} ${currentAudioData.title}`}
-                title={`${t('inputs.stop_audio_aria')} ${currentAudioData.title}`}
+                aria-label={`${t('audio.stop_audio_aria')} ${currentAudioData.title}`}
+                title={`${t('audio.stop_audio_aria')} ${currentAudioData.title}`}
                 className="h-10 w-10 flex items-center justify-center shrink-0"
                 data-testid="audio-player-stop-button"
             >

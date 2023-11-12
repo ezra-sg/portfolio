@@ -3,13 +3,13 @@
 exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 1`] = `
 <div>
   <div
-    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300"
+    class="flex items-center gap-2 text-2xl w-full text-amber-900 dark:text-orange-300"
   >
     <button
-      aria-label="inputs.play_audio_aria title text"
-      class="h-8 w-8 flex items-center justify-center"
+      aria-label="inputs.play_audio_aria null"
+      class="h-10 w-10 flex items-center justify-center shrink-0"
       data-testid="audio-player-play-button"
-      title="inputs.play_audio_aria title text"
+      title="inputs.play_audio_aria null"
     >
       <div>
         play circle outline
@@ -17,12 +17,12 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     </button>
     <code
       class="text-xs"
-      title="inputs.audio_time_elapsed_title title text"
+      title="audio.audio_time_elapsed_title null"
     >
       00:00
     </code>
     <input
-      aria-label="inputs.audio_scrubber_aria title text"
+      aria-label="audio.audio_scrubber_aria null"
       class="c-audio-player__scrubber"
       min="0"
       step="0.1"
@@ -31,7 +31,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     />
     <code
       class="text-xs"
-      title="inputs.audio_time_total_title title text"
+      title="audio.audio_time_total_title null"
     >
       00:00
     </code>
@@ -39,10 +39,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
-        aria-label="inputs.change_playback_speed_aria title text"
-        class="h-8 w-8 flex items-center justify-center"
+        aria-label="audio.change_playback_speed_aria null"
+        class="h-10 w-10 flex items-center justify-center shrink-0"
         data-testid="audio-player-speed-button"
-        title="inputs.change_playback_speed_aria title text"
+        title="audio.change_playback_speed_aria null"
       >
         <div>
           speed
@@ -50,15 +50,15 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       </button>
       <ul
         aria-hidden="true"
-        aria-label="inputs.audio_speed_menu_label title text"
-        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
+        aria-label="audio.audio_speed_menu_label null"
+        class=" absolute -left-12 p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
         data-testid="audio-player-speed-menu"
         hidden=""
         role="menu"
       >
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.25"
+          aria-label="audio.audio_speed_item_label 0.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-0"
           role="menuitemradio"
@@ -68,7 +68,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.5"
+          aria-label="audio.audio_speed_item_label 0.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-1"
           role="menuitemradio"
@@ -78,7 +78,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.75"
+          aria-label="audio.audio_speed_item_label 0.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-2"
           role="menuitemradio"
@@ -88,7 +88,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="true"
-          aria-label="inputs.audio_speed_item_label 1"
+          aria-label="audio.audio_speed_item_label 1"
           class="font-bold text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-3"
           role="menuitemradio"
@@ -98,7 +98,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.25"
+          aria-label="audio.audio_speed_item_label 1.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-4"
           role="menuitemradio"
@@ -108,7 +108,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.5"
+          aria-label="audio.audio_speed_item_label 1.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-5"
           role="menuitemradio"
@@ -118,7 +118,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.75"
+          aria-label="audio.audio_speed_item_label 1.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-6"
           role="menuitemradio"
@@ -128,13 +128,22 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
       </ul>
     </div>
+    <button
+      aria-label="audio.stop_audio_aria null"
+      class="h-10 w-10 flex items-center justify-center shrink-0"
+      data-testid="audio-player-stop-button"
+      title="audio.stop_audio_aria null"
+    >
+      <div>
+        stop circle
+      </div>
+    </button>
   </div>
   <audio
     aria-labelledby="labelled by text"
     controls=""
     data-testid="audio-player-audio-element"
     hidden=""
-    src="src text"
   />
 </div>
 `;
@@ -142,13 +151,13 @@ exports[`AudioPlayer should change states depending on whether the audio is play
 exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 2`] = `
 <div>
   <div
-    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300"
+    class="flex items-center gap-2 text-2xl w-full text-amber-900 dark:text-orange-300"
   >
     <button
-      aria-label="inputs.pause_audio_aria title text"
-      class="h-8 w-8 flex items-center justify-center"
+      aria-label="inputs.pause_audio_aria null"
+      class="h-10 w-10 flex items-center justify-center shrink-0"
       data-testid="audio-player-play-button"
-      title="inputs.pause_audio_aria title text"
+      title="inputs.pause_audio_aria null"
     >
       <div>
         pause circle outline
@@ -156,12 +165,12 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     </button>
     <code
       class="text-xs"
-      title="inputs.audio_time_elapsed_title title text"
+      title="audio.audio_time_elapsed_title null"
     >
       00:00
     </code>
     <input
-      aria-label="inputs.audio_scrubber_aria title text"
+      aria-label="audio.audio_scrubber_aria null"
       class="c-audio-player__scrubber"
       min="0"
       step="0.1"
@@ -170,7 +179,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     />
     <code
       class="text-xs"
-      title="inputs.audio_time_total_title title text"
+      title="audio.audio_time_total_title null"
     >
       00:00
     </code>
@@ -178,10 +187,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
-        aria-label="inputs.change_playback_speed_aria title text"
-        class="h-8 w-8 flex items-center justify-center"
+        aria-label="audio.change_playback_speed_aria null"
+        class="h-10 w-10 flex items-center justify-center shrink-0"
         data-testid="audio-player-speed-button"
-        title="inputs.change_playback_speed_aria title text"
+        title="audio.change_playback_speed_aria null"
       >
         <div>
           speed
@@ -189,15 +198,15 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       </button>
       <ul
         aria-hidden="true"
-        aria-label="inputs.audio_speed_menu_label title text"
-        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
+        aria-label="audio.audio_speed_menu_label null"
+        class=" absolute -left-12 p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
         data-testid="audio-player-speed-menu"
         hidden=""
         role="menu"
       >
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.25"
+          aria-label="audio.audio_speed_item_label 0.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-0"
           role="menuitemradio"
@@ -207,7 +216,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.5"
+          aria-label="audio.audio_speed_item_label 0.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-1"
           role="menuitemradio"
@@ -217,7 +226,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.75"
+          aria-label="audio.audio_speed_item_label 0.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-2"
           role="menuitemradio"
@@ -227,7 +236,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="true"
-          aria-label="inputs.audio_speed_item_label 1"
+          aria-label="audio.audio_speed_item_label 1"
           class="font-bold text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-3"
           role="menuitemradio"
@@ -237,7 +246,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.25"
+          aria-label="audio.audio_speed_item_label 1.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-4"
           role="menuitemradio"
@@ -247,7 +256,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.5"
+          aria-label="audio.audio_speed_item_label 1.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-5"
           role="menuitemradio"
@@ -257,7 +266,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.75"
+          aria-label="audio.audio_speed_item_label 1.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-6"
           role="menuitemradio"
@@ -267,13 +276,22 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
       </ul>
     </div>
+    <button
+      aria-label="audio.stop_audio_aria null"
+      class="h-10 w-10 flex items-center justify-center shrink-0"
+      data-testid="audio-player-stop-button"
+      title="audio.stop_audio_aria null"
+    >
+      <div>
+        stop circle
+      </div>
+    </button>
   </div>
   <audio
     aria-labelledby="labelled by text"
     controls=""
     data-testid="audio-player-audio-element"
     hidden=""
-    src="src text"
   />
 </div>
 `;
@@ -281,13 +299,13 @@ exports[`AudioPlayer should change states depending on whether the audio is play
 exports[`AudioPlayer should change states depending on whether the audio is playing, paused, or finished 3`] = `
 <div>
   <div
-    class="flex items-center gap-1 text-2xl text-amber-900 dark:text-orange-300"
+    class="flex items-center gap-2 text-2xl w-full text-amber-900 dark:text-orange-300"
   >
     <button
-      aria-label="inputs.restart_audio_aria title text"
-      class="h-8 w-8 flex items-center justify-center"
+      aria-label="audio.restart_audio_aria null"
+      class="h-10 w-10 flex items-center justify-center shrink-0"
       data-testid="audio-player-play-button"
-      title="inputs.restart_audio_aria title text"
+      title="audio.restart_audio_aria null"
     >
       <div>
         restart alt
@@ -295,12 +313,12 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     </button>
     <code
       class="text-xs"
-      title="inputs.audio_time_elapsed_title title text"
+      title="audio.audio_time_elapsed_title null"
     >
       00:00
     </code>
     <input
-      aria-label="inputs.audio_scrubber_aria title text"
+      aria-label="audio.audio_scrubber_aria null"
       class="c-audio-player__scrubber"
       min="0"
       step="0.1"
@@ -309,7 +327,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
     />
     <code
       class="text-xs"
-      title="inputs.audio_time_total_title title text"
+      title="audio.audio_time_total_title null"
     >
       00:00
     </code>
@@ -317,10 +335,10 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       class="relative"
     >
       <button
-        aria-label="inputs.change_playback_speed_aria title text"
-        class="h-8 w-8 flex items-center justify-center"
+        aria-label="audio.change_playback_speed_aria null"
+        class="h-10 w-10 flex items-center justify-center shrink-0"
         data-testid="audio-player-speed-button"
-        title="inputs.change_playback_speed_aria title text"
+        title="audio.change_playback_speed_aria null"
       >
         <div>
           speed
@@ -328,15 +346,15 @@ exports[`AudioPlayer should change states depending on whether the audio is play
       </button>
       <ul
         aria-hidden="true"
-        aria-label="inputs.audio_speed_menu_label title text"
-        class="absolute p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
+        aria-label="audio.audio_speed_menu_label null"
+        class=" absolute -left-12 p-3 bg-amber-50 shadow-lg rounded-sm border-[1px] border-amber-900 dark:bg-stone-950 dark:border-orange-300"
         data-testid="audio-player-speed-menu"
         hidden=""
         role="menu"
       >
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.25"
+          aria-label="audio.audio_speed_item_label 0.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-0"
           role="menuitemradio"
@@ -346,7 +364,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.5"
+          aria-label="audio.audio_speed_item_label 0.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-1"
           role="menuitemradio"
@@ -356,7 +374,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 0.75"
+          aria-label="audio.audio_speed_item_label 0.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-2"
           role="menuitemradio"
@@ -366,7 +384,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="true"
-          aria-label="inputs.audio_speed_item_label 1"
+          aria-label="audio.audio_speed_item_label 1"
           class="font-bold text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-3"
           role="menuitemradio"
@@ -376,7 +394,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.25"
+          aria-label="audio.audio_speed_item_label 1.25"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-4"
           role="menuitemradio"
@@ -386,7 +404,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.5"
+          aria-label="audio.audio_speed_item_label 1.5"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-5"
           role="menuitemradio"
@@ -396,7 +414,7 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
         <li
           aria-checked="false"
-          aria-label="inputs.audio_speed_item_label 1.75"
+          aria-label="audio.audio_speed_item_label 1.75"
           class=" text-sm cursor-pointer my-2 hover:underline"
           data-testid="audio-player-speed-option-6"
           role="menuitemradio"
@@ -406,13 +424,22 @@ exports[`AudioPlayer should change states depending on whether the audio is play
         </li>
       </ul>
     </div>
+    <button
+      aria-label="audio.stop_audio_aria null"
+      class="h-10 w-10 flex items-center justify-center shrink-0"
+      data-testid="audio-player-stop-button"
+      title="audio.stop_audio_aria null"
+    >
+      <div>
+        stop circle
+      </div>
+    </button>
   </div>
   <audio
     aria-labelledby="labelled by text"
     controls=""
     data-testid="audio-player-audio-element"
     hidden=""
-    src="src text"
   />
 </div>
 `;
