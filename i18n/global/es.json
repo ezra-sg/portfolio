@@ -1,4 +1,7 @@
 {
+    "accessibility": {
+        "skip_to_content": "Skip to main content and load all page sections"
+    },
     "audio": {
         "audio_banner_aria": "Reproductor de audio mundial",
         "audio_scrubber_aria": "Controla la posición de reproducción de audio para:",

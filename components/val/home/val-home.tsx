@@ -4,6 +4,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Young_Serif, Nunito_Sans } from 'next/font/google';
 
 import { AudioProvider } from '@/hooks/useAudioContext';
+import { useI18n } from '@/hooks/useI18n';
 
 import AudioBanner from '@/components/val/audio/audio-banner';
 import Hero from '@/components/val/hero/hero';
@@ -32,7 +33,6 @@ const poppins = Nunito_Sans({
 
 export default function ValHome() {
     const [renderProgressTracker, setRenderProgressTracker] = useState(false);
-
     const [renderSectionOne, setRenderSectionOne]     = useState(false);
     const [renderSectionTwo, setRenderSectionTwo]     = useState(false);
     const [renderSectionThree, setRenderSectionThree] = useState(false);
@@ -40,12 +40,13 @@ export default function ValHome() {
     const [renderSectionFive, setRenderSectionFive]   = useState(false);
 
     const scrollListenerRegistered = useRef(false);
-
     const sectionOneRef   = useRef<HTMLElement | null>(null);
     const sectionTwoRef   = useRef<HTMLElement | null>(null);
     const sectionThreeRef = useRef<HTMLElement | null>(null);
     const sectionFourRef  = useRef<HTMLElement | null>(null);
     const sectionFiveRef  = useRef<HTMLElement | null>(null);
+
+    const { t } = useI18n();
 
     const sectionFallback = <div className="w-full h-[200vh]"></div>;
 
@@ -70,6 +71,14 @@ export default function ValHome() {
         shouldRender: renderSectionFive,
         Component: SectionFive,
     }];
+
+    function handleSkipLinkClick() {
+        setRenderSectionOne(true);
+        setRenderSectionTwo(true);
+        setRenderSectionThree(true);
+        setRenderSectionFour(true);
+        setRenderSectionFive(true);
+    }
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -120,6 +129,18 @@ export default function ValHome() {
     }, []);
 
     return (<>
+        <a
+            href="#section-zero"
+            className="fixed -top-96 left-0 right-0 z-50 text-center underline bg-amber-50 text-amber-900 dark:text-orange-300 dark:bg-stone-950 focus-within:top-0"
+            onClick={handleSkipLinkClick}
+            onKeyDown={(e) => {
+                if (['Enter', ' '].includes(e.key)) {
+                    handleSkipLinkClick();
+                }
+            }}
+        >
+            {t('accessibility.skip_to_content')}
+        </a>
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
             <AudioProvider>
                 <AudioBanner />
@@ -129,7 +150,7 @@ export default function ValHome() {
                         <Hero />
                     </section>
 
-                    <section>
+                    <section id="section-zero">
                         <SectionZero />
                     </section>
 
