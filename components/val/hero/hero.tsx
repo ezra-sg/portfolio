@@ -1,12 +1,11 @@
 import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
 
 import img from '@/public/images/val--indian.webp';
 
 import { useI18n } from '@/hooks/useI18n';
 
 
-export default function Intro() {
+export default function Hero() {
     const { t } = useI18n();
 
     return (
@@ -20,21 +19,21 @@ export default function Intro() {
 
             <div className="absolute bottom-12 left-0 right-0 bg-amber-50 dark:bg-stone-950 py-4 lg:static lg:w-full lg:flex lg:justify-center">
                 <hgroup className="lg:w-fit lg:pl-4">
-                    <ReactMarkdown className="font-header text-5xl text-amber-900 dark:text-orange-300 text-center lg:text-left">
-                        {t('val.hero.hero_text_md')}
-                    </ReactMarkdown>
+                    <h1 className="font-header text-5xl text-amber-900 dark:text-orange-300 text-center lg:text-left">
+                        {t('val.hero.hero_text')}
+                    </h1>
 
-                    <ReactMarkdown className="mb-4 font-sans dark:text-amber-50 text-center font-semibold lg:text-left">
-                        {t('val.hero.subtitle_md')}
-                    </ReactMarkdown>
+                    <h2 className="mb-4 font-sans dark:text-amber-50 text-center font-semibold lg:text-left">
+                        {t('val.hero.subtitle')}
+                    </h2>
 
-                    <ReactMarkdown className="font-sans dark:text-amber-50 text-center lg:text-left">
-                        {t('val.hero.author_text_md')}
-                    </ReactMarkdown>
+                    <p className="font-sans dark:text-amber-50 text-center lg:text-left">
+                        {t('val.hero.author_text')}
+                    </p>
 
-                    <ReactMarkdown className="font-sans dark:text-amber-50 text-center lg:text-left text-sm">
-                        {t('val.hero.interview_date_md')}
-                    </ReactMarkdown>
+                    <p className="font-sans dark:text-amber-50 text-center lg:text-left text-sm">
+                        {t('val.hero.interview_date')}
+                    </p>
                 </hgroup>
             </div>
         </div>

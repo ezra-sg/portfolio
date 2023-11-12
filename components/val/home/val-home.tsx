@@ -6,10 +6,10 @@ import { Young_Serif, Nunito_Sans } from 'next/font/google';
 import { AudioProvider } from '@/hooks/useAudioContext';
 import { useI18n } from '@/hooks/useI18n';
 
-import AudioBanner from '@/components/val/audio/audio-banner';
 import Hero from '@/components/val/hero/hero';
-import SectionZero from '@/components/val/sections/section-0';
 
+const AudioBanner     = lazy(() => import('@/components/val/audio/audio-banner'));
+const SectionZero     = lazy(() => import('@/components/val/sections/section-0'));
 const SectionOne      = lazy(() => import('@/components/val/sections/section-1'));
 const SectionTwo      = lazy(() => import('@/components/val/sections/section-2'));
 const SectionThree    = lazy(() => import('@/components/val/sections/section-3'));
@@ -32,7 +32,7 @@ const poppins = Nunito_Sans({
 });
 
 export default function ValHome() {
-    const [renderProgressTracker, setRenderProgressTracker] = useState(false);
+    const [renderInteractiveComponents, setRenderInteractiveComponents] = useState(false);
     const [renderSectionOne, setRenderSectionOne]     = useState(false);
     const [renderSectionTwo, setRenderSectionTwo]     = useState(false);
     const [renderSectionThree, setRenderSectionThree] = useState(false);
@@ -105,14 +105,9 @@ export default function ValHome() {
             observer.observe(ref.current!);
         });
 
-        return () => {
-            observer.disconnect();
-        };
-    }, []);
-
-    useEffect(() => {
+        // Register a scroll listener to render the interactive components
         const scrollHandler = () => {
-            setRenderProgressTracker(true);
+            setRenderInteractiveComponents(true);
             document.removeEventListener('scroll', scrollHandler);
             scrollListenerRegistered.current = false;
         };
@@ -121,6 +116,8 @@ export default function ValHome() {
         scrollListenerRegistered.current = true;
 
         return () => {
+            observer.disconnect();
+
             if (scrollListenerRegistered.current) {
                 document.removeEventListener('scroll', scrollHandler);
                 scrollListenerRegistered.current = false;
@@ -143,7 +140,9 @@ export default function ValHome() {
         </a>
         <div className={`bg-amber-50 dark:bg-stone-950 w-[100svw] min-h-[100svh] max-w-full ${youngSerif.variable} ${poppins.variable}`}>
             <AudioProvider>
-                <AudioBanner />
+                <Suspense fallback={null}>
+                    {renderInteractiveComponents && <AudioBanner />}
+                </Suspense>
 
                 <article>
                     <section>
@@ -168,7 +167,7 @@ export default function ValHome() {
                 </article>
 
                 <Suspense fallback={null}>
-                    {renderProgressTracker && (
+                    {renderInteractiveComponents && (
                         <ProgressTracker
                             sectionOneRef={sectionOneRef}
                             sectionTwoRef={sectionTwoRef}
