@@ -115,6 +115,10 @@ export default function ValHome() {
         document.addEventListener('scroll', scrollHandler);
         scrollListenerRegistered.current = true;
 
+        if (window.scrollY > 0) {
+            scrollHandler();
+        }
+
         return () => {
             observer.disconnect();
 
