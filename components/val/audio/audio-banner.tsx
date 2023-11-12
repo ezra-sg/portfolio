@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { MdReadMore } from 'react-icons/md';
 
@@ -38,9 +38,20 @@ export default function AudioBanner() {
         </div>
     );
 
+    const removeBanner = useCallback(() => {
+        setIsRemoving(true);
+
+        if (!shouldHideTimeoutRef.current) {
+            shouldHideTimeoutRef.current = setTimeout(() => {
+                setIsHidden(true);
+                shouldHideTimeoutRef.current = null;
+            }, 500);
+        }
+    }, []);
+
     const modalFooter = (
         <div className="w-max m-auto min-w-0">
-            <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={true} />
+            <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={true} manualStopHandler={removeBanner} />
         </div>
     );
 
@@ -53,14 +64,7 @@ export default function AudioBanner() {
             lastScrollTop.current = scrollTop;
 
             if (userScrolledDown && markedForRemoval) {
-                setIsRemoving(true);
-
-                if (!shouldHideTimeoutRef.current) {
-                    shouldHideTimeoutRef.current = setTimeout(() => {
-                        setIsHidden(true);
-                        shouldHideTimeoutRef.current = null;
-                    }, 500);
-                }
+                removeBanner();
             } else if (shouldHideTimeoutRef.current) {
                 clearTimeout(shouldHideTimeoutRef.current);
                 shouldHideTimeoutRef.current = null;
@@ -79,7 +83,7 @@ export default function AudioBanner() {
                 shouldHideTimeoutRef.current = null;
             }
         };
-    }, [markedForRemoval]);
+    }, [markedForRemoval, removeBanner]);
 
     useEffect(() => {
         if (audioPlaybackState !== AudioStatus.stopped) {
@@ -103,7 +107,7 @@ export default function AudioBanner() {
             </h3>
 
             <div className="max-w-lg m-auto">
-                <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={false} />
+                <GlobalAudioPlayer labelledBy="audio-banner-title" modalMode={false} manualStopHandler={removeBanner} />
             </div>
 
             <Suspense fallback={null}>

@@ -21,11 +21,12 @@ import { prettyPrintTimestamp } from '@/utils/text-utils';
 export type AudioPlayerProps = {
     labelledBy: string; // the id of the element which describes the audio
     modalMode: boolean; // determines whether the component uses the <audio> element from the context or its own
+    manualStopHandler?: () => void;
 };
 
 export const playbackSpeedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75];
 
-export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayerProps) {
+export default function GlobalAudioPlayer({ labelledBy, modalMode, manualStopHandler }: AudioPlayerProps) {
     const [showPlaybackSpeedOptions, setShowSpeedOptions] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showRestartIcon, setShowRestartIcon] = useState(false);
@@ -301,12 +302,14 @@ export default function GlobalAudioPlayer({ labelledBy, modalMode }: AudioPlayer
                 onClick={() => {
                     setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
                     setShowRestartIcon(false);
+                    manualStopHandler?.();
                 }}
                 onKeyDown={(event) => {
                     if ([' ', 'Enter'].includes(event.key)) {
                         event.preventDefault();
                         setAudioStatus(AudioStatus.stopped, currentAudioData.snippetId);
                         setShowRestartIcon(false);
+                        manualStopHandler?.();
                     }
                 }}
                 aria-label={`${t('audio.stop_audio_aria')} ${currentAudioData.title}`}
